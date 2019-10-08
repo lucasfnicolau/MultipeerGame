@@ -18,7 +18,7 @@ class GameScene: SKScene {
     }
     
     func addPlayer(index: Int) {
-        let circle = SKShapeNode(circleOfRadius: 10)
+        let circle = SKShapeNode(circleOfRadius: 20)
         circle.fillColor = colors[index]
         circles.append(circle)
         
@@ -44,16 +44,19 @@ class GameScene: SKScene {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let first = touches.first else { return }
         let index = GameViewController.peerID.pid
-        circles[index].position = first.location(in: self)
-        let x = circles[index].position.x
-        let y = circles[index].position.y
         
-        let data = "\(GameViewController.peerID.pid):\(x):\(y)".data(using: .utf8)
-        
-        do {
-            try GameViewController.mcSession.send(data!, toPeers: GameViewController.mcSession.connectedPeers, with: .unreliable)
-        } catch {
-            print(error)
+        if index >= 0 && index < circles.count {
+            circles[index].position = first.location(in: self)
+            let x = circles[index].position.x
+            let y = circles[index].position.y
+            
+            let data = "\(GameViewController.peerID.pid):\(x):\(y)".data(using: .utf8)
+            
+            do {
+                try GameViewController.mcSession.send(data!, toPeers: GameViewController.mcSession.connectedPeers, with: .unreliable)
+            } catch {
+                print(error)
+            }
         }
     }
     
