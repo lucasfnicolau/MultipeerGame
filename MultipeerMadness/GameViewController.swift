@@ -152,7 +152,12 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
                 self.scene.addPlayer(index: index)
             }
         } else {
-
+            let id = Int(String(keyValue[0])) ?? 0
+            let x = Float(String(keyValue[1])) ?? 0
+            let y = Float(String(keyValue[2])) ?? 0
+            
+            self.scene.circles[id].position.x = CGFloat(x)
+            self.scene.circles[id].position.y = CGFloat(y)
         }
         
       }
