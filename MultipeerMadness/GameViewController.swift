@@ -110,9 +110,6 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
       case .connected:
         
         let playersNumber = GameViewController.mcSession.connectedPeers.count
-        if GameViewController.peerID.pid != 0 {
-            GameViewController.peerID.pid = playersNumber
-        }
         
         if (GameViewController.peerID.pid == 0) {
             send("players:\(playersNumber)")
@@ -148,6 +145,9 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         
         if keyValue[0] == Substring("players") {
             let playersNumber = Int(keyValue[1]) ?? 1
+            if GameViewController.peerID.pid == -1 {
+                GameViewController.peerID.pid = playersNumber
+            }
             for index in self.scene.circles.count ... playersNumber {
                 self.scene.addPlayer(index: index)
             }
