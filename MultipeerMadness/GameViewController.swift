@@ -45,7 +45,7 @@ class GameViewController: UIViewController, MCSessionDelegate, MCBrowserViewCont
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showConnectionMenu))
         
         GameViewController.peerID = CustomMCPeerID(displayName: UIDevice.current.name)
-        GameViewController.mcSession = MCSession(peer: GameViewController.peerID, securityIdentity: nil, encryptionPreference: .required)
+        GameViewController.mcSession = MCSession(peer: GameViewController.peerID, securityIdentity: nil, encryptionPreference: .none)
         GameViewController.mcSession.delegate = self
         
         if let view = self.view as! SKView? {
