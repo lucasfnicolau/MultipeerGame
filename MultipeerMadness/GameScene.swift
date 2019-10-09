@@ -47,8 +47,8 @@ class GameScene: SKScene {
         
         if index >= 0 && index < circles.count {
             circles[index].position = first.location(in: self)
-            let x = circles[index].position.x
-            let y = circles[index].position.y
+            let x = String.init(format: "%.2f", circles[index].position.x)
+            let y = String.init(format: "%.2f", circles[index].position.y)
             
             let data = "\(GameViewController.peerID.pid):\(x):\(y)".data(using: .utf8)
             
