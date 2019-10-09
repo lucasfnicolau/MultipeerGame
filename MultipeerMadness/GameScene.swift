@@ -42,20 +42,20 @@ class GameScene: SKScene {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let first = touches.first else { return }
-        let index = GameViewController.peerID.pid
-        
-        if index >= 0 && index < circles.count {
-            circles[index].position = first.location(in: self)
-            let x = String.init(format: "%.2f", circles[index].position.x)
-            let y = String.init(format: "%.2f", circles[index].position.y)
+        DispatchQueue.main.async {
+            guard let first = touches.first else { return }
+            let index = GameViewController.peerID.pid
+            if index >= 0 && index < self.circles.count {
+                self.circles[index].position = first.location(in: self)
+                let x = String.init(format: "%.0f", self.circles[index].position.x)
+                let y = String.init(format: "%.0f", self.circles[index].position.y)
             
-            let data = "\(GameViewController.peerID.pid):\(x):\(y)".data(using: .utf8)
-            
-            do {
-                try GameViewController.mcSession.send(data!, toPeers: GameViewController.mcSession.connectedPeers, with: .unreliable)
-            } catch {
-                print(error)
+                let data = "\(GameViewController.peerID.pid):\(x):\(y)".data(using: .utf8)
+                do {
+                    try GameViewController.mcSession.send(data!, toPeers: GameViewController.mcSession.connectedPeers, with: .unreliable)
+                } catch {
+                    print(error)
+                }
             }
         }
     }
