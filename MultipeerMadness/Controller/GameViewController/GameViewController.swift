@@ -16,6 +16,8 @@ class GameViewController: UIViewController {
     var scene: GameScene!
     
     @IBOutlet weak var connectionsLabel: UILabel!
+    @IBOutlet weak var isAvailableSwitch: UISwitch!
+    @IBOutlet weak var playButton: UIButton!
     
     let serviceManager = ServiceManager()
 
@@ -25,8 +27,6 @@ class GameViewController: UIViewController {
         MultipeerManager.start(withDelegate: self)
         
         serviceManager.delegate = self
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showConnectionMenu))
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -63,14 +63,6 @@ class GameViewController: UIViewController {
         return true
     }
     
-    @objc func showConnectionMenu() {
-        let ac = UIAlertController(title: "Connection Menu", message: nil, preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "Host a session", style: .default, handler: hostSession))
-        ac.addAction(UIAlertAction(title: "Join a session", style: .default, handler: joinSession))
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        present(ac, animated: true)
-    }
-    
     func hostSession(action: UIAlertAction) {
         MultipeerManager.startSession()
         scene.addPlayer(index: 0)
@@ -81,9 +73,30 @@ class GameViewController: UIViewController {
         mcBrowser.delegate = self
         present(mcBrowser, animated: true)
     }
+    
+    @IBAction func changeAvailability() {
+        playButton.isEnabled = !playButton.isEnabled
+        
+        switch isAvailableSwitch.isOn {
+        case true:
+            serviceManager.goLive()
+        default:
+            serviceManager.goOffline()
+        }
+    }
+    
+    @IBAction func startGame() {
+        let playersNumber = serviceManager.session.connectedPeers.count
+        
+        if (ServiceManager.peerID.pid == 0) {
+            serviceManager.send(value: "players:\(playersNumber)")
+            serviceManager.sceneDelegate?.addNodes(quantity: playersNumber)
+        }
+        serviceManager.send(value: "play:")
+    }
 }
 
-extension GameViewController : ServiceDelegate {
+extension GameViewController: ServiceDelegate {
 
     func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String]) {
         OperationQueue.main.addOperation {

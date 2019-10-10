@@ -40,11 +40,7 @@ class ServiceManager: NSObject {
 
         super.init()
 
-        self.serviceAdvertiser.delegate = self
-        self.serviceAdvertiser.startAdvertisingPeer()
-
-        self.serviceBrowser.delegate = self
-        self.serviceBrowser.startBrowsingForPeers()
+        goOffline()
     }
 
     deinit {
@@ -64,6 +60,20 @@ class ServiceManager: NSObject {
                 NSLog("%@", "Error for sending: \(error)")
             }
         }
+    }
+    
+    public func goLive() { //Start advertising and browing for peers
+        self.serviceAdvertiser.delegate = self
+        self.serviceAdvertiser.startAdvertisingPeer()
+        
+        self.serviceBrowser.delegate = self
+        self.serviceBrowser.startBrowsingForPeers()
+    }
+    
+    public func goOffline() {
+        self.serviceAdvertiser.stopAdvertisingPeer()
+        self.serviceBrowser.stopBrowsingForPeers()
+        self.session.disconnect()
     }
 
 }
@@ -90,7 +100,7 @@ extension ServiceManager: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         NSLog("%@", "foundPeer: \(peerID)")
         NSLog("%@", "invitePeer: \(peerID)")
-        browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 10)
+        browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 100)
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
@@ -104,24 +114,12 @@ extension ServiceManager: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         NSLog("%@", "peer \(peerID) didChangeState: \(state.rawValue)")
         
-        var peers = session.connectedPeers.map{$0.displayName}
-        peers.append(session.)
-        peers.sort()
-        setPID(peers)
-        
         //Mostra na tela dispositivos conectados
         self.delegate?.connectedDevicesChanged(manager: self, connectedDevices:
         session.connectedPeers.map{$0.displayName})
         
         switch state {
             case .connected:
-                let playersNumber = session.connectedPeers.count
-            
-                if (ServiceManager.peerID.pid == 0) {
-                    send(value: "players:\(playersNumber)")
-                    sceneDelegate?.addNodes(quantity: playersNumber)
-                }
-                
                 print("Connected: \(ServiceManager.peerID.displayName)")
             case .connecting:
                 print("Connecting: \(ServiceManager.peerID.displayName)")
@@ -160,6 +158,18 @@ extension ServiceManager: MCSessionDelegate {
                 }
                 self.sceneDelegate?.addNodes(quantity: playersNumber)
                 
+            } else if keyValue[0] == Substring("play")  {
+                var peers = session.connectedPeers.map{$0.displayName}
+                peers.append(ServiceManager.peerID.displayName)
+                peers.sort()
+                self.setPID(peers)
+                
+                let playersNumber = session.connectedPeers.count
+                
+                if (ServiceManager.peerID.pid == 0) {
+                    self.send(value: "players:\(playersNumber)")
+                    self.sceneDelegate?.addNodes(quantity: playersNumber)
+                }
             } else {
                 let id = Int(String(keyValue[0])) ?? 0
                 let x = Float(String(keyValue[1])) ?? 0
