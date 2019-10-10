@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         MultipeerManager.peerID = CustomMCPeerID(displayName: UIDevice.current.name)
         MultipeerManager.mcSession = MCSession(peer: MultipeerManager.peerID, securityIdentity: nil, encryptionPreference: .none)
         
+        ServiceManager.peerID = CustomMCPeerID(displayName: UIDevice.current.name)
+        
         return true
     }
 

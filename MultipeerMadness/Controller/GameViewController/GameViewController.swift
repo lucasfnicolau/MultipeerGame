@@ -14,18 +14,26 @@ import MultipeerConnectivity
 class GameViewController: UIViewController {
 
     var scene: GameScene!
-    var mcAdvertiserAssistant: MCAdvertiserAssistant!
+    
+    @IBOutlet weak var connectionsLabel: UILabel!
+    
+    let serviceManager = ServiceManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         MultipeerManager.start(withDelegate: self)
         
+        serviceManager.delegate = self
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showConnectionMenu))
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             scene = GameScene(fileNamed: "GameScene")
+            scene.session = serviceManager.session
+            serviceManager.sceneDelegate = scene
+            
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .aspectFill
             
@@ -73,4 +81,14 @@ class GameViewController: UIViewController {
         mcBrowser.delegate = self
         present(mcBrowser, animated: true)
     }
+}
+
+extension GameViewController : ServiceDelegate {
+
+    func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String]) {
+        OperationQueue.main.addOperation {
+            self.connectionsLabel.text = "Connections: \(connectedDevices)"
+        }
+    }
+
 }

@@ -25,4 +25,10 @@ class MultipeerManager {
         MultipeerManager.mcAdvertiserAssistant.start()
         MultipeerManager.peerID.pid = 0
     }
+    
+    static func stopSession() {
+        MultipeerManager.mcAdvertiserAssistant = MCAdvertiserAssistant(serviceType: Service.multiplayerGame.rawValue, discoveryInfo: nil, session: MultipeerManager.mcSession)
+        MultipeerManager.mcAdvertiserAssistant.stop()
+    }
+
 }
