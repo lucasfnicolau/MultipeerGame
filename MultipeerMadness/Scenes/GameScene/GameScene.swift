@@ -119,7 +119,7 @@ class GameScene: SKScene {
 
 extension GameScene: SceneDelegate {
     func addNodes(quantity: Int) {
-        if self.circles.count < quantity {
+        if self.circles.count <= quantity {
             for index in self.circles.count ... quantity {
                 let circle = SKShapeNode(circleOfRadius: 20)
                 circle.fillColor = colors[index]

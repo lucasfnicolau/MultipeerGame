@@ -16,15 +16,13 @@ class GameViewController: UIViewController {
     var scene: GameScene!
     
     @IBOutlet weak var connectionsLabel: UILabel!
-    @IBOutlet weak var isAvailableSwitch: UISwitch!
-    @IBOutlet weak var playButton: UIButton!
     
     let serviceManager = ServiceManager()
+    
+    var name = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        MultipeerManager.start(withDelegate: self)
         
         serviceManager.delegate = self
         
@@ -33,6 +31,13 @@ class GameViewController: UIViewController {
             scene = GameScene(fileNamed: "GameScene")
             scene.session = serviceManager.session
             serviceManager.sceneDelegate = scene
+            
+            if name == "host" {
+                serviceManager.createSession()
+                ServiceManager.peerID.pid = 0
+            } else {
+                serviceManager.enterSession()
+            }
             
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .aspectFill
@@ -61,38 +66,6 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
-    }
-    
-    func hostSession(action: UIAlertAction) {
-        MultipeerManager.startSession()
-        scene.addPlayer(index: 0)
-    }
-
-    func joinSession(action: UIAlertAction) {
-        let mcBrowser = MCBrowserViewController(serviceType: Service.multiplayerGame.rawValue, session: MultipeerManager.mcSession)
-        mcBrowser.delegate = self
-        present(mcBrowser, animated: true)
-    }
-    
-    @IBAction func changeAvailability() {
-        playButton.isEnabled = !playButton.isEnabled
-        
-        switch isAvailableSwitch.isOn {
-        case true:
-            serviceManager.goLive()
-        default:
-            serviceManager.goOffline()
-        }
-    }
-    
-    @IBAction func startGame() {
-        let playersNumber = serviceManager.session.connectedPeers.count
-        
-        if (ServiceManager.peerID.pid == 0) {
-            serviceManager.send(value: "players:\(playersNumber)")
-            serviceManager.sceneDelegate?.addNodes(quantity: playersNumber)
-        }
-        serviceManager.send(value: "play:")
     }
 }
 

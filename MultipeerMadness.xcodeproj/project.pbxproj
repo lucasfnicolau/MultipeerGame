@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A4234FADBF00E8D234 /* ServiceManager.swift */; };
+		82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A6234FD63100E8D234 /* MenuViewController.swift */; };
 		B6000320234EB7D400589D95 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = B600031F234EB7D400589D95 /* Joystick.swift */; };
 		B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E6EB234D0549002817A4 /* AppDelegate.swift */; };
 		B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6ED234D0549002817A4 /* GameScene.sks */; };
@@ -17,14 +18,13 @@
 		B6D1E6F7234D0549002817A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6F5234D0549002817A4 /* Main.storyboard */; };
 		B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6F8234D054B002817A4 /* Assets.xcassets */; };
 		B6D1E6FC234D054B002817A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6FA234D054B002817A4 /* LaunchScreen.storyboard */; };
-		B6D1E706234E8F2A002817A4 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E705234E8F2A002817A4 /* MultipeerManager.swift */; };
 		B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E707234E8F68002817A4 /* CustomPeerID.swift */; };
-		B6D1E712234E907E002817A4 /* GameViewControllerMultipeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E711234E907E002817A4 /* GameViewControllerMultipeer.swift */; };
 		B6D1E715234EB5DE002817A4 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E714234EB5DE002817A4 /* Service.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		82E338A4234FADBF00E8D234 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
+		82E338A6234FD63100E8D234 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		B600031F234EB7D400589D95 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipeerMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D1E6EB234D0549002817A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,9 +36,7 @@
 		B6D1E6F8234D054B002817A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6D1E6FB234D054B002817A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6D1E6FD234D054B002817A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B6D1E705234E8F2A002817A4 /* MultipeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerManager.swift; sourceTree = "<group>"; };
 		B6D1E707234E8F68002817A4 /* CustomPeerID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPeerID.swift; sourceTree = "<group>"; };
-		B6D1E711234E907E002817A4 /* GameViewControllerMultipeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewControllerMultipeer.swift; sourceTree = "<group>"; };
 		B6D1E714234EB5DE002817A4 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				B6D1E710234E9038002817A4 /* GameViewController */,
+				82E338A6234FD63100E8D234 /* MenuViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -148,7 +147,6 @@
 		B6D1E70F234E8F9C002817A4 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
-				B6D1E705234E8F2A002817A4 /* MultipeerManager.swift */,
 				82E338A4234FADBF00E8D234 /* ServiceManager.swift */,
 			);
 			path = Connection;
@@ -158,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				B6D1E6F3234D0549002817A4 /* GameViewController.swift */,
-				B6D1E711234E907E002817A4 /* GameViewControllerMultipeer.swift */,
 			);
 			path = GameViewController;
 			sourceTree = "<group>";
@@ -245,14 +242,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6D1E6F2234D0549002817A4 /* GameScene.swift in Sources */,
+				82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */,
 				82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */,
 				B6000320234EB7D400589D95 /* Joystick.swift in Sources */,
 				B6D1E715234EB5DE002817A4 /* Service.swift in Sources */,
 				B6D1E6F4234D0549002817A4 /* GameViewController.swift in Sources */,
 				B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */,
 				B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */,
-				B6D1E712234E907E002817A4 /* GameViewControllerMultipeer.swift in Sources */,
-				B6D1E706234E8F2A002817A4 /* MultipeerManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -39,8 +39,6 @@ class ServiceManager: NSObject {
         self.serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: ServiceType)
 
         super.init()
-
-        goOffline()
     }
 
     deinit {
@@ -62,18 +60,14 @@ class ServiceManager: NSObject {
         }
     }
     
-    public func goLive() { //Start advertising and browing for peers
+    public func createSession() {
         self.serviceAdvertiser.delegate = self
         self.serviceAdvertiser.startAdvertisingPeer()
-        
-        self.serviceBrowser.delegate = self
-        self.serviceBrowser.startBrowsingForPeers()
     }
     
-    public func goOffline() {
-        self.serviceAdvertiser.stopAdvertisingPeer()
-        self.serviceBrowser.stopBrowsingForPeers()
-        self.session.disconnect()
+    public func enterSession() {
+        self.serviceBrowser.delegate = self
+        self.serviceBrowser.startBrowsingForPeers()
     }
 
 }
@@ -120,6 +114,14 @@ extension ServiceManager: MCSessionDelegate {
         
         switch state {
             case .connected:
+                
+                let playersNumber = session.connectedPeers.count
+                
+                if (ServiceManager.peerID.pid == 0) {
+                    send(value: "players:\(playersNumber)")
+                    sceneDelegate?.addNodes(quantity: playersNumber)
+                }
+                
                 print("Connected: \(ServiceManager.peerID.displayName)")
             case .connecting:
                 print("Connecting: \(ServiceManager.peerID.displayName)")
@@ -130,15 +132,6 @@ extension ServiceManager: MCSessionDelegate {
         }
 
         
-    }
-    
-    func setPID(_ peers: [String]) {
-        for (index, elem) in peers.enumerated() {
-            if elem == ServiceManager.peerID.displayName {
-                ServiceManager.peerID.pid = index
-                break
-            }
-        }
     }
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
@@ -158,18 +151,6 @@ extension ServiceManager: MCSessionDelegate {
                 }
                 self.sceneDelegate?.addNodes(quantity: playersNumber)
                 
-            } else if keyValue[0] == Substring("play")  {
-                var peers = session.connectedPeers.map{$0.displayName}
-                peers.append(ServiceManager.peerID.displayName)
-                peers.sort()
-                self.setPID(peers)
-                
-                let playersNumber = session.connectedPeers.count
-                
-                if (ServiceManager.peerID.pid == 0) {
-                    self.send(value: "players:\(playersNumber)")
-                    self.sceneDelegate?.addNodes(quantity: playersNumber)
-                }
             } else {
                 let id = Int(String(keyValue[0])) ?? 0
                 let x = Float(String(keyValue[1])) ?? 0
@@ -179,8 +160,6 @@ extension ServiceManager: MCSessionDelegate {
             }
             
           }
-        
-        
     }
 
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {

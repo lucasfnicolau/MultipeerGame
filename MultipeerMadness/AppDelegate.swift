@@ -18,9 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        MultipeerManager.peerID = CustomMCPeerID(displayName: UIDevice.current.name)
-        MultipeerManager.mcSession = MCSession(peer: MultipeerManager.peerID, securityIdentity: nil, encryptionPreference: .none)
-        
         ServiceManager.peerID = CustomMCPeerID(displayName: UIDevice.current.name)
         
         return true
