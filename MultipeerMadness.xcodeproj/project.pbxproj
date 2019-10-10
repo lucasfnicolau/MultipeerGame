@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B6000320234EB7D400589D95 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = B600031F234EB7D400589D95 /* Joystick.swift */; };
 		B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E6EB234D0549002817A4 /* AppDelegate.swift */; };
 		B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6ED234D0549002817A4 /* GameScene.sks */; };
 		B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6EF234D0549002817A4 /* Actions.sks */; };
@@ -15,9 +16,14 @@
 		B6D1E6F7234D0549002817A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6F5234D0549002817A4 /* Main.storyboard */; };
 		B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6F8234D054B002817A4 /* Assets.xcassets */; };
 		B6D1E6FC234D054B002817A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6FA234D054B002817A4 /* LaunchScreen.storyboard */; };
+		B6D1E706234E8F2A002817A4 /* MultipeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E705234E8F2A002817A4 /* MultipeerManager.swift */; };
+		B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E707234E8F68002817A4 /* CustomPeerID.swift */; };
+		B6D1E712234E907E002817A4 /* GameViewControllerMultipeer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E711234E907E002817A4 /* GameViewControllerMultipeer.swift */; };
+		B6D1E715234EB5DE002817A4 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E714234EB5DE002817A4 /* Service.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B600031F234EB7D400589D95 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipeerMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D1E6EB234D0549002817A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6D1E6ED234D0549002817A4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -28,6 +34,10 @@
 		B6D1E6F8234D054B002817A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6D1E6FB234D054B002817A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6D1E6FD234D054B002817A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6D1E705234E8F2A002817A4 /* MultipeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipeerManager.swift; sourceTree = "<group>"; };
+		B6D1E707234E8F68002817A4 /* CustomPeerID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPeerID.swift; sourceTree = "<group>"; };
+		B6D1E711234E907E002817A4 /* GameViewControllerMultipeer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewControllerMultipeer.swift; sourceTree = "<group>"; };
+		B6D1E714234EB5DE002817A4 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B600031E234EB7C000589D95 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				B600031F234EB7D400589D95 /* Joystick.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		B6D1E6DF234D0549002817A4 = {
 			isa = PBXGroup;
 			children = (
@@ -60,17 +78,94 @@
 		B6D1E6EA234D0549002817A4 /* MultipeerMadness */ = {
 			isa = PBXGroup;
 			children = (
+				B600031E234EB7C000589D95 /* UI */,
+				B6D1E713234EB5CF002817A4 /* Enum */,
+				B6D1E70F234E8F9C002817A4 /* Connection */,
+				B6D1E70E234E8F93002817A4 /* Model */,
+				B6D1E70D234E8F8A002817A4 /* View */,
+				B6D1E70C234E8F83002817A4 /* Actions */,
+				B6D1E70A234E8F73002817A4 /* Scenes */,
+				B6D1E709234E8F6B002817A4 /* Controller */,
 				B6D1E6EB234D0549002817A4 /* AppDelegate.swift */,
-				B6D1E6ED234D0549002817A4 /* GameScene.sks */,
-				B6D1E6EF234D0549002817A4 /* Actions.sks */,
-				B6D1E6F1234D0549002817A4 /* GameScene.swift */,
-				B6D1E6F3234D0549002817A4 /* GameViewController.swift */,
-				B6D1E6F5234D0549002817A4 /* Main.storyboard */,
 				B6D1E6F8234D054B002817A4 /* Assets.xcassets */,
-				B6D1E6FA234D054B002817A4 /* LaunchScreen.storyboard */,
 				B6D1E6FD234D054B002817A4 /* Info.plist */,
 			);
 			path = MultipeerMadness;
+			sourceTree = "<group>";
+		};
+		B6D1E709234E8F6B002817A4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E710234E9038002817A4 /* GameViewController */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B6D1E70A234E8F73002817A4 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E70B234E8F7A002817A4 /* GameScene */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		B6D1E70B234E8F7A002817A4 /* GameScene */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E6ED234D0549002817A4 /* GameScene.sks */,
+				B6D1E6F1234D0549002817A4 /* GameScene.swift */,
+			);
+			path = GameScene;
+			sourceTree = "<group>";
+		};
+		B6D1E70C234E8F83002817A4 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E6EF234D0549002817A4 /* Actions.sks */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		B6D1E70D234E8F8A002817A4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E6FA234D054B002817A4 /* LaunchScreen.storyboard */,
+				B6D1E6F5234D0549002817A4 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B6D1E70E234E8F93002817A4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E707234E8F68002817A4 /* CustomPeerID.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B6D1E70F234E8F9C002817A4 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E705234E8F2A002817A4 /* MultipeerManager.swift */,
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		B6D1E710234E9038002817A4 /* GameViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E6F3234D0549002817A4 /* GameViewController.swift */,
+				B6D1E711234E907E002817A4 /* GameViewControllerMultipeer.swift */,
+			);
+			path = GameViewController;
+			sourceTree = "<group>";
+		};
+		B6D1E713234EB5CF002817A4 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				B6D1E714234EB5DE002817A4 /* Service.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,8 +242,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6D1E6F2234D0549002817A4 /* GameScene.swift in Sources */,
+				B6000320234EB7D400589D95 /* Joystick.swift in Sources */,
+				B6D1E715234EB5DE002817A4 /* Service.swift in Sources */,
 				B6D1E6F4234D0549002817A4 /* GameViewController.swift in Sources */,
 				B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */,
+				B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */,
+				B6D1E712234E907E002817A4 /* GameViewControllerMultipeer.swift in Sources */,
+				B6D1E706234E8F2A002817A4 /* MultipeerManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,8 +394,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CTAFH43K36;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -314,8 +415,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CTAFH43K36;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
