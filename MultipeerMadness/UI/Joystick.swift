@@ -31,9 +31,10 @@ class Joystick: SKShapeNode {
     convenience init(radius: CGFloat, in scene: SKScene) {
         self.init()
         self.radius = radius
-        
         createJoystickBase()
         createJoystickBaseMain()
+        scene.addChild(child)
+        hiden()
     }
     
     required init?(coder aDecoder: NSCoder) {
