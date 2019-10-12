@@ -13,6 +13,7 @@ import MultipeerConnectivity
 protocol SceneDelegate {
     func addNodes(quantity: Int)
     func move(onIndex index: Int, by values: (CGFloat, CGFloat))
+    func setVelocity(_ v: [CGFloat], on index: Int)
 }
 
 class GameScene: SKScene {
@@ -22,6 +23,8 @@ class GameScene: SKScene {
     var deltaTime: TimeInterval = TimeInterval()
     
     var circles = [SKShapeNode]()
+    var lastVelocity: [CGFloat] = [0, 0]
+    var velocities: [[CGFloat]] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
     var colors: [UIColor] = [#colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1), #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1), #colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 1), #colorLiteral(red: 0.4513868093, green: 0.9930960536, blue: 1, alpha: 1), #colorLiteral(red: 0.8321695924, green: 0.985483706, blue: 0.4733308554, alpha: 1)]
     
     var session: MCSession?
@@ -68,6 +71,18 @@ class GameScene: SKScene {
 
                 joystick.vX = dist.xDist / 16
                 joystick.vY = dist.yDist / 16
+                
+                velocities[index] = [joystick.vX, joystick.vY]
+                
+                if joystick.vX != lastVelocity[0]
+                    || joystick.vY != lastVelocity[1] {
+                    
+                    self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY))")
+                    
+                }
+                
+                lastVelocity[0] = joystick.vX
+                lastVelocity[1] = joystick.vY
             }
         }
     }
@@ -79,6 +94,10 @@ class GameScene: SKScene {
             joystick.vX = 0
             joystick.vY = 0
             joystick.hiden()
+            
+            send("v:\(ServiceManager.peerID.pid):0:0")
+            
+            setVelocity([0, 0], on: ServiceManager.peerID.pid)
         }
     }
     
@@ -89,6 +108,19 @@ class GameScene: SKScene {
             joystick.vX = 0
             joystick.vY = 0
             joystick.hiden()
+            
+            send("v:\(ServiceManager.peerID.pid):0:0")
+            setVelocity([0, 0], on: ServiceManager.peerID.pid)
+        }
+    }
+    
+    func send(_ value: String) {
+        guard let data = value.data(using: .utf8) else { return }
+        do {
+            guard let session = session else { return }
+            try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
+        } catch {
+            print(error)
         }
     }
     
@@ -97,20 +129,23 @@ class GameScene: SKScene {
         
         deltaTime = currentTime - lastTime
         
-        if joystick.activo == true && index >= 0 && index < self.circles.count {
-            circles[index].position = CGPoint(x: circles[index].position.x - (joystick.vX),
-                                              y: circles[index].position.y + (joystick.vY))
+        if index >= 0 && index < self.circles.count {
             
-            let x = String(format: "%.0f", self.circles[index].position.x)
-            let y = String(format: "%.0f", self.circles[index].position.y)
-
-            guard let data = "\(index):\(x):\(y)".data(using: .utf8) else { return }
-            do {
-                guard let session = session else { return }
-                try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
-            } catch {
-                print(error)
+            for i in 0 ..< circles.count {
+                circles[i].position = CGPoint(x: circles[i].position.x - velocities[i][0],
+                                              y: circles[i].position.y + velocities[i][1])
             }
+            
+//            let x = String(format: "%.0f", self.circles[index].position.x)
+//            let y = String(format: "%.0f", self.circles[index].position.y)
+//
+//            guard let data = "\(index):\(x):\(y)".data(using: .utf8) else { return }
+//            do {
+//                guard let session = session else { return }
+//                try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
+//            } catch {
+//                print(error)
+//            }
         }
         
         lastTime = currentTime
@@ -118,6 +153,7 @@ class GameScene: SKScene {
 }
 
 extension GameScene: SceneDelegate {
+    
     func addNodes(quantity: Int) {
         if self.circles.count <= quantity {
             for index in self.circles.count ... quantity {
@@ -132,5 +168,9 @@ extension GameScene: SceneDelegate {
     func move(onIndex index: Int, by values: (CGFloat, CGFloat)) {
         self.circles[index].position.x = values.0
         self.circles[index].position.y = values.1
+    }
+    
+    func setVelocity(_ v: [CGFloat], on index: Int) {
+        velocities[index] = v
     }
 }
