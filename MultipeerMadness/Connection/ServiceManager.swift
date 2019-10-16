@@ -151,6 +151,13 @@ extension ServiceManager: MCSessionDelegate {
                 }
                 self.sceneDelegate?.addNodes(quantity: playersNumber)
                 
+            } else if keyValue[0] == Substring("v") {
+                let index = Int(keyValue[1]) ?? 0
+                let v = [
+                    CGFloat(Float(keyValue[2]) ?? 0),
+                    CGFloat(Float(keyValue[3]) ?? 0)
+                ]
+                self.sceneDelegate?.setVelocity(v, on: index)
             } else {
                 let id = Int(String(keyValue[0])) ?? 0
                 let x = Float(String(keyValue[1])) ?? 0

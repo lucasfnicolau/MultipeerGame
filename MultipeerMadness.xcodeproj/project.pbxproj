@@ -10,6 +10,8 @@
 		82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A4234FADBF00E8D234 /* ServiceManager.swift */; };
 		82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A6234FD63100E8D234 /* MenuViewController.swift */; };
 		B6000320234EB7D400589D95 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = B600031F234EB7D400589D95 /* Joystick.swift */; };
+		B628925F235642AB00BF4D7F /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628925E235642AB00BF4D7F /* Controls.swift */; };
+		B634765F2351A5C700C275AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B634765E2351A5C700C275AC /* Helpers.swift */; };
 		B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E6EB234D0549002817A4 /* AppDelegate.swift */; };
 		B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6ED234D0549002817A4 /* GameScene.sks */; };
 		B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6EF234D0549002817A4 /* Actions.sks */; };
@@ -26,6 +28,8 @@
 		82E338A4234FADBF00E8D234 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		82E338A6234FD63100E8D234 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		B600031F234EB7D400589D95 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
+		B628925E235642AB00BF4D7F /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
+		B634765E2351A5C700C275AC /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipeerMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D1E6EB234D0549002817A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6D1E6ED234D0549002817A4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -59,6 +63,15 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		B634765D2351A5BC00C275AC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B634765E2351A5C700C275AC /* Helpers.swift */,
+				B628925E235642AB00BF4D7F /* Controls.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		B6D1E6DF234D0549002817A4 = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +91,7 @@
 		B6D1E6EA234D0549002817A4 /* MultipeerMadness */ = {
 			isa = PBXGroup;
 			children = (
+				B634765D2351A5BC00C275AC /* Helpers */,
 				B600031E234EB7C000589D95 /* UI */,
 				B6D1E713234EB5CF002817A4 /* Enum */,
 				B6D1E70F234E8F9C002817A4 /* Connection */,
@@ -245,8 +259,10 @@
 				82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */,
 				82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */,
 				B6000320234EB7D400589D95 /* Joystick.swift in Sources */,
+				B634765F2351A5C700C275AC /* Helpers.swift in Sources */,
 				B6D1E715234EB5DE002817A4 /* Service.swift in Sources */,
 				B6D1E6F4234D0549002817A4 /* GameViewController.swift in Sources */,
+				B628925F235642AB00BF4D7F /* Controls.swift in Sources */,
 				B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */,
 				B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */,
 			);
@@ -394,7 +410,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CTAFH43K36;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -415,7 +431,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CTAFH43K36;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
