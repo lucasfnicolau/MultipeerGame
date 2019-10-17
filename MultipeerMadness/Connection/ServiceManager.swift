@@ -9,7 +9,7 @@
 import Foundation
 import MultipeerConnectivity
 
-protocol ServiceDelegate {
+protocol ServiceManagerDelegate {
     func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String])
 }
 
@@ -25,7 +25,7 @@ class ServiceManager: NSObject {
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
 
-    var delegate: ServiceDelegate?
+    var delegate: ServiceManagerDelegate?
     var sceneDelegate: SceneDelegate?
 
     lazy var session: MCSession = {
@@ -119,7 +119,7 @@ extension ServiceManager: MCSessionDelegate {
                 
                 if (ServiceManager.peerID.pid == 0) {
                     send(value: "players:\(playersNumber)")
-                    sceneDelegate?.addNodes(quantity: playersNumber)
+                    sceneDelegate?.createEntities(quantity: playersNumber)
                 }
                 
                 print("Connected: \(ServiceManager.peerID.displayName)")
@@ -149,7 +149,7 @@ extension ServiceManager: MCSessionDelegate {
                 if ServiceManager.peerID.pid == -1 {
                     ServiceManager.peerID.pid = playersNumber
                 }
-                self.sceneDelegate?.addNodes(quantity: playersNumber)
+                self.sceneDelegate?.createEntities(quantity: playersNumber)
                 
             } else if keyValue[0] == Substring("v") {
                 let index = Int(keyValue[1]) ?? 0
@@ -157,14 +157,21 @@ extension ServiceManager: MCSessionDelegate {
                     CGFloat(Float(keyValue[2]) ?? 0),
                     CGFloat(Float(keyValue[3]) ?? 0)
                 ]
+                let r = CGFloat(Float(keyValue[4]) ?? 0)
                 self.sceneDelegate?.setVelocity(v, on: index)
-            } else {
-                let id = Int(String(keyValue[0])) ?? 0
-                let x = Float(String(keyValue[1])) ?? 0
-                let y = Float(String(keyValue[2])) ?? 0
-                
-                self.sceneDelegate?.move(onIndex: id, by: (CGFloat(x), CGFloat(y)))
+                self.sceneDelegate?.setRotation(r, on: index)
+            } else if keyValue[0] == "fire" {
+                let index = Int(keyValue[1]) ?? 0
+                self.sceneDelegate?.announceShooting(on: index)
             }
+            
+//            else {
+//                let id = Int(String(keyValue[0])) ?? 0
+//                let x = Float(String(keyValue[1])) ?? 0
+//                let y = Float(String(keyValue[2])) ?? 0
+//
+//                self.sceneDelegate?.move(onIndex: id, by: (CGFloat(x), CGFloat(y)))
+//            }
             
           }
     }

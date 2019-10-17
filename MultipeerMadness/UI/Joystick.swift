@@ -105,4 +105,12 @@ class Joystick: SKShapeNode {
         self.run(SKAction.fadeAlpha(to: 0.2, duration: 0.5))
         self.child.run(SKAction.fadeAlpha(to: 0.3, duration: 0.5))
     }
+    
+    public func reset() {
+        coreReturn()
+        activo = false
+        vX = 0
+        vY = 0
+        hiden()
+    }
 }
