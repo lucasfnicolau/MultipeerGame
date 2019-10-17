@@ -12,9 +12,12 @@ import GameController
 import MultipeerConnectivity
 
 protocol SceneDelegate {
-    func addNodes(quantity: Int)
+    func createEntities(quantity: Int)
+    func add(_ entity: GKEntity)
     func move(onIndex index: Int, by values: (CGFloat, CGFloat))
     func setVelocity(_ v: [CGFloat], on index: Int)
+    func setRotation(_ r: CGFloat, on index: Int)
+    func announceShooting(on index: Int)
 }
 
 class GameScene: SKScene {
@@ -22,15 +25,14 @@ class GameScene: SKScene {
     var joystick: Joystick = Joystick()
     var lastTime: TimeInterval = TimeInterval()
     var deltaTime: TimeInterval = TimeInterval()
-    
-    var circles = [SKShapeNode]()
+    var players = [Player]()
     var lastVelocity: [CGFloat] = [0, 0]
-    var velocities: [[CGFloat]] = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
-    var colors: [UIColor] = [#colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1), #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1), #colorLiteral(red: 1, green: 0.2527923882, blue: 1, alpha: 1), #colorLiteral(red: 0.4513868093, green: 0.9930960536, blue: 1, alpha: 1), #colorLiteral(red: 0.8321695924, green: 0.985483706, blue: 0.4733308554, alpha: 1)]
-    
     var session: MCSession?
+    var entityManager: EntityManager!
     
     override func didMove(to view: SKView) {
+        entityManager = EntityManager(scene: self)
+        
         ObserveForGameControllers()
         connectControllers()
         
@@ -43,117 +45,82 @@ class GameScene: SKScene {
                                     y: -UIScreen.main.bounds.height / 4)
     }
     
-    // Function to run intially to lookout for any MFI or Remote Controllers in the area
-    func ObserveForGameControllers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(connectControllers), name: NSNotification.Name.GCControllerDidConnect, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(disconnectControllers), name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
-    }
-    
-    // This Function is called when a controller is connected to the Apple TV
-    @objc func connectControllers() {
-        //Unpause the Game if it is currently paused
-        self.isPaused = false
-        //Used to register the Nimbus Controllers to a specific Player Number
-        var indexNumber = 0
-        // Run through each controller currently connected to the system
-        for controller in GCController.controllers() {
-            //Check to see whether it is an extended Game Controller (Such as a Nimbus)
-            if controller.extendedGamepad != nil {
-                controller.playerIndex = GCControllerPlayerIndex.init(rawValue: indexNumber)!
-                indexNumber += 1
-                setupControllerControls(controller: controller)
-            }
-        }
-    }
-    
-    // Function called when a controller is disconnected from the Apple TV
-    @objc func disconnectControllers() {
-        // Pause the Game if a controller is disconnected ~ This is mandated by Apple
-        self.isPaused = true
-    }
-    
-    func setupControllerControls(controller: GCController) {
-        //Function that check the controller when anything is moved or pressed on it
-        controller.extendedGamepad?.valueChangedHandler = {
-        (gamepad: GCExtendedGamepad, element: GCControllerElement) in
-            // Add movement in here for sprites of the controllers
-            self.controllerInputDetected(gamepad: gamepad, element: element, index: controller.playerIndex.rawValue)
-        }
-    }
-    
-    func addPlayer(index: Int) {
-        let circle = SKShapeNode(circleOfRadius: 20)
-        circle.fillColor = colors[index]
-        circles.append(circle)
-        addChild(circle)
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
             
-            joystick.setNewPosition(withLocation: location)
-            joystick.activo = true
-            joystick.show()
+            if location.x <= 0 {
+                joystick.setNewPosition(withLocation: location)
+                joystick.activo = true
+                joystick.show()
+            }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        guard let first = touches.first else { return }
-        let location = first.location(in: self)
-        let index = ServiceManager.peerID.pid
-        
-        if index >= 0 && index < self.circles.count {
+        for touch in touches {
+            let location = touch.location(in: self)
+            let index = ServiceManager.peerID.pid
             
-            if joystick.activo == true {
-                let dist = joystick.getDist(withLocation: location)
+            if location.x <= 0 {
+                if index >= 0 && index < self.players.count {
+                    if joystick.activo == true {
+                        let dist = joystick.getDist(withLocation: location)
 
-                circles[index].zRotation = joystick.getZRotation()
+                        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+                        playerNode.zRotation = joystick.getZRotation() + .pi/2
 
-                joystick.vX = dist.xDist / 16
-                joystick.vY = dist.yDist / 16
-                
-                velocities[index] = [joystick.vX, joystick.vY]
-                
-                if joystick.vX != lastVelocity[0]
-                    || joystick.vY != lastVelocity[1] {
-                    
-                    self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY))")
-                    
+                        joystick.vX = dist.xDist / 16
+                        joystick.vY = dist.yDist / 16
+                        
+                        guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+                        velocity.x = joystick.vX
+                        velocity.y = joystick.vY
+                        
+                        if joystick.vX != lastVelocity[0]
+                            || joystick.vY != lastVelocity[1] {
+                            
+                            self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY)):\(playerNode.zRotation)")
+                            
+                        }
+                        
+                        lastVelocity[0] = joystick.vX
+                        lastVelocity[1] = joystick.vY
+                    }
                 }
-                
-                lastVelocity[0] = joystick.vX
-                lastVelocity[1] = joystick.vY
             }
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if joystick.activo == true {
-            joystick.coreReturn()
-            joystick.activo = false
-            joystick.vX = 0
-            joystick.vY = 0
-            joystick.hiden()
+        for touch in touches {
+            let location = touch.location(in: self)
             
-            send("v:\(ServiceManager.peerID.pid):0:0")
-            
-            setVelocity([0, 0], on: ServiceManager.peerID.pid)
+            if location.x <= 0 {
+                if joystick.activo == true {
+                    reset()
+                }
+            } else {
+                let index = ServiceManager.peerID.pid
+                if index >= 0 && index < self.players.count {
+                    players[index].shoot()
+                    self.send("fire:\(ServiceManager.peerID.pid)")
+                }
+            }
         }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if joystick.activo == true {
-            joystick.coreReturn()
-            joystick.activo = false
-            joystick.vX = 0
-            joystick.vY = 0
-            joystick.hiden()
-            
-            send("v:\(ServiceManager.peerID.pid):0:0")
-            setVelocity([0, 0], on: ServiceManager.peerID.pid)
+            reset()
         }
+    }
+    
+    func reset() {
+        joystick.reset()
+        guard let playerNode = players[ServiceManager.peerID.pid].component(ofType: SpriteComponent.self)?.node else { return }
+        send("v:\(ServiceManager.peerID.pid):0:0:\(playerNode.zRotation)")
+        setVelocity([0, 0], on: ServiceManager.peerID.pid)
     }
     
     func send(_ value: String) {
@@ -171,15 +138,17 @@ class GameScene: SKScene {
         
         deltaTime = currentTime - lastTime
         
-        if index >= 0 && index < self.circles.count {
+        if index >= 0 && index < self.players.count {
             
-            for i in 0 ..< circles.count {
-                circles[i].position = CGPoint(x: circles[i].position.x - velocities[i][0],
-                                              y: circles[i].position.y + velocities[i][1])
+            for i in 0 ..< players.count {
+                guard let playerNode = players[i].component(ofType: SpriteComponent.self)?.node else { return }
+                guard let velocity = players[i].component(ofType: VelocityComponent.self) else { return }
+                playerNode.position = CGPoint(x: playerNode.position.x - velocity.x,
+                                              y: playerNode.position.y + velocity.y)
             }
             
-//            let x = String(format: "%.0f", self.circles[index].position.x)
-//            let y = String(format: "%.0f", self.circles[index].position.y)
+//            let x = String(format: "%.0f", self.players[index].position.x)
+//            let y = String(format: "%.0f", self.players[index].position.y)
 //
 //            guard let data = "\(index):\(x):\(y)".data(using: .utf8) else { return }
 //            do {
@@ -196,23 +165,38 @@ class GameScene: SKScene {
 
 extension GameScene: SceneDelegate {
     
-    func addNodes(quantity: Int) {
-        if self.circles.count <= quantity {
-            for index in self.circles.count ... quantity {
-                let circle = SKShapeNode(circleOfRadius: 20)
-                circle.fillColor = colors[index]
-                circles.append(circle)
-                addChild(circle)
+    func add(_ entity: GKEntity) {
+        entityManager.add(entity)
+    }
+    
+    func createEntities(quantity: Int) {
+        if self.players.count <= quantity {
+            for _ in self.players.count ... quantity {
+                let player = Player(imageName: "player", sceneDelegate: self)
+                players.append(player)
+                add(player)
             }
         }
     }
     
     func move(onIndex index: Int, by values: (CGFloat, CGFloat)) {
-        self.circles[index].position.x = values.0
-        self.circles[index].position.y = values.1
+//        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+//        playerNode.position.x = values.0
+//        playerNode.position.y = values.1
     }
     
     func setVelocity(_ v: [CGFloat], on index: Int) {
-        velocities[index] = v
+        guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+        velocity.x = v[0]
+        velocity.y = v[1]
+    }
+    
+    func setRotation(_ r: CGFloat, on index: Int) {
+        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+        playerNode.zRotation = r
+    }
+    
+    func announceShooting(on index: Int) {
+        players[index].shoot()
     }
 }

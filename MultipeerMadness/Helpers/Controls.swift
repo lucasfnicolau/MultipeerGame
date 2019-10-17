@@ -20,12 +20,16 @@ extension GameScene {
                 joystick.vX = -CGFloat(gamepad.leftThumbstick.xAxis.value) * 3.20
                 joystick.vY = CGFloat(gamepad.leftThumbstick.yAxis.value) * 3.20
                 
-                velocities[index] = [joystick.vX, joystick.vY]
+                guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+                velocity.x = joystick.vX
+                velocity.y = joystick.vY
                 
                 if joystick.vX != lastVelocity[0]
                     || joystick.vY != lastVelocity[1] {
                     
-                    self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY))")
+                    guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+                    
+                    self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY)):\(playerNode.zRotation)")
                     
                 }
                 
@@ -37,7 +41,8 @@ extension GameScene {
                 joystick.vX = 0
                 joystick.vY = 0
                 
-                send("v:\(ServiceManager.peerID.pid):0:0")
+                 guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+                send("v:\(ServiceManager.peerID.pid):0:0:\(playerNode.zRotation)")
                 
                 setVelocity([0, 0], on: ServiceManager.peerID.pid)
             }
@@ -75,6 +80,45 @@ extension GameScene {
             if (gamepad.buttonX.value != 0) {
                 print("Controller: \(index), X-Button Pressed!")
             }
+        }
+    }
+}
+
+extension GameScene {
+    
+    func ObserveForGameControllers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(connectControllers), name: NSNotification.Name.GCControllerDidConnect, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(disconnectControllers), name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
+    }
+    
+    @objc func connectControllers() {
+        //Unpause the Game if it is currently paused
+        self.isPaused = false
+        //Used to register the Nimbus Controllers to a specific Player Number
+        var indexNumber = 0
+        // Run through each controller currently connected to the system
+        for controller in GCController.controllers() {
+            //Check to see whether it is an extended Game Controller (Such as a Nimbus)
+            if controller.extendedGamepad != nil {
+                controller.playerIndex = GCControllerPlayerIndex.init(rawValue: indexNumber)!
+                indexNumber += 1
+                setupControllerControls(controller: controller)
+            }
+        }
+    }
+    
+    // Function called when a controller is disconnected from the Apple TV
+    @objc func disconnectControllers() {
+        // Pause the Game if a controller is disconnected ~ This is mandated by Apple
+        self.isPaused = true
+    }
+    
+    func setupControllerControls(controller: GCController) {
+        //Function that check the controller when anything is moved or pressed on it
+        controller.extendedGamepad?.valueChangedHandler = {
+        (gamepad: GCExtendedGamepad, element: GCControllerElement) in
+            // Add movement in here for sprites of the controllers
+            self.controllerInputDetected(gamepad: gamepad, element: element, index: controller.playerIndex.rawValue)
         }
     }
 }

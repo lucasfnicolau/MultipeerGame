@@ -69,7 +69,7 @@ class GameViewController: UIViewController {
     }
 }
 
-extension GameViewController: ServiceDelegate {
+extension GameViewController: ServiceManagerDelegate {
 
     func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String]) {
         OperationQueue.main.addOperation {
