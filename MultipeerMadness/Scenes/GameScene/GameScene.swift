@@ -26,7 +26,6 @@ class GameScene: SKScene {
     var lastTime: TimeInterval = TimeInterval()
     var deltaTime: TimeInterval = TimeInterval()
     var players = [Player]()
-    var lastVelocity: [CGFloat] = [0, 0]
     var session: MCSession?
     var entityManager: EntityManager!
     var map = CustomMap()
@@ -68,7 +67,8 @@ class GameScene: SKScene {
                 let dist = joystick.getDist(withLocation: location)
 
                 guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-                playerNode.zRotation = joystick.getZRotation() + .pi/2
+                let rotation = String(format: "%.5f", joystick.getZRotation() + .pi / 2).cgFloat()
+                playerNode.zRotation = rotation
 
                 joystick.vX = dist.xDist / 16
                 joystick.vY = dist.yDist / 16
@@ -78,15 +78,9 @@ class GameScene: SKScene {
 //                joyVel.normalize()
 //                velocity.x = joyVel.x
 //                velocity.y = joyVel.y
-                velocity.x = String(format: "%.0f", joystick.vX).cgFloat()
-                velocity.y = String(format: "%.0f", joystick.vY).cgFloat()
-                
-//                if joystick.vX != lastVelocity[0] || joystick.vY != lastVelocity[1] {
-                    self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.0f", joystick.vX)):\(String(format: "%.0f", joystick.vY)):\(playerNode.zRotation)")
-//                }
-                
-                lastVelocity[0] = joystick.vX
-                lastVelocity[1] = joystick.vY
+                velocity.x = String(format: "%.2f", joystick.vX).cgFloat()
+                velocity.y = String(format: "%.2f", joystick.vY).cgFloat()
+                self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
             }
         }
     }

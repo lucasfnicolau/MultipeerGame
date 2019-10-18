@@ -21,23 +21,15 @@ extension GameScene {
                 joystick.vY = CGFloat(gamepad.leftThumbstick.yAxis.value) * 3.20
                 
                 guard let velocity = players[ServiceManager.peerID.pid].component(ofType: VelocityComponent.self) else { return }
-                velocity.x = joystick.vX
-                velocity.y = joystick.vY
+                velocity.x = String(format: "%.2f", joystick.vX).cgFloat()
+                velocity.y = String(format: "%.2f", joystick.vY).cgFloat()
                 
-                if joystick.vX != lastVelocity[0]
-                    || joystick.vY != lastVelocity[1] {
+                guard let playerNode = players[ServiceManager.peerID.pid].component(ofType: SpriteComponent.self)?.node else { return }
+                let angle = atan2(velocity.x, velocity.y)
+                let rotation = String(format: "%.5f", angle).cgFloat()
+                    playerNode.zRotation = rotation
                     
-                    guard let playerNode = players[ServiceManager.peerID.pid].component(ofType: SpriteComponent.self)?.node else { return }
-                    let angle = atan2(velocity.x, velocity.y)
-                    playerNode.zRotation = angle + .pi/2
-                    
-                    self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY)):\(playerNode.zRotation)")
-                    
-                }
-                
-                lastVelocity[0] = joystick.vX
-                lastVelocity[1] = joystick.vY
-                
+                self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY)):\(playerNode.zRotation)")
                 
             } else {
                 joystick.vX = 0
