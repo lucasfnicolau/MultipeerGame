@@ -12,22 +12,24 @@ import GameController
 
 extension GameScene {
     func controllerInputDetected(gamepad: GCExtendedGamepad, element: GCControllerElement, index: Int) {
-        if (gamepad.leftThumbstick == element) {
-            if (gamepad.leftThumbstick.xAxis.value != 0) {
+        if (gamepad.leftThumbstick == element && ServiceManager.peerID.pid < players.count) {
+            if (gamepad.leftThumbstick.xAxis.value != 0 || gamepad.leftThumbstick.yAxis.value != 0) {
                 
-                let index = ServiceManager.peerID.pid
+                print("Controller: \(index), leftThumbstickXAxis: \(gamepad.leftThumbstick.yAxis.value)")
                 
                 joystick.vX = -CGFloat(gamepad.leftThumbstick.xAxis.value) * 3.20
                 joystick.vY = CGFloat(gamepad.leftThumbstick.yAxis.value) * 3.20
                 
-                guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+                guard let velocity = players[ServiceManager.peerID.pid].component(ofType: VelocityComponent.self) else { return }
                 velocity.x = joystick.vX
                 velocity.y = joystick.vY
                 
                 if joystick.vX != lastVelocity[0]
                     || joystick.vY != lastVelocity[1] {
                     
-                    guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+                    guard let playerNode = players[ServiceManager.peerID.pid].component(ofType: SpriteComponent.self)?.node else { return }
+                    let angle = atan2(velocity.x, velocity.y)
+                    playerNode.zRotation = angle + .pi/2
                     
                     self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY)):\(playerNode.zRotation)")
                     
@@ -37,11 +39,11 @@ extension GameScene {
                 lastVelocity[1] = joystick.vY
                 
                 
-            } else if (gamepad.leftThumbstick.xAxis.value == 0) {
+            } else {
                 joystick.vX = 0
                 joystick.vY = 0
                 
-                 guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+                 guard let playerNode = players[ServiceManager.peerID.pid].component(ofType: SpriteComponent.self)?.node else { return }
                 send("v:\(ServiceManager.peerID.pid):0:0:\(playerNode.zRotation)")
                 
                 setVelocity([0, 0], on: ServiceManager.peerID.pid)
@@ -79,6 +81,11 @@ extension GameScene {
         } else if (gamepad.buttonX == element) {
             if (gamepad.buttonX.value != 0) {
                 print("Controller: \(index), X-Button Pressed!")
+                let index = ServiceManager.peerID.pid
+                if index >= 0 && index < self.players.count {
+                    players[index].shoot()
+                    self.send("fire:\(index)")
+                }
             }
         }
     }

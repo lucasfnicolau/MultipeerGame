@@ -16,6 +16,7 @@ class MenuViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? GameViewController {
+            vc.modalPresentationStyle = .fullScreen
             if segue.identifier == "create" {
                 vc.name = "host"
             } else {

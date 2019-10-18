@@ -21,6 +21,11 @@
 		B65FB88A2358187200741673 /* PlayerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8892358187200741673 /* PlayerFactory.swift */; };
 		B65FB88C2358188400741673 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB88B2358188400741673 /* Player.swift */; };
 		B65FB8912358D68000741673 /* VelocityComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8902358D68000741673 /* VelocityComponent.swift */; };
+		B65FB8A22359357900741673 /* CustomMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB89D2359357900741673 /* CustomMap.swift */; };
+		B65FB8A32359357900741673 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB89E2359357900741673 /* Map.swift */; };
+		B65FB8A42359357900741673 /* Map.sks in Resources */ = {isa = PBXBuildFile; fileRef = B65FB89F2359357900741673 /* Map.sks */; };
+		B65FB8A52359357900741673 /* MapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8A02359357900741673 /* MapHandler.swift */; };
+		B65FB8A62359357900741673 /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = B65FB8A12359357900741673 /* map.json */; };
 		B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E6EB234D0549002817A4 /* AppDelegate.swift */; };
 		B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6ED234D0549002817A4 /* GameScene.sks */; };
 		B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6EF234D0549002817A4 /* Actions.sks */; };
@@ -47,6 +52,11 @@
 		B65FB8892358187200741673 /* PlayerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerFactory.swift; sourceTree = "<group>"; };
 		B65FB88B2358188400741673 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		B65FB8902358D68000741673 /* VelocityComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityComponent.swift; sourceTree = "<group>"; };
+		B65FB89D2359357900741673 /* CustomMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMap.swift; sourceTree = "<group>"; };
+		B65FB89E2359357900741673 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		B65FB89F2359357900741673 /* Map.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Map.sks; sourceTree = "<group>"; };
+		B65FB8A02359357900741673 /* MapHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapHandler.swift; sourceTree = "<group>"; };
+		B65FB8A12359357900741673 /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipeerMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D1E6EB234D0549002817A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6D1E6ED234D0549002817A4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -124,6 +134,18 @@
 			path = Factory;
 			sourceTree = "<group>";
 		};
+		B65FB89423592E3D00741673 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				B65FB89D2359357900741673 /* CustomMap.swift */,
+				B65FB8A12359357900741673 /* map.json */,
+				B65FB89F2359357900741673 /* Map.sks */,
+				B65FB89E2359357900741673 /* Map.swift */,
+				B65FB8A02359357900741673 /* MapHandler.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		B6D1E6DF234D0549002817A4 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +165,7 @@
 		B6D1E6EA234D0549002817A4 /* MultipeerMadness */ = {
 			isa = PBXGroup;
 			children = (
+				B65FB89423592E3D00741673 /* Map */,
 				B65FB8882358186600741673 /* Factory */,
 				B65FB88123576C4500741673 /* Components */,
 				B65FB88023576C4000741673 /* Entities */,
@@ -288,11 +311,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B65FB8A42359357900741673 /* Map.sks in Resources */,
 				B6D1E6F7234D0549002817A4 /* Main.storyboard in Resources */,
 				B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */,
 				B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */,
 				B6D1E6FC234D054B002817A4 /* LaunchScreen.storyboard in Resources */,
 				B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */,
+				B65FB8A62359357900741673 /* map.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,13 +338,16 @@
 				B634765F2351A5C700C275AC /* Helpers.swift in Sources */,
 				B6D1E6F4234D0549002817A4 /* GameViewController.swift in Sources */,
 				B65FB88323576C5C00741673 /* EntityManager.swift in Sources */,
+				B65FB8A32359357900741673 /* Map.swift in Sources */,
 				B628925F235642AB00BF4D7F /* Controls.swift in Sources */,
 				B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */,
 				B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */,
 				B65FB8912358D68000741673 /* VelocityComponent.swift in Sources */,
 				B628926723576A6800BF4D7F /* Gun.swift in Sources */,
 				B6289264235769BE00BF4D7F /* Shooter.swift in Sources */,
+				B65FB8A22359357900741673 /* CustomMap.swift in Sources */,
 				B65FB88C2358188400741673 /* Player.swift in Sources */,
+				B65FB8A52359357900741673 /* MapHandler.swift in Sources */,
 				B65FB8872358184F00741673 /* Bullet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

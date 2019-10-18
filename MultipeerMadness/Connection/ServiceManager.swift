@@ -21,7 +21,7 @@ class ServiceManager: NSObject {
     // and can contain only ASCII lowercase letters, numbers and hyphens.
     private let ServiceType = "near"
 
-    private let myPeerId = MCPeerID(displayName: UIDevice.current.name)
+//    private let myPeerId = MCPeerID(displayName: UIDevice.current.name)
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
 
@@ -29,14 +29,14 @@ class ServiceManager: NSObject {
     var sceneDelegate: SceneDelegate?
 
     lazy var session: MCSession = {
-        let session = MCSession(peer: self.myPeerId, securityIdentity: nil, encryptionPreference: .none)
+        let session = MCSession(peer: ServiceManager.peerID, securityIdentity: nil, encryptionPreference: .none)
         session.delegate = self
         return session
     }()
 
     override init() {
-        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerId, discoveryInfo: nil, serviceType: ServiceType)
-        self.serviceBrowser = MCNearbyServiceBrowser(peer: myPeerId, serviceType: ServiceType)
+        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: ServiceManager.peerID, discoveryInfo: nil, serviceType: ServiceType)
+        self.serviceBrowser = MCNearbyServiceBrowser(peer: ServiceManager.peerID, serviceType: ServiceType)
 
         super.init()
     }
@@ -144,7 +144,7 @@ extension ServiceManager: MCSessionDelegate {
             let keyValue = value.split(separator: ":")
             
             if keyValue[0] == Substring("players") {
-                let playersNumber = Int(keyValue[1]) ?? 1
+                let playersNumber = keyValue[1].int()
                 
                 if ServiceManager.peerID.pid == -1 {
                     ServiceManager.peerID.pid = playersNumber
@@ -154,24 +154,23 @@ extension ServiceManager: MCSessionDelegate {
             } else if keyValue[0] == Substring("v") {
                 let index = Int(keyValue[1]) ?? 0
                 let v = [
-                    CGFloat(Float(keyValue[2]) ?? 0),
-                    CGFloat(Float(keyValue[3]) ?? 0)
+                    keyValue[2].cgFloat(),
+                    keyValue[3].cgFloat()
                 ]
-                let r = CGFloat(Float(keyValue[4]) ?? 0)
+                let r = keyValue[4].cgFloat()
                 self.sceneDelegate?.setVelocity(v, on: index)
                 self.sceneDelegate?.setRotation(r, on: index)
+                
             } else if keyValue[0] == "fire" {
-                let index = Int(keyValue[1]) ?? 0
+                let index = keyValue[1].int()
                 self.sceneDelegate?.announceShooting(on: index)
+            } else {
+                let id = keyValue[0].int()
+                let x = keyValue[1].float()
+                let y = keyValue[2].float()
+
+                self.sceneDelegate?.move(onIndex: id, by: (CGFloat(x), CGFloat(y)))
             }
-            
-//            else {
-//                let id = Int(String(keyValue[0])) ?? 0
-//                let x = Float(String(keyValue[1])) ?? 0
-//                let y = Float(String(keyValue[2])) ?? 0
-//
-//                self.sceneDelegate?.move(onIndex: id, by: (CGFloat(x), CGFloat(y)))
-//            }
             
           }
     }
