@@ -12,12 +12,20 @@ import GameplayKit
 class Player: GKEntity, Shooter {
     var sceneDelegate: SceneDelegate?
     var ammo = 3
+    static let bitmask: UInt32 = 0001
+    var dashIsAvailable = true
     
     init(imageName: String, sceneDelegate: SceneDelegate? = nil) {
         super.init()
         
         self.sceneDelegate = sceneDelegate
         let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName))
+        guard let texture = spriteComponent.node.texture else { return }
+        spriteComponent.node.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        spriteComponent.node.physicsBody?.isDynamic = false
+        spriteComponent.node.physicsBody?.categoryBitMask = Player.bitmask
+//        spriteComponent.node.physicsBody?.collisionBitMask = Floor.bitmask
+        spriteComponent.node.physicsBody?.contactTestBitMask = Bullet.bitmask
         addComponent(spriteComponent)
         
         let velocity = VelocityComponent()
@@ -39,6 +47,7 @@ class Player: GKEntity, Shooter {
             let y = node.position.y
             
             bulletNode.position = CGPoint(x: x, y: y)
+            bulletNode.name = "bullet"
             sceneDelegate?.add(bullet)
             
             bullet.fire(basedOn: node.zRotation)
@@ -54,5 +63,35 @@ class Player: GKEntity, Shooter {
         if ammo == 0 {
             ammo = 3
         }
+    }
+    
+    func dash() {
+        if dashIsAvailable {
+            guard self.component(ofType: VelocityComponent.self) != nil else { return }
+            
+            let animationDuration: TimeInterval = 1
+
+            var actionArray = [SKAction]()
+            
+            guard let playerNode = self.component(ofType: SpriteComponent.self)?.node else { return }
+            
+            let rotation = playerNode.zRotation
+            let radius = UIScreen.main.bounds.width / 2.0
+            
+            let xDist: CGFloat = -(sin(rotation - .pi / 2) * radius / 2.5)
+            let yDist: CGFloat = cos(rotation - .pi / 2) * radius / 2.5
+            
+            actionArray.append(SKAction.move(by: CGVector(dx: xDist, dy: yDist), duration: animationDuration))
+            playerNode.run(SKAction.sequence(actionArray))
+            
+            dashIsAvailable = false
+            perform(#selector(enableDash), with: nil, afterDelay: 3)
+            
+            sceneDelegate?.send("d:\(ServiceManager.peerID.pid):\(xDist):\(yDist)")
+        }
+    }
+    
+    @objc func enableDash() {
+        dashIsAvailable = true
     }
 }

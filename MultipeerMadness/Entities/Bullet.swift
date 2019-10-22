@@ -10,10 +10,17 @@ import UIKit
 import GameplayKit
 
 class Bullet: GKEntity {
+    static let bitmask: UInt32 = 0010
+    
     init(imageName: String) {
         super.init()
 
         let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName))
+        guard let texture = spriteComponent.node.texture else { return }
+        spriteComponent.node.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        spriteComponent.node.physicsBody?.categoryBitMask = Bullet.bitmask
+//        spriteComponent.node.physicsBody?.collisionBitMask = Floor.bitmask
+        spriteComponent.node.physicsBody?.contactTestBitMask = Player.bitmask
         addComponent(spriteComponent)
     }
     
@@ -28,9 +35,6 @@ class Bullet: GKEntity {
         node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
         node.physicsBody?.isDynamic = true
         node.physicsBody?.affectedByGravity = false
-    //        node.physicsBody?.categoryBitMask = collectableObjectCategory
-    //        node.physicsBody?.contactTestBitMask = playerCategory
-        node.physicsBody?.collisionBitMask = 0
         
         let animationDuration: TimeInterval = 5
 

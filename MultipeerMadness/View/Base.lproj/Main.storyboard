@@ -84,9 +84,6 @@
                             <constraint firstAttribute="trailing" secondItem="Swh-xM-xnu" secondAttribute="trailing" id="ps5-NF-RgT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="wld-zC-8KO" appends="YES" id="CZq-gz-Py1"/>
-                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="G7e-zT-NVi"/>
                     <connections>
@@ -94,11 +91,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
-                <pinchGestureRecognizer id="wld-zC-8KO">
-                    <connections>
-                        <action selector="scalePiece:" destination="BV1-FR-VrT" id="22L-4U-5Z8"/>
-                    </connections>
-                </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1050.6696428571429" y="126.08695652173914"/>
         </scene>
