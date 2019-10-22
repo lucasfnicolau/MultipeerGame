@@ -61,7 +61,7 @@
         <!--Lobby View Controller-->
         <scene sceneID="bh6-Yb-r8g">
             <objects>
-                <viewController id="fBJ-6s-6e5" customClass="LobbyViewController" sceneMemberID="viewController">
+                <viewController id="fBJ-6s-6e5" customClass="LobbyViewController" customModule="MultipeerMadness" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LdO-rt-qIL">
                         <rect key="frame" x="0.0" y="0.0" width="896" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -189,15 +189,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="Hy3-2C-2mw"/>
                     <connections>
-                        <outlet property="jogadorDoisUIImage" destination="IIm-3O-A4E" id="ril-mQ-thR"/>
-                        <outlet property="jogadorDoisUILabel" destination="dFc-eu-5oe" id="GPv-ra-eeQ"/>
-                        <outlet property="jogadorQuatroUIImage" destination="Cpr-3Z-l6J" id="ptJ-Uj-2wG"/>
-                        <outlet property="jogadorQuatroUILabel" destination="VeU-YM-8tz" id="Whs-0O-4DF"/>
-                        <outlet property="jogadorTresUIImage" destination="cLr-nx-6Wh" id="SvU-PM-iGN"/>
-                        <outlet property="jogadorTresUILabel" destination="cNm-UY-dUC" id="6Kj-Ie-XUq"/>
-                        <outlet property="jogadorUmUIImage" destination="PIB-mw-Zzl" id="9DQ-Qu-XGm"/>
-                        <outlet property="jogadorUmUILabel" destination="QS5-CF-nWW" id="Zy4-S9-SQU"/>
-                        <outlet property="numeroJogadoresUILabel" destination="fBJ-Pg-AJL" id="ny5-fs-b85"/>
+                        <outlet property="jogadorDoisImagem" destination="IIm-3O-A4E" id="2i5-5Z-qJ4"/>
+                        <outlet property="jogadorDoisUILabel" destination="dFc-eu-5oe" id="t4h-A1-8GV"/>
+                        <outlet property="jogadorQuatroImagem" destination="Cpr-3Z-l6J" id="e1X-5x-CV9"/>
+                        <outlet property="jogadorQuatroUILabel" destination="VeU-YM-8tz" id="Frw-n5-TY2"/>
+                        <outlet property="jogadorTresImagem" destination="cLr-nx-6Wh" id="4Vg-HL-sef"/>
+                        <outlet property="jogadorTresUILabel" destination="cNm-UY-dUC" id="NUr-rJ-Xfl"/>
+                        <outlet property="jogadorUmImagem" destination="PIB-mw-Zzl" id="02x-3y-etr"/>
+                        <outlet property="jogadorUmUILabel" destination="QS5-CF-nWW" id="ftt-1F-1RV"/>
+                        <outlet property="numeroJogadoresUILabel" destination="fBJ-Pg-AJL" id="rEY-HD-Ndn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CM3-78-FLf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

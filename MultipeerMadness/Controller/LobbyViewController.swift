@@ -15,15 +15,20 @@ import MultipeerConnectivity
 class LobbyViewController: UIViewController{
     var name = ""
     @IBOutlet weak var numeroJogadoresUILabel: UILabel!
+    
     @IBOutlet weak var jogadorUmUILabel: UILabel!
-    @IBOutlet weak var jogadorUmUIImage: UIImageView!
+    @IBOutlet weak var jogadorUmImagem: UIImageView!
+    
     @IBOutlet weak var jogadorDoisUILabel: UILabel!
-    @IBOutlet weak var jogadorDoisUIImage: UIImageView!
+    @IBOutlet weak var jogadorDoisImagem: UIImageView!
+    
+    @IBOutlet weak var jogadorTresImagem: UIImageView!
     @IBOutlet weak var jogadorTresUILabel: UILabel!
-    @IBOutlet weak var jogadorTresUIImage: UIImageView!
-    @IBOutlet weak var jogadorQuatroUILabel: UILabel!
-    @IBOutlet weak var jogadorQuatroUIImage: UIImageView!
 
+    @IBOutlet weak var jogadorQuatroUILabel: UILabel!
+    
+    @IBOutlet weak var jogadorQuatroImagem: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
