@@ -14,12 +14,14 @@ import MultipeerConnectivity
 protocol SceneDelegate {
     func createEntities(quantity: Int)
     func add(_ entity: GKEntity)
+    func remove(_ entity: GKEntity)
     func move(onIndex index: Int, by values: (CGFloat, CGFloat))
     func move(onIndex index: Int, to pos: (CGFloat, CGFloat))
     func setVelocity(_ v: [CGFloat], on index: Int)
     func setRotation(_ r: CGFloat, on index: Int)
     func announceShooting(on index: Int)
     func send(_ value: String)
+    func updateScore(to score: Int)
 }
 
 class GameScene: SKScene {
@@ -33,6 +35,7 @@ class GameScene: SKScene {
     var map = CustomMap()
     var shootButton = UIButton()
     var uiFactory: UIFactory!
+    var scoreLabel: UILabel?
     
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = .zero
@@ -53,6 +56,7 @@ class GameScene: SKScene {
         uiFactory = UIFactory(scene: self)
         uiFactory.createButton(ofType: "shoot")
         uiFactory.createButton(ofType: "dash")
+        scoreLabel = uiFactory.createScoreLabel()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -160,7 +164,10 @@ class GameScene: SKScene {
     }
     
     @objc func dash() {
-        
+        let index = ServiceManager.peerID.pid
+        if index >= 0 && index < self.players.count {
+            players[index].dash()
+        }
     }
 }
 
@@ -178,6 +185,10 @@ extension GameScene: SceneDelegate {
     
     func add(_ entity: GKEntity) {
         entityManager.add(entity)
+    }
+    
+    func remove(_ entity: GKEntity) {
+        entityManager.remove(entity)
     }
     
     func createEntities(quantity: Int) {
@@ -222,5 +233,9 @@ extension GameScene: SceneDelegate {
     
     func announceShooting(on index: Int) {
         players[index].shoot()
+    }
+    
+    func updateScore(to score: Int) {
+        scoreLabel?.text = "Score: \(score)"
     }
 }

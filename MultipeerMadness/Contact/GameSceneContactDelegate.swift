@@ -21,16 +21,24 @@ extension GameScene: SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
-        let player = players[ServiceManager.peerID.pid]
-        guard let playerNode = player.component(ofType: SpriteComponent.self)?.node,
-            let firstNode = firstBody.node,
-            let secondNode = secondBody.node else { return }
+        guard let playerShot: CustomNode = firstBody.node as? CustomNode,
+            let bulletNode: CustomNode = secondBody.node as? CustomNode else { return }
         
-        if playerNode != firstNode {
-            print("pew pew")
-            destroy([firstNode, secondNode])
-        } else {
-            destroy([playerNode, secondNode])
+        for player in players {
+            guard let playerNode = player.component(ofType: SpriteComponent.self)?.node else { return }
+
+            if playerNode == playerShot {
+                destroy([playerShot, bulletNode])
+                player.die()
+            }
+        }
+        
+        guard let bullet: Bullet = bulletNode.owner as? Bullet,
+        let owner: Player = bullet.owner else { return }
+        let player = players[ServiceManager.peerID.pid]
+        
+        if owner == player {
+            player.score += 100
         }
     }
     

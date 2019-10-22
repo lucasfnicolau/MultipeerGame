@@ -11,11 +11,15 @@ import GameplayKit
 
 class Bullet: GKEntity {
     static let bitmask: UInt32 = 0010
+    var sceneDelegate: SceneDelegate?
+    var owner: Player?
     
-    init(imageName: String) {
+    init(imageName: String, sceneDelegate: SceneDelegate?, owner: Player) {
         super.init()
 
-        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName))
+        self.owner = owner
+        self.sceneDelegate = sceneDelegate
+        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName), owner: self)
         guard let texture = spriteComponent.node.texture else { return }
         spriteComponent.node.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         spriteComponent.node.physicsBody?.categoryBitMask = Bullet.bitmask
@@ -44,6 +48,11 @@ class Bullet: GKEntity {
         
         let xDist: CGFloat = sin(rotation - .pi / 2) * radius / 5
         let yDist: CGFloat = cos(rotation - .pi / 2) * radius / 5
+        
+        node.position.x -= xDist
+        node.position.y += yDist
+        
+        sceneDelegate?.add(self)
         
         actionArray.append(SKAction.applyImpulse(CGVector(dx: -xDist, dy: yDist), at: node.position, duration: animationDuration))
         actionArray.append(SKAction.removeFromParent())

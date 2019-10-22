@@ -14,14 +14,19 @@ class Player: GKEntity, Shooter {
     var ammo = 3
     static let bitmask: UInt32 = 0001
     var dashIsAvailable = true
+    var score = 0 {
+        didSet {
+            sceneDelegate?.updateScore(to: self.score)
+        }
+    }
     
     init(imageName: String, sceneDelegate: SceneDelegate? = nil) {
         super.init()
         
         self.sceneDelegate = sceneDelegate
-        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName))
+        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName), owner: self)
         guard let texture = spriteComponent.node.texture else { return }
-        spriteComponent.node.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        spriteComponent.node.physicsBody = SKPhysicsBody(circleOfRadius: texture.size().width / 4)
         spriteComponent.node.physicsBody?.isDynamic = false
         spriteComponent.node.physicsBody?.categoryBitMask = Player.bitmask
 //        spriteComponent.node.physicsBody?.collisionBitMask = Floor.bitmask
@@ -38,7 +43,7 @@ class Player: GKEntity, Shooter {
     
     func shoot() {
         if ammo > 0 {
-            let bullet = Bullet(imageName: "bullet")
+            let bullet = Bullet(imageName: "bullet", sceneDelegate: sceneDelegate, owner: self)
             guard let bulletNode = bullet.component(ofType: SpriteComponent.self)?.node else { return }
             bulletNode.setScale(0.08)
             
@@ -48,7 +53,6 @@ class Player: GKEntity, Shooter {
             
             bulletNode.position = CGPoint(x: x, y: y)
             bulletNode.name = "bullet"
-            sceneDelegate?.add(bullet)
             
             bullet.fire(basedOn: node.zRotation)
             
@@ -86,12 +90,14 @@ class Player: GKEntity, Shooter {
             
             dashIsAvailable = false
             perform(#selector(enableDash), with: nil, afterDelay: 3)
-            
-            sceneDelegate?.send("d:\(ServiceManager.peerID.pid):\(xDist):\(yDist)")
         }
     }
     
     @objc func enableDash() {
         dashIsAvailable = true
+    }
+    
+    func die() {
+        sceneDelegate?.remove(self)
     }
 }

@@ -16,7 +16,7 @@ class Gun: GKEntity, Shooter {
     init(imageName: String) {
         super.init()
 
-        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName))
+        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName), owner: self)
         addComponent(spriteComponent)
     }
     

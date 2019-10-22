@@ -9,10 +9,6 @@
 import Foundation
 import MultipeerConnectivity
 
-protocol ServiceManagerDelegate {
-    func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String])
-}
-
 class ServiceManager: NSObject {
     
     static var peerID: CustomMCPeerID!
@@ -25,7 +21,6 @@ class ServiceManager: NSObject {
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
 
-    var delegate: ServiceManagerDelegate?
     var sceneDelegate: SceneDelegate?
 
     lazy var session: MCSession = {
@@ -107,10 +102,6 @@ extension ServiceManager: MCSessionDelegate {
 
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         NSLog("%@", "peer \(peerID) didChangeState: \(state.rawValue)")
-        
-        //Mostra na tela dispositivos conectados
-        self.delegate?.connectedDevicesChanged(manager: self, connectedDevices:
-        session.connectedPeers.map{$0.displayName})
         
         switch state {
             case .connected:

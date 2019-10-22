@@ -29,8 +29,6 @@ class GameViewController: UIViewController {
             print("tudo carregado")
         }
         
-        serviceManager.delegate = self
-        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             scene = GameScene(fileNamed: "GameScene")
@@ -73,14 +71,4 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-}
-
-extension GameViewController: ServiceManagerDelegate {
-
-    func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String]) {
-        OperationQueue.main.addOperation {
-            self.connectionsLabel.text = "Connections: \(connectedDevices)"
-        }
-    }
-
 }
