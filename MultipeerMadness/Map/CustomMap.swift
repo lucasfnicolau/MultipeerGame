@@ -91,9 +91,7 @@ class CustomMap: SKNode {
         for column in 0..<tileMap.numberOfColumns {
             for row in 0..<tileMap.numberOfRows {
                 
-                if let tileDefinition = tileMap.tileDefinition(atColumn: column, row: row)
-                    
-                {
+                if let tileDefinition = tileMap.tileDefinition(atColumn: column, row: row) {
                     let isWaterTile = tileDefinition.userData?["AddBody"] as? Int
                     if (isWaterTile == 1) {
                         let tileArray = tileDefinition.textures
@@ -110,13 +108,10 @@ class CustomMap: SKNode {
                                                              size: tileTexture.size())
                         tileNode.physicsBody?.isDynamic = false
                         
-                        
                         tileMap.addChild(tileNode)
                     }
                 }
             }
-            
         }
-        
     }
 }

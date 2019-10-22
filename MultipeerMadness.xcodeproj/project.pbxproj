@@ -10,6 +10,8 @@
 		82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A4234FADBF00E8D234 /* ServiceManager.swift */; };
 		82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A6234FD63100E8D234 /* MenuViewController.swift */; };
 		B6000320234EB7D400589D95 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = B600031F234EB7D400589D95 /* Joystick.swift */; };
+		B617ECE0235F6B8800136391 /* UIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B617ECDF235F6B8800136391 /* UIFactory.swift */; };
+		B617ECE3235F9CD700136391 /* CustomNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B617ECE2235F9CD700136391 /* CustomNode.swift */; };
 		B628925F235642AB00BF4D7F /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628925E235642AB00BF4D7F /* Controls.swift */; };
 		B6289264235769BE00BF4D7F /* Shooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6289263235769BE00BF4D7F /* Shooter.swift */; };
 		B628926723576A6800BF4D7F /* Gun.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628926623576A6800BF4D7F /* Gun.swift */; };
@@ -26,6 +28,7 @@
 		B65FB8A42359357900741673 /* Map.sks in Resources */ = {isa = PBXBuildFile; fileRef = B65FB89F2359357900741673 /* Map.sks */; };
 		B65FB8A52359357900741673 /* MapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8A02359357900741673 /* MapHandler.swift */; };
 		B65FB8A62359357900741673 /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = B65FB8A12359357900741673 /* map.json */; };
+		B6A22287235E299A00AD4FCE /* GameSceneContactDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */; };
 		B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E6EB234D0549002817A4 /* AppDelegate.swift */; };
 		B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6ED234D0549002817A4 /* GameScene.sks */; };
 		B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6EF234D0549002817A4 /* Actions.sks */; };
@@ -41,6 +44,8 @@
 		82E338A4234FADBF00E8D234 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		82E338A6234FD63100E8D234 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		B600031F234EB7D400589D95 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
+		B617ECDF235F6B8800136391 /* UIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFactory.swift; sourceTree = "<group>"; };
+		B617ECE2235F9CD700136391 /* CustomNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNode.swift; sourceTree = "<group>"; };
 		B628925E235642AB00BF4D7F /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
 		B6289263235769BE00BF4D7F /* Shooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shooter.swift; sourceTree = "<group>"; };
 		B628926623576A6800BF4D7F /* Gun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gun.swift; sourceTree = "<group>"; };
@@ -57,6 +62,7 @@
 		B65FB89F2359357900741673 /* Map.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Map.sks; sourceTree = "<group>"; };
 		B65FB8A02359357900741673 /* MapHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapHandler.swift; sourceTree = "<group>"; };
 		B65FB8A12359357900741673 /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
+		B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneContactDelegate.swift; sourceTree = "<group>"; };
 		B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipeerMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D1E6EB234D0549002817A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6D1E6ED234D0549002817A4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -85,8 +91,17 @@
 			isa = PBXGroup;
 			children = (
 				B600031F234EB7D400589D95 /* Joystick.swift */,
+				B617ECDF235F6B8800136391 /* UIFactory.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		B617ECE1235F9CC700136391 /* Custom SK */ = {
+			isa = PBXGroup;
+			children = (
+				B617ECE2235F9CD700136391 /* CustomNode.swift */,
+			);
+			path = "Custom SK";
 			sourceTree = "<group>";
 		};
 		B6289262235769AB00BF4D7F /* Protocols */ = {
@@ -146,6 +161,14 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		B6A22285235E298700AD4FCE /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
 		B6D1E6DF234D0549002817A4 = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +188,8 @@
 		B6D1E6EA234D0549002817A4 /* MultipeerMadness */ = {
 			isa = PBXGroup;
 			children = (
+				B617ECE1235F9CC700136391 /* Custom SK */,
+				B6A22285235E298700AD4FCE /* Contact */,
 				B65FB89423592E3D00741673 /* Map */,
 				B65FB8882358186600741673 /* Factory */,
 				B65FB88123576C4500741673 /* Components */,
@@ -335,13 +360,16 @@
 				82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */,
 				B65FB885235817E200741673 /* Image.swift in Sources */,
 				B6000320234EB7D400589D95 /* Joystick.swift in Sources */,
+				B617ECE0235F6B8800136391 /* UIFactory.swift in Sources */,
 				B634765F2351A5C700C275AC /* Helpers.swift in Sources */,
 				B6D1E6F4234D0549002817A4 /* GameViewController.swift in Sources */,
 				B65FB88323576C5C00741673 /* EntityManager.swift in Sources */,
 				B65FB8A32359357900741673 /* Map.swift in Sources */,
+				B617ECE3235F9CD700136391 /* CustomNode.swift in Sources */,
 				B628925F235642AB00BF4D7F /* Controls.swift in Sources */,
 				B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */,
 				B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */,
+				B6A22287235E299A00AD4FCE /* GameSceneContactDelegate.swift in Sources */,
 				B65FB8912358D68000741673 /* VelocityComponent.swift in Sources */,
 				B628926723576A6800BF4D7F /* Gun.swift in Sources */,
 				B6289264235769BE00BF4D7F /* Shooter.swift in Sources */,

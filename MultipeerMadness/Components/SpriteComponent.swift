@@ -11,10 +11,11 @@ import GameplayKit
 import SpriteKit
 
 class SpriteComponent: GKComponent {
-    let node: SKSpriteNode
+    let node: CustomNode
+    var owner: GKEntity?
 
-    init(texture: SKTexture) {
-        node = SKSpriteNode(texture: texture, color: .white, size: texture.size())
+    init(texture: SKTexture, owner: GKEntity) {
+        node = CustomNode(texture: texture, color: .white, size: texture.size(), owner: owner)
         super.init()
     }
     

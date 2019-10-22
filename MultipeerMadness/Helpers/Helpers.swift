@@ -14,9 +14,10 @@ func mod(_ value: CGFloat) -> CGFloat {
 
 extension CGPoint {
     mutating func normalize() {
+//        let b = CGSize(width: 1024.0, height: 1366.0)
         let b = UIScreen.main.bounds
-        self.x = 1 - ((b.maxX - self.x)/(b.maxX-b.minX))
-        self.y = 1 - ((b.maxY - self.y)/(b.maxY-b.minY))
+        self.x = 1 - ((b.width - self.x)/(b.width))
+        self.y = 1 - ((b.height - self.y)/(b.height))
     }
 }
 

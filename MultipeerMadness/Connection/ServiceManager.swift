@@ -9,10 +9,6 @@
 import Foundation
 import MultipeerConnectivity
 
-protocol ServiceManagerDelegate {
-    func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String])
-}
-
 class ServiceManager: NSObject {
     
     static var peerID: CustomMCPeerID!
@@ -25,7 +21,6 @@ class ServiceManager: NSObject {
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
 
-    var delegate: ServiceManagerDelegate?
     var sceneDelegate: SceneDelegate?
 
     lazy var session: MCSession = {
@@ -108,10 +103,6 @@ extension ServiceManager: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         NSLog("%@", "peer \(peerID) didChangeState: \(state.rawValue)")
         
-        //Mostra na tela dispositivos conectados
-        self.delegate?.connectedDevicesChanged(manager: self, connectedDevices:
-        session.connectedPeers.map{$0.displayName})
-        
         switch state {
             case .connected:
                 
@@ -136,14 +127,14 @@ extension ServiceManager: MCSessionDelegate {
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         
-        NSLog("%@", "didReceiveData: \(data)") // REMOVE
+//        NSLog("%@", "didReceiveData: \(data)")
         
         DispatchQueue.main.async {
         
             guard let value = String(data: data, encoding: .utf8) else { return }
             let keyValue = value.split(separator: ":")
             
-            if keyValue[0] == Substring("players") {
+            if keyValue[0] == "players" {
                 let playersNumber = keyValue[1].int()
                 
                 if ServiceManager.peerID.pid == -1 {
@@ -151,7 +142,7 @@ extension ServiceManager: MCSessionDelegate {
                 }
                 self.sceneDelegate?.createEntities(quantity: playersNumber)
                 
-            } else if keyValue[0] == Substring("v") {
+            } else if keyValue[0] == "v" {
                 let index = Int(keyValue[1]) ?? 0
                 let v = [
                     keyValue[2].cgFloat(),
@@ -166,13 +157,11 @@ extension ServiceManager: MCSessionDelegate {
                 self.sceneDelegate?.announceShooting(on: index)
             } else {
                 let id = keyValue[0].int()
-                let x = keyValue[1].float()
-                let y = keyValue[2].float()
-
-                self.sceneDelegate?.move(onIndex: id, by: (CGFloat(x), CGFloat(y)))
+                let x = keyValue[1].cgFloat()
+                let y = keyValue[2].cgFloat()
+                self.sceneDelegate?.move(onIndex: id, to: (x, y))
             }
-            
-          }
+        }
     }
 
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
