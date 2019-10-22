@@ -10,6 +10,7 @@ import UIKit
 import GameplayKit
 
 class Player: GKEntity, Shooter {
+    var isEnabled = true
     var sceneDelegate: SceneDelegate?
     var ammo = 3
     static let bitmask: UInt32 = 0001
@@ -42,7 +43,7 @@ class Player: GKEntity, Shooter {
     }
     
     func shoot() {
-        if ammo > 0 {
+        if ammo > 0 && isEnabled {
             let bullet = Bullet(imageName: "bullet", sceneDelegate: sceneDelegate, owner: self)
             guard let bulletNode = bullet.component(ofType: SpriteComponent.self)?.node else { return }
             bulletNode.setScale(0.08)
@@ -70,7 +71,7 @@ class Player: GKEntity, Shooter {
     }
     
     func dash() {
-        if dashIsAvailable {
+        if dashIsAvailable && isEnabled {
             guard self.component(ofType: VelocityComponent.self) != nil else { return }
             
             let animationDuration: TimeInterval = 1
@@ -99,5 +100,15 @@ class Player: GKEntity, Shooter {
     
     func die() {
         sceneDelegate?.remove(self)
+        isEnabled = false
+        perform(#selector(respawn), with: nil, afterDelay: 1.0)
+    }
+    
+    @objc func respawn() {
+        guard let node = self.component(ofType: SpriteComponent.self)?.node else { return }
+        node.position.x = 0
+        node.position.y = 0
+        sceneDelegate?.addNode(node)
+        isEnabled = true
     }
 }

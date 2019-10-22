@@ -14,6 +14,7 @@ import MultipeerConnectivity
 protocol SceneDelegate {
     func createEntities(quantity: Int)
     func add(_ entity: GKEntity)
+    func addNode(_ node: SKNode)
     func remove(_ entity: GKEntity)
     func move(onIndex index: Int, by values: (CGFloat, CGFloat))
     func move(onIndex index: Int, to pos: (CGFloat, CGFloat))
@@ -185,6 +186,10 @@ extension GameScene: SceneDelegate {
     
     func add(_ entity: GKEntity) {
         entityManager.add(entity)
+    }
+    
+    func addNode(_ node: SKNode) {
+        addChild(node)
     }
     
     func remove(_ entity: GKEntity) {
