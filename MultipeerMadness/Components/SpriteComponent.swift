@@ -12,15 +12,14 @@ import SpriteKit
 
 class SpriteComponent: GKComponent {
     let node: CustomNode
-    var textures = [[SKTexture]]()
-    let textureNames = ["N","NE","L","SE","S","SO","O","NO"]
-    var lastMoved = ""
+    var lastMoved: String = ""
     var owner: GKEntity?
+    var state: String = ""
+    var direction: CGFloat = 0
 
     init(texture: SKTexture, owner: GKEntity) {
         node = CustomNode(texture: texture, color: .white, size: texture.size(), owner: owner)
         super.init()
-        loadTextures()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,50 +30,59 @@ class SpriteComponent: GKComponent {
         // 0.5 = 90 graus
         // x = 0.5 / 2
         // y = 0.5 / 4
+        let pid = ServiceManager.peerID.pid
+        
         switch zRotation / .pi {
             
             case -0.125 ..< 0.125:
+                direction = 0
                 print("N")
-                animateFor(for: "N")
             
             case -0.375 ..< -0.125:
                 print("NE")
+                direction = -0.250
             
             case -0.625 ..< -0.375:
                 print("L")
-                animateFor(for: "L")
+                direction = -0.5
             
             case -0.875 ..< -0.625:
                 print("SE")
+                direction = -0.5
             
             case -1.125 ..< -0.875:
                 print("S")
-                animateFor(for: "S")
+                direction = -1
             
             case -1.375 ..< -1.125:
                 print("SO")
+                direction = -1.250
             
             case -1.5 ..< -1.375:
                 print("O")
-                animateFor(for: "O")
+                direction = 0.5
                 
-            
             case 0.375 ..< 0.5:
                 print("O")
-                animateFor(for: "O")
+                direction = 0.5
                 
-            
-            case 0 ..< 0.375:
+            case 0.125 ..< 0.375:
                 print("NO")
+                direction = 0.250
+            
             default:
                 print("RUIM")
         }
     }
     
+    private func setPosition(for name: String) {
+        
+    }
+    
     private func animateFor(for position: String) {
         if lastMoved != position {
-            guard let index = textureNames.firstIndex(of: position) else { return }
-            animate(in: node, with: textures[index])
+            let texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+            animate(in: node, with: texture)
             lastMoved = position
         }
     }
@@ -84,21 +92,4 @@ class SpriteComponent: GKComponent {
         obj.run(SKAction.repeatForever(animate), withKey: "moved")
     }
     
-    private func buildAtlasTexture(to name: String) -> [SKTexture] {
-      let animatedAtlas = SKTextureAtlas(named: name)
-      var frames: [SKTexture] = []
-
-      let numImages = animatedAtlas.textureNames.count
-      for i in 0..<numImages {
-        let textureName = "\(name)_0\(i)"
-        frames.append(animatedAtlas.textureNamed(textureName))
-      }
-      return frames
-    }
-    
-    private func loadTextures() {
-        for name in textureNames {
-            textures.append(buildAtlasTexture(to: name))
-        }
-    }
 }
