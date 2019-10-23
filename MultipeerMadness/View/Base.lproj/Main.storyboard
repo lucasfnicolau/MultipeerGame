@@ -143,11 +143,30 @@
                                 <rect key="frame" x="682" y="322" width="150" height="55"/>
                                 <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Pronto"/>
+                                <connections>
+                                    <action selector="beginAction:" destination="fBJ-6s-6e5" eventType="touchUpInside" id="Chb-GV-YA5"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" id="oJL-8i-fUt"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nd0-DW-iqe">
+                                <rect key="frame" x="16" y="49" width="383" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aXC-Oz-BiB">
+                                <rect key="frame" x="682" y="322" width="150" height="55"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="readyAction:" destination="fBJ-6s-6e5" eventType="touchUpInside" id="WQh-lj-9C1"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="cLr-nx-6Wh" firstAttribute="centerY" secondItem="IIm-3O-A4E" secondAttribute="centerY" id="0bE-rv-36P"/>
+                            <constraint firstItem="aXC-Oz-BiB" firstAttribute="height" secondItem="eFa-Xy-G6O" secondAttribute="height" id="2TR-x3-e63"/>
                             <constraint firstItem="eFa-Xy-G6O" firstAttribute="top" secondItem="Cpr-3Z-l6J" secondAttribute="bottom" constant="42" id="2od-X5-ebA"/>
                             <constraint firstItem="eFa-Xy-G6O" firstAttribute="height" secondItem="Oib-c8-fdG" secondAttribute="height" id="4DR-Nt-vJq"/>
                             <constraint firstItem="dFc-eu-5oe" firstAttribute="leading" secondItem="QS5-CF-nWW" secondAttribute="trailing" constant="135" id="4Ml-em-Uz7"/>
@@ -155,6 +174,8 @@
                             <constraint firstItem="cNm-UY-dUC" firstAttribute="centerY" secondItem="dFc-eu-5oe" secondAttribute="centerY" id="5wP-8M-ZXb"/>
                             <constraint firstItem="Cpr-3Z-l6J" firstAttribute="height" secondItem="cLr-nx-6Wh" secondAttribute="height" id="6Qg-RU-Bqy"/>
                             <constraint firstItem="PIB-mw-Zzl" firstAttribute="centerX" secondItem="QS5-CF-nWW" secondAttribute="centerX" id="8dV-kK-ryd"/>
+                            <constraint firstItem="aXC-Oz-BiB" firstAttribute="centerX" secondItem="eFa-Xy-G6O" secondAttribute="centerX" id="9NJ-G5-AG0"/>
+                            <constraint firstItem="aXC-Oz-BiB" firstAttribute="centerY" secondItem="eFa-Xy-G6O" secondAttribute="centerY" id="ArZ-tQ-39o"/>
                             <constraint firstItem="dFc-eu-5oe" firstAttribute="centerY" secondItem="QS5-CF-nWW" secondAttribute="centerY" id="BKG-Mz-i86"/>
                             <constraint firstItem="IIm-3O-A4E" firstAttribute="height" secondItem="PIB-mw-Zzl" secondAttribute="height" id="CDW-7V-nUw"/>
                             <constraint firstItem="fBJ-Pg-AJL" firstAttribute="top" secondItem="L25-uP-CTG" secondAttribute="bottom" constant="20" id="Fr5-Sk-bui"/>
@@ -168,6 +189,7 @@
                             <constraint firstItem="PIB-mw-Zzl" firstAttribute="leading" secondItem="Z5d-fX-LMW" secondAttribute="leading" constant="80" id="PtD-wq-YQ3"/>
                             <constraint firstItem="IIm-3O-A4E" firstAttribute="centerY" secondItem="PIB-mw-Zzl" secondAttribute="centerY" id="RNv-Go-vTd"/>
                             <constraint firstItem="cLr-nx-6Wh" firstAttribute="centerX" secondItem="cNm-UY-dUC" secondAttribute="centerX" id="RjO-Rw-YQh"/>
+                            <constraint firstItem="aXC-Oz-BiB" firstAttribute="width" secondItem="eFa-Xy-G6O" secondAttribute="width" id="SgY-YI-cVI"/>
                             <constraint firstItem="Oib-c8-fdG" firstAttribute="top" secondItem="PIB-mw-Zzl" secondAttribute="bottom" constant="42" id="Sj5-L8-dfq"/>
                             <constraint firstItem="PIB-mw-Zzl" firstAttribute="top" secondItem="QS5-CF-nWW" secondAttribute="bottom" constant="10" id="TkY-bF-SrS"/>
                             <constraint firstItem="L25-uP-CTG" firstAttribute="leading" secondItem="Z5d-fX-LMW" secondAttribute="leading" constant="308" id="Txl-2I-Dmi"/>
@@ -189,6 +211,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Hy3-2C-2mw"/>
                     <connections>
+                        <outlet property="beginUIButton" destination="eFa-Xy-G6O" id="3SA-x0-dma"/>
+                        <outlet property="connectionsLabel" destination="Nd0-DW-iqe" id="rzr-DL-KUi"/>
                         <outlet property="jogadorDoisImagem" destination="IIm-3O-A4E" id="2i5-5Z-qJ4"/>
                         <outlet property="jogadorDoisUILabel" destination="dFc-eu-5oe" id="t4h-A1-8GV"/>
                         <outlet property="jogadorQuatroImagem" destination="Cpr-3Z-l6J" id="e1X-5x-CV9"/>
@@ -198,11 +222,13 @@
                         <outlet property="jogadorUmImagem" destination="PIB-mw-Zzl" id="02x-3y-etr"/>
                         <outlet property="jogadorUmUILabel" destination="QS5-CF-nWW" id="ftt-1F-1RV"/>
                         <outlet property="numeroJogadoresUILabel" destination="fBJ-Pg-AJL" id="rEY-HD-Ndn"/>
+                        <outlet property="readyUIButton" destination="aXC-Oz-BiB" id="kLM-eJ-VoS"/>
+                        <outlet property="sairUIButton" destination="Oib-c8-fdG" id="Yi3-bQ-dac"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CM3-78-FLf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="652.90178571428567" y="1053.6231884057972"/>
+            <point key="canvasLocation" x="592" y="1180"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -246,7 +272,7 @@
                     </connections>
                 </pinchGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1050.6696428571429" y="126.08695652173914"/>
+            <point key="canvasLocation" x="1149" y="120"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

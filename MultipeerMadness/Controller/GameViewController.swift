@@ -54,6 +54,7 @@ class GameViewController: UIViewController {
             
             view.showsFPS = true
             view.showsNodeCount = true
+            
         }
     }
 
@@ -98,6 +99,7 @@ extension GameViewController: ServiceManagerDelegate {
     func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String]) {
         OperationQueue.main.addOperation {
             self.connectionsLabel.text = "Connections: \(connectedDevices)"
+            
         }
     }
 
