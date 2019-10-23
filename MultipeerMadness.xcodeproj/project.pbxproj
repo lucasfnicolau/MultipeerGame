@@ -38,6 +38,7 @@
 		B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6F8234D054B002817A4 /* Assets.xcassets */; };
 		B6D1E6FC234D054B002817A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6FA234D054B002817A4 /* LaunchScreen.storyboard */; };
 		B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E707234E8F68002817A4 /* CustomPeerID.swift */; };
+		B6EE611B235FBD9400F4BE09 /* GameSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		B6D1E6FB234D054B002817A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6D1E6FD234D054B002817A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6D1E707234E8F68002817A4 /* CustomPeerID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPeerID.swift; sourceTree = "<group>"; };
+		B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 		B6D1E6EA234D0549002817A4 /* MultipeerMadness */ = {
 			isa = PBXGroup;
 			children = (
+				B6EE6119235FBD7F00F4BE09 /* Delegates */,
 				B617ECE1235F9CC700136391 /* Custom SK */,
 				B6A22285235E298700AD4FCE /* Contact */,
 				B65FB89423592E3D00741673 /* Map */,
@@ -278,6 +281,14 @@
 			path = Enum;
 			sourceTree = "<group>";
 		};
+		B6EE6119235FBD7F00F4BE09 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -358,6 +369,7 @@
 				B65FB88A2358187200741673 /* PlayerFactory.swift in Sources */,
 				82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */,
 				82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */,
+				B6EE611B235FBD9400F4BE09 /* GameSceneDelegate.swift in Sources */,
 				B65FB885235817E200741673 /* Image.swift in Sources */,
 				B6000320234EB7D400589D95 /* Joystick.swift in Sources */,
 				B617ECE0235F6B8800136391 /* UIFactory.swift in Sources */,

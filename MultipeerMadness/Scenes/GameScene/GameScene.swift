@@ -11,20 +11,6 @@ import GameplayKit
 import GameController
 import MultipeerConnectivity
 
-protocol SceneDelegate {
-    func createEntities(quantity: Int)
-    func add(_ entity: GKEntity)
-    func addNode(_ node: SKNode)
-    func remove(_ entity: GKEntity)
-    func move(onIndex index: Int, by values: (CGFloat, CGFloat))
-    func move(onIndex index: Int, to pos: (CGFloat, CGFloat))
-    func setVelocity(_ v: [CGFloat], on index: Int)
-    func setRotation(_ r: CGFloat, on index: Int)
-    func announceShooting(on index: Int)
-    func send(_ value: String)
-    func updateScore(to score: Int)
-}
-
 class GameScene: SKScene {
     
     var joystick: Joystick = Joystick()
@@ -37,10 +23,14 @@ class GameScene: SKScene {
     var shootButton = UIButton()
     var uiFactory: UIFactory!
     var scoreLabel: UILabel?
+    let playerCamera = SKCameraNode()
     
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = .zero
         self.physicsWorld.contactDelegate = self
+        
+        playerCamera.name = "playerCamera"
+//        self.camera = playerCamera
         
         entityManager = EntityManager(scene: self)
         
@@ -57,14 +47,14 @@ class GameScene: SKScene {
         uiFactory = UIFactory(scene: self)
         uiFactory.createButton(ofType: "shoot")
         uiFactory.createButton(ofType: "dash")
-        scoreLabel = uiFactory.createScoreLabel()
+        scoreLabel = uiFactory.createLabel(ofType: "score")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.location(in: self)
+            let location = touch.location(in: self.view)
             
-            if location.x <= 0 {
+            if location.x <= UIScreen.main.bounds.width / 2 {
                 joystick.setNewPosition(withLocation: location)
                 joystick.activo = true
                 joystick.show()
@@ -74,10 +64,10 @@ class GameScene: SKScene {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let first = touches.first else { return }
-        let location = first.location(in: self)
+        let location = first.location(in: self.view)
         let index = ServiceManager.peerID.pid
         
-        if location.x <= 0 && index >= 0 && index < self.players.count
+        if location.x <= UIScreen.main.bounds.width / 2 && index >= 0 && index < self.players.count
             && joystick.activo == true {
             
             let dist = joystick.getDist(withLocation: location)
@@ -105,7 +95,7 @@ class GameScene: SKScene {
         guard let first = touches.first else { return }
         let location = first.location(in: self)
         
-        if location.x <= 0 {
+        if location.x <= UIScreen.main.bounds.width / 2 {
             if joystick.activo == true {
                 reset()
             }
@@ -141,6 +131,8 @@ class GameScene: SKScene {
             playerNode.position.x -= velocity.x * UIScreen.main.bounds.width
             playerNode.position.y += velocity.y * UIScreen.main.bounds.height
             
+            playerCamera.position = playerNode.position
+            
             var normalizedPos = playerNode.position
             normalizedPos.normalize()
             self.send("\(index):\(normalizedPos.x):\(normalizedPos.y)")
@@ -169,78 +161,5 @@ class GameScene: SKScene {
         if index >= 0 && index < self.players.count {
             players[index].dash()
         }
-    }
-}
-
-extension GameScene: SceneDelegate {
-    
-    func send(_ value: String) {
-        guard let data = value.data(using: .utf8) else { return }
-        do {
-            guard let session = session else { return }
-            try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
-        } catch {
-            print(error)
-        }
-    }
-    
-    func add(_ entity: GKEntity) {
-        entityManager.add(entity)
-    }
-    
-    func addNode(_ node: SKNode) {
-        addChild(node)
-    }
-    
-    func remove(_ entity: GKEntity) {
-        entityManager.remove(entity)
-    }
-    
-    func createEntities(quantity: Int) {
-        if self.players.count <= quantity {
-            for _ in self.players.count ... quantity {
-                let player = Player(imageName: "player", sceneDelegate: self)
-                players.append(player)
-                add(player)
-            }
-        }
-    }
-    
-    func move(onIndex index: Int, by values: (CGFloat, CGFloat)) {
-        if index < players.count {
-            guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-            playerNode.position.x -= values.0
-            playerNode.position.y += values.1
-        }
-    }
-    
-    func move(onIndex index: Int, to pos: (CGFloat, CGFloat)) {
-        if index < players.count {
-            guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-            playerNode.position.x = pos.0 * UIScreen.main.bounds.width
-            playerNode.position.y = pos.1 * UIScreen.main.bounds.height
-        }
-    }
-    
-    func setVelocity(_ v: [CGFloat], on index: Int) {
-        var velocity: VelocityComponent? = nil
-        if index >= 0 && index < self.players.count {
-            velocity = players[index].component(ofType: VelocityComponent.self)
-        }
-        velocity?.x = v[0]
-        velocity?.y = v[1]
-    }
-    
-    func setRotation(_ r: CGFloat, on index: Int) {
-        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-        playerNode.zRotation = r
-    }
-    
-    func announceShooting(on index: Int) {
-        players[index].shoot()
-    }
-    
-    func updateScore(to score: Int) {
-        scoreLabel?.text = "Score: \(score)"
     }
 }

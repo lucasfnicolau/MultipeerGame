@@ -61,6 +61,7 @@ class Joystick: SKShapeNode {
     }
     
     public func setNewPosition(withLocation location: CGPoint) {
+        
         self.position = location
         self.child.position = location
     }
