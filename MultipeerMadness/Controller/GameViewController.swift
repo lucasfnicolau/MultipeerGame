@@ -24,9 +24,8 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let map = SKTextureAtlas(named: "Map")
-        SKTextureAtlas.preloadTextureAtlases([map]) {
-            print("tudo carregado")
+        TextureManager.shared.preloadAssets() {
+            print("Texture caregado...")
         }
         
         if let view = self.view as! SKView? {
