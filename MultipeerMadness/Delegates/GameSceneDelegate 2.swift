@@ -21,7 +21,7 @@ protocol SceneDelegate {
     func setRotation(_ r: CGFloat, on index: Int)
     func announceShooting(on index: Int)
     func send(_ value: String)
-    func updateKills(to killCount: Int)
+    func updateScore(to score: Int)
 }
 
 extension GameScene: SceneDelegate {
@@ -84,15 +84,15 @@ extension GameScene: SceneDelegate {
     }
     
     func setRotation(_ r: CGFloat, on index: Int) {
-        guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
-        playerSprite.runTo(zRotation: r)
+        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+        playerNode.zRotation = r
     }
     
     func announceShooting(on index: Int) {
         players[index].shoot()
     }
     
-    func updateKills(to killCount: Int) {
-        scoreLabel?.text = "Kills: \(killCount)"
+    func updateScore(to score: Int) {
+        scoreLabel?.text = "Score: \(score)"
     }
 }
