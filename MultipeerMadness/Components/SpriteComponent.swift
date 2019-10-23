@@ -30,7 +30,7 @@ class SpriteComponent: GKComponent {
         // x = 0.5 / 2
         // y = 0.5 / 4
         let pid = ServiceManager.peerID.pid
-        node.zRotation = zRotation - .pi / 2
+        node.zRotation = zRotation
         
         switch zRotation / .pi {
             
