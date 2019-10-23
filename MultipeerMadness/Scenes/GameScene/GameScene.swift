@@ -30,6 +30,8 @@ class GameScene: SKScene {
     var entityManager: EntityManager!
     var map = CustomMap()
     
+    var playerCamera: SKCameraNode?
+    
     override func didMove(to view: SKView) {
         entityManager = EntityManager(scene: self)
         
@@ -37,18 +39,23 @@ class GameScene: SKScene {
         map.setScale(0.4)
         addChild(map)
         
+        playerCamera = SKCameraNode()
+        playerCamera?.name = "camera"
+        self.camera = playerCamera
+        
         ObserveForGameControllers()
         connectControllers()
         
-        joystick = Joystick(radius: 50, in: self)
+        guard let cam = playerCamera else { return }
+        joystick = Joystick(radius: 50, in: cam)
         addChild(joystick)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.location(in: self)
+            let location = touch.location(in: self.view)
             
-            if location.x <= 0 {
+            if location.x <= self.view!.frame.width / 2 {
                 joystick.setNewPosition(withLocation: location)
                 joystick.activo = true
                 joystick.show()
@@ -58,10 +65,10 @@ class GameScene: SKScene {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.location(in: self)
+            let location = touch.location(in: self.view)
             let index = ServiceManager.peerID.pid
             
-            if location.x <= 0 && index >= 0 && index < self.players.count
+            if location.x <= self.view!.frame.width / 2 && index >= 0 && index < self.players.count
                 && joystick.activo == true {
                 
                 let dist = joystick.getDist(withLocation: location)
@@ -89,7 +96,7 @@ class GameScene: SKScene {
         for touch in touches {
             let location = touch.location(in: self)
             
-            if location.x <= 0 {
+            if location.x <= self.view!.frame.width / 2 {
                 if joystick.activo == true {
                     reset()
                 }
@@ -143,6 +150,15 @@ class GameScene: SKScene {
                 playerNode.position = CGPoint(x: playerNode.position.x - velocity.x,
                                               y: playerNode.position.y + velocity.y)
             }
+            
+            guard let playerCamera = self.playerCamera else {
+                return
+            }
+            
+            guard let myPlayer = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+            
+            playerCamera.position = myPlayer.position
+            
         }
         
         lastTime = currentTime

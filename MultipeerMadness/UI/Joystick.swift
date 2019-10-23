@@ -28,12 +28,12 @@ class Joystick: SKShapeNode {
         super.init()
     }
 
-    convenience init(radius: CGFloat, in scene: SKScene) {
+    convenience init(radius: CGFloat, in camera: SKCameraNode) {
         self.init()
         self.radius = radius
         createJoystickBase()
         createJoystickBaseMain()
-        scene.addChild(child)
+        camera.addChild(child)
         hiden()
     }
     
