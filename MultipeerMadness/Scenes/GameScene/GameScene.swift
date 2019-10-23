@@ -72,9 +72,9 @@ class GameScene: SKScene {
             
             let dist = joystick.getDist(withLocation: location)
 
-            guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-            let rotation = String(format: "%.5f", joystick.getZRotation() + .pi / 2).cgFloat()
-            playerNode.zRotation = rotation
+            guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+            let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
+            playerSprite.runTo(zRotation: joystick.getZRotation())
 
             joystick.vX = dist.xDist / 16
             joystick.vY = dist.yDist / 16
@@ -85,9 +85,10 @@ class GameScene: SKScene {
             
             velocity.x = String(format: "%.5f", joyVel.x).cgFloat()
             velocity.y = String(format: "%.5f", joyVel.y).cgFloat()
-//            velocity.x = String(format: "%.0f", joystick.vX).cgFloat()
-//            velocity.y = String(format: "%.0f", joystick.vY).cgFloat()
+            
             self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
+            
+            
         }
     }
     
@@ -98,6 +99,7 @@ class GameScene: SKScene {
         if location.x <= 0 {
             if joystick.activo == true {
                 reset()
+
             }
         }
     }
