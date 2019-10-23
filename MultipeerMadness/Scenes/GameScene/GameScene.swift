@@ -61,7 +61,7 @@ class GameScene: SKScene {
             let locationScene = touch.location(in: self)
             let locationView = touch.location(in: self.view)
             
-            if locationView.x <= UIScreen.main.bounds.width / 2 && index < players.count {
+            if locationView.x <= UIScreen.main.bounds.width / 2 && index < players.count && index >= 0 {
                 joystick.setNewPosition(withLocation: locationScene)
                 joystick.activo = true
                 joystick.show()
@@ -111,13 +111,12 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let first = touches.first else { return }
         let location = first.location(in: self.view)
-        
-        if location.x <= UIScreen.main.bounds.width / 2 {
+        print("\(location) <<<<")
+//        if location.x <= UIScreen.main.bounds.width / 2 {
             if joystick.activo == true {
                 reset()
-
             }
-        }
+//        }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
