@@ -25,6 +25,10 @@ class GameScene: SKScene {
     var scoreLabel: UILabel?
     let playerCamera = SKCameraNode()
     
+    var xVariation: CGFloat?
+    var yVariation: CGFloat?
+    var lastTouch: CGPoint?
+    
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = .zero
         self.physicsWorld.contactDelegate = self
@@ -51,26 +55,38 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let index = ServiceManager.peerID.pid
+        
         for touch in touches {
-            let location = touch.location(in: self)
+            let locationScene = touch.location(in: self)
+            let locationView = touch.location(in: self.view)
             
-            if location.x <= 0 {
-                joystick.setNewPosition(withLocation: location)
+            if locationView.x <= UIScreen.main.bounds.width / 2 && index < players.count {
+                joystick.setNewPosition(withLocation: locationScene)
                 joystick.activo = true
                 joystick.show()
+                
+                guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else {
+                    return
+                }
+                
+                self.xVariation = playerNode.position.x - joystick.position.x
+                self.yVariation = playerNode.position.y - joystick.position.y
+                
             }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let first = touches.first else { return }
-        let location = first.location(in: self)
+        let locationScene = first.location(in: self)
+        let locationView = first.location(in: self.view)
         let index = ServiceManager.peerID.pid
         
-        if location.x <= 0 && index >= 0 && index < self.players.count
+        if locationView.x <= UIScreen.main.bounds.width / 2 && index >= 0 && index < self.players.count
             && joystick.activo == true {
             
-            let dist = joystick.getDist(withLocation: location)
+            let dist = joystick.getDist(withLocation: locationScene)
 
             guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
             let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
@@ -87,14 +103,16 @@ class GameScene: SKScene {
             velocity.y = String(format: "%.5f", joyVel.y).cgFloat()
             
             self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
+            
+            self.lastTouch = locationScene
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let first = touches.first else { return }
-        let location = first.location(in: self)
+        let location = first.location(in: self.view)
         
-        if location.x <= 0 {
+        if location.x <= UIScreen.main.bounds.width / 2 {
             if joystick.activo == true {
                 reset()
 
@@ -113,6 +131,27 @@ class GameScene: SKScene {
         let index = ServiceManager.peerID.pid
         send("v:\(index):0:0:-")
         setVelocity([0, 0], on: index)
+    }
+    
+    func setNewJoystickPosition(basedOn position: CGPoint) {
+        
+        guard let xVariation = self.xVariation,
+            let yVariation = self.yVariation,
+            let lastTouch = self.lastTouch else {
+            return
+        }
+        
+        let newX: CGFloat = position.x - xVariation
+        let newY: CGFloat = position.y - yVariation
+        let newPosition = CGPoint(x: newX, y: newY)
+        
+        joystick.position = newPosition
+        joystick.setNewPosition(withLocation: newPosition)
+        
+        joystick.update(withLocation: lastTouch)
+        
+        
+        
     }
     
     override func update(_ currentTime: CFTimeInterval) {
@@ -139,6 +178,9 @@ class GameScene: SKScene {
 //                playerNode.position.x -= velocity.x
 //                playerNode.position.y += velocity.y
 //            }
+            
+            setNewJoystickPosition(basedOn: playerNode.position)
+            
         }
         
         lastTime = currentTime

@@ -48,7 +48,7 @@ class Joystick: SKShapeNode {
                                              transform: nil)
         self.strokeColor = .black
         self.alpha = 0.2
-        self.lineWidth = 0.5
+        self.lineWidth = 0.0
         self.zPosition = 1.0
     }
     
@@ -56,7 +56,7 @@ class Joystick: SKShapeNode {
         child = SKShapeNode(circleOfRadius: radius / 2)
         child.strokeColor = .black
         child.alpha = 0.3
-        child.lineWidth = 0.7
+        child.lineWidth = 0.0
         child.zPosition = 2.0
     }
     
@@ -112,5 +112,24 @@ class Joystick: SKShapeNode {
         vX = 0
         vY = 0
         hiden()
+    }
+    
+    public func update(withLocation location: CGPoint) {
+       
+        vector = CGVector(dx: location.x - self.position.x,
+                          dy: location.y - self.position.y)
+        angle = atan2(vector.dy, vector.dx)
+        raio = self.frame.size.height / 2.0
+        
+        let xDist: CGFloat = sin(angle - radius90) * raio
+        let yDist: CGFloat = cos(angle - radius90) * raio
+        
+        if (self.frame.contains(location)) {
+            self.child.position = location
+        } else {
+            self.child.position = CGPoint(x: self.position.x - xDist,
+                                          y: self.position.y + yDist)
+            
+        }
     }
 }
