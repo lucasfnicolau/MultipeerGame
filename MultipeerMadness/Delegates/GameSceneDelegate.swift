@@ -84,8 +84,8 @@ extension GameScene: SceneDelegate {
     }
     
     func setRotation(_ r: CGFloat, on index: Int) {
-        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-        playerNode.zRotation = r
+        guard let playeSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+        playeSprite.runTo(zRotation: r)
     }
     
     func announceShooting(on index: Int) {

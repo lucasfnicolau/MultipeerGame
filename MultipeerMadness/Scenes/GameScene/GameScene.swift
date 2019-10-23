@@ -52,9 +52,9 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.location(in: self.view)
+            let location = touch.location(in: self)
             
-            if location.x <= UIScreen.main.bounds.width / 2 {
+            if location.x <= 0 {
                 joystick.setNewPosition(withLocation: location)
                 joystick.activo = true
                 joystick.show()
@@ -64,17 +64,17 @@ class GameScene: SKScene {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let first = touches.first else { return }
-        let location = first.location(in: self.view)
+        let location = first.location(in: self)
         let index = ServiceManager.peerID.pid
         
-        if location.x <= UIScreen.main.bounds.width / 2 && index >= 0 && index < self.players.count
+        if location.x <= 0 && index >= 0 && index < self.players.count
             && joystick.activo == true {
             
             let dist = joystick.getDist(withLocation: location)
 
-            guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-            let rotation = String(format: "%.5f", joystick.getZRotation() + .pi / 2).cgFloat()
-            playerNode.zRotation = rotation
+            guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+            let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
+            playerSprite.runTo(zRotation: joystick.getZRotation())
 
             joystick.vX = dist.xDist / 16
             joystick.vY = dist.yDist / 16
@@ -85,9 +85,10 @@ class GameScene: SKScene {
             
             velocity.x = String(format: "%.5f", joyVel.x).cgFloat()
             velocity.y = String(format: "%.5f", joyVel.y).cgFloat()
-//            velocity.x = String(format: "%.0f", joystick.vX).cgFloat()
-//            velocity.y = String(format: "%.0f", joystick.vY).cgFloat()
+            
             self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
+            
+            
         }
     }
     
@@ -95,9 +96,10 @@ class GameScene: SKScene {
         guard let first = touches.first else { return }
         let location = first.location(in: self)
         
-        if location.x <= UIScreen.main.bounds.width / 2 {
+        if location.x <= 0 {
             if joystick.activo == true {
                 reset()
+
             }
         }
     }
