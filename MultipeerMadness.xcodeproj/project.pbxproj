@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		826C8DC52360CFD100FB6828 /* TextureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826C8DC42360CFD100FB6828 /* TextureManager.swift */; };
 		82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A4234FADBF00E8D234 /* ServiceManager.swift */; };
 		82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A6234FD63100E8D234 /* MenuViewController.swift */; };
 		B6000320234EB7D400589D95 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = B600031F234EB7D400589D95 /* Joystick.swift */; };
@@ -17,6 +18,7 @@
 		B628926723576A6800BF4D7F /* Gun.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628926623576A6800BF4D7F /* Gun.swift */; };
 		B628926923576ADD00BF4D7F /* SpriteComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628926823576ADD00BF4D7F /* SpriteComponent.swift */; };
 		B634765F2351A5C700C275AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B634765E2351A5C700C275AC /* Helpers.swift */; };
+		B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */; };
 		B65FB88323576C5C00741673 /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB88223576C5C00741673 /* EntityManager.swift */; };
 		B65FB885235817E200741673 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB884235817E200741673 /* Image.swift */; };
 		B65FB8872358184F00741673 /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8862358184F00741673 /* Bullet.swift */; };
@@ -38,9 +40,11 @@
 		B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6F8234D054B002817A4 /* Assets.xcassets */; };
 		B6D1E6FC234D054B002817A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6FA234D054B002817A4 /* LaunchScreen.storyboard */; };
 		B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E707234E8F68002817A4 /* CustomPeerID.swift */; };
+		B6EE611B235FBD9400F4BE09 /* GameSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		826C8DC42360CFD100FB6828 /* TextureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureManager.swift; sourceTree = "<group>"; };
 		82E338A4234FADBF00E8D234 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		82E338A6234FD63100E8D234 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		B600031F234EB7D400589D95 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
@@ -51,6 +55,7 @@
 		B628926623576A6800BF4D7F /* Gun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gun.swift; sourceTree = "<group>"; };
 		B628926823576ADD00BF4D7F /* SpriteComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteComponent.swift; sourceTree = "<group>"; };
 		B634765E2351A5C700C275AC /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
 		B65FB88223576C5C00741673 /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
 		B65FB884235817E200741673 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		B65FB8862358184F00741673 /* Bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
@@ -74,6 +79,7 @@
 		B6D1E6FB234D054B002817A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6D1E6FD234D054B002817A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6D1E707234E8F68002817A4 /* CustomPeerID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPeerID.swift; sourceTree = "<group>"; };
+		B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +93,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		826C8DC32360CFB900FB6828 /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				826C8DC42360CFD100FB6828 /* TextureManager.swift */,
+			);
+			path = Textures;
+			sourceTree = "<group>";
+		};
 		B600031E234EB7C000589D95 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +202,8 @@
 		B6D1E6EA234D0549002817A4 /* MultipeerMadness */ = {
 			isa = PBXGroup;
 			children = (
+				826C8DC32360CFB900FB6828 /* Textures */,
+				B6EE6119235FBD7F00F4BE09 /* Delegates */,
 				B617ECE1235F9CC700136391 /* Custom SK */,
 				B6A22285235E298700AD4FCE /* Contact */,
 				B65FB89423592E3D00741673 /* Map */,
@@ -216,6 +232,7 @@
 			children = (
 				B6D1E6F3234D0549002817A4 /* GameViewController.swift */,
 				82E338A6234FD63100E8D234 /* MenuViewController.swift */,
+				B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -276,6 +293,14 @@
 				B65FB884235817E200741673 /* Image.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		B6EE6119235FBD7F00F4BE09 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,18 +383,21 @@
 				B65FB88A2358187200741673 /* PlayerFactory.swift in Sources */,
 				82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */,
 				82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */,
+				B6EE611B235FBD9400F4BE09 /* GameSceneDelegate.swift in Sources */,
 				B65FB885235817E200741673 /* Image.swift in Sources */,
 				B6000320234EB7D400589D95 /* Joystick.swift in Sources */,
 				B617ECE0235F6B8800136391 /* UIFactory.swift in Sources */,
 				B634765F2351A5C700C275AC /* Helpers.swift in Sources */,
 				B6D1E6F4234D0549002817A4 /* GameViewController.swift in Sources */,
 				B65FB88323576C5C00741673 /* EntityManager.swift in Sources */,
+				B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */,
 				B65FB8A32359357900741673 /* Map.swift in Sources */,
 				B617ECE3235F9CD700136391 /* CustomNode.swift in Sources */,
 				B628925F235642AB00BF4D7F /* Controls.swift in Sources */,
 				B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */,
 				B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */,
 				B6A22287235E299A00AD4FCE /* GameSceneContactDelegate.swift in Sources */,
+				826C8DC52360CFD100FB6828 /* TextureManager.swift in Sources */,
 				B65FB8912358D68000741673 /* VelocityComponent.swift in Sources */,
 				B628926723576A6800BF4D7F /* Gun.swift in Sources */,
 				B6289264235769BE00BF4D7F /* Shooter.swift in Sources */,
@@ -522,7 +550,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 87G2Y58K9U;
+				DEVELOPMENT_TEAM = CTAFH43K36;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -543,7 +571,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 87G2Y58K9U;
+				DEVELOPMENT_TEAM = CTAFH43K36;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

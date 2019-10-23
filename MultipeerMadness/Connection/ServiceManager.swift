@@ -16,8 +16,6 @@ class ServiceManager: NSObject {
     // Service type must be a unique string, at most 15 characters long
     // and can contain only ASCII lowercase letters, numbers and hyphens.
     private let ServiceType = "near"
-
-//    private let myPeerId = MCPeerID(displayName: UIDevice.current.name)
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
 
@@ -121,8 +119,6 @@ extension ServiceManager: MCSessionDelegate {
             @unknown default:
                 print("fatal error")
         }
-
-        
     }
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
@@ -148,10 +144,12 @@ extension ServiceManager: MCSessionDelegate {
                     keyValue[2].cgFloat(),
                     keyValue[3].cgFloat()
                 ]
-                let r = keyValue[4].cgFloat()
                 self.sceneDelegate?.setVelocity(v, on: index)
-                self.sceneDelegate?.setRotation(r, on: index)
                 
+                if keyValue[4] != "-" {
+                    let r = keyValue[4].cgFloat()
+                    self.sceneDelegate?.setRotation(r, on: index)
+                }
             } else if keyValue[0] == "fire" {
                 let index = keyValue[1].int()
                 self.sceneDelegate?.announceShooting(on: index)

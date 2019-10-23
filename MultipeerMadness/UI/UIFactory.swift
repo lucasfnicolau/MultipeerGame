@@ -49,18 +49,23 @@ class UIFactory {
         }
     }
     
-    func createScoreLabel() -> UILabel {
+    func createLabel(ofType type: String) -> UILabel {
         let label = UILabel(frame: .zero)
-        label.text = "Score: 0"
         
         guard let sceneView = scene.view else { return UILabel() }
         sceneView.addSubview(label)
-        
         label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            label.topAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.topAnchor, constant: 4)
-        ])
+        
+        switch type {
+        case "score":
+            label.text = "Kills: 0"
+            NSLayoutConstraint.activate([
+                label.leadingAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                label.topAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.topAnchor, constant: 4)
+            ])
+        default:
+            return UILabel()
+        }
         
         return label
     }

@@ -38,7 +38,7 @@ extension GameScene: SKPhysicsContactDelegate {
         let player = players[ServiceManager.peerID.pid]
         
         if owner == player {
-            player.score += 100
+            player.kills += 1
         }
     }
     
