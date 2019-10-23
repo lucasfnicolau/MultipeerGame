@@ -60,10 +60,10 @@ class Joystick: SKShapeNode {
         child.zPosition = 2.0
     }
     
-    public func setNewPosition(withLocation location: CGPoint) {
+    public func setNewPosition(withLocation locationBase: CGPoint, locationMain: CGPoint) {
         
-        self.position = location
-        self.child.position = location
+        self.position = locationBase
+        self.child.position = locationMain
     }
     
     public func getDist(withLocation location: CGPoint) -> (xDist: CGFloat, yDist: CGFloat) {
@@ -114,4 +114,24 @@ class Joystick: SKShapeNode {
         vY = 0
         hiden()
     }
+    
+    public func updateLocation(withLocation location: CGPoint) {
+        
+        vector = CGVector(dx: location.x - self.position.x,
+                          dy: location.y - self.position.y)
+        angle = atan2(vector.dy, vector.dx)
+        raio = self.frame.size.height / 2.0
+        
+        let xDist: CGFloat = sin(angle - radius90) * raio
+        let yDist: CGFloat = cos(angle - radius90) * raio
+        
+        if (self.frame.contains(location)) {
+            self.child.position = location
+        } else {
+            self.child.position = CGPoint(x: self.position.x - xDist,
+                                          y: self.position.y + yDist)
+            
+        }
+    }
+    
 }
