@@ -25,7 +25,7 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         TextureManager.shared.preloadAssets() {
-            print("Texture caregado...")
+            print("Texturas caregadas...")
         }
         
         if let view = self.view as! SKView? {

@@ -15,7 +15,6 @@ class SpriteComponent: GKComponent {
     var lastMoved: String = ""
     var owner: GKEntity?
     var state: String = ""
-    var direction: CGFloat = 0
 
     init(texture: SKTexture, owner: GKEntity) {
         node = CustomNode(texture: texture, color: .white, size: texture.size(), owner: owner)
@@ -31,52 +30,42 @@ class SpriteComponent: GKComponent {
         // x = 0.5 / 2
         // y = 0.5 / 4
         let pid = ServiceManager.peerID.pid
+        node.zRotation = zRotation - .pi / 2
         
         switch zRotation / .pi {
             
             case -0.125 ..< 0.125:
-                direction = 0
                 print("N")
             
             case -0.375 ..< -0.125:
                 print("NE")
-                direction = -0.250
             
             case -0.625 ..< -0.375:
                 print("L")
-                direction = -0.5
             
             case -0.875 ..< -0.625:
                 print("SE")
-                direction = -0.5
             
             case -1.125 ..< -0.875:
                 print("S")
-                direction = -1
-            
+                            
             case -1.375 ..< -1.125:
                 print("SO")
-                direction = -1.250
             
             case -1.5 ..< -1.375:
                 print("O")
-                direction = 0.5
+                animateFor(for: "run_nothing_left_\(pid)")
                 
             case 0.375 ..< 0.5:
                 print("O")
-                direction = 0.5
-                
+                animateFor(for: "run_nothing_left_\(pid)")
+            
             case 0.125 ..< 0.375:
                 print("NO")
-                direction = 0.250
             
             default:
                 print("RUIM")
         }
-    }
-    
-    private func setPosition(for name: String) {
-        
     }
     
     private func animateFor(for position: String) {
@@ -89,6 +78,7 @@ class SpriteComponent: GKComponent {
 
     private func animate(in obj: SKSpriteNode, with frames: [SKTexture]) {
         let animate = SKAction.animate(with: frames, timePerFrame: 1 / (TimeInterval(frames.count)))
+        
         obj.run(SKAction.repeatForever(animate), withKey: "moved")
     }
     
