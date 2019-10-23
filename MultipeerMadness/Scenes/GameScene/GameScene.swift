@@ -30,7 +30,7 @@ class GameScene: SKScene {
         self.physicsWorld.contactDelegate = self
         
         playerCamera.name = "playerCamera"
-//        self.camera = playerCamera
+        self.camera = playerCamera
         
         entityManager = EntityManager(scene: self)
         
@@ -52,9 +52,9 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.location(in: self.view)
+            let location = touch.location(in: self)
             
-            if location.x <= UIScreen.main.bounds.width / 2 {
+            if location.x <= 0 {
                 joystick.setNewPosition(withLocation: location)
                 joystick.activo = true
                 joystick.show()
@@ -64,10 +64,10 @@ class GameScene: SKScene {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let first = touches.first else { return }
-        let location = first.location(in: self.view)
+        let location = first.location(in: self)
         let index = ServiceManager.peerID.pid
         
-        if location.x <= UIScreen.main.bounds.width / 2 && index >= 0 && index < self.players.count
+        if location.x <= 0 && index >= 0 && index < self.players.count
             && joystick.activo == true {
             
             let dist = joystick.getDist(withLocation: location)
@@ -95,7 +95,7 @@ class GameScene: SKScene {
         guard let first = touches.first else { return }
         let location = first.location(in: self)
         
-        if location.x <= UIScreen.main.bounds.width / 2 {
+        if location.x <= 0 {
             if joystick.activo == true {
                 reset()
             }
