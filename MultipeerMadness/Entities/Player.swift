@@ -15,9 +15,9 @@ class Player: GKEntity, Shooter {
     var ammo = 3
     static let bitmask: UInt32 = 0001
     var dashIsAvailable = true
-    var score = 0 {
+    var kills = 0 {
         didSet {
-            sceneDelegate?.updateScore(to: self.score)
+            sceneDelegate?.updateKills(to: self.kills)
         }
     }
     

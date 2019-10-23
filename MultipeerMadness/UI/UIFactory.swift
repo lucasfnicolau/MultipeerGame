@@ -58,7 +58,7 @@ class UIFactory {
         
         switch type {
         case "score":
-            label.text = "Score: 0"
+            label.text = "Kills: 0"
             NSLayoutConstraint.activate([
                 label.leadingAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
                 label.topAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.topAnchor, constant: 4)

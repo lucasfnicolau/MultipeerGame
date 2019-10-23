@@ -18,6 +18,7 @@
 		B628926723576A6800BF4D7F /* Gun.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628926623576A6800BF4D7F /* Gun.swift */; };
 		B628926923576ADD00BF4D7F /* SpriteComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628926823576ADD00BF4D7F /* SpriteComponent.swift */; };
 		B634765F2351A5C700C275AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B634765E2351A5C700C275AC /* Helpers.swift */; };
+		B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */; };
 		B65FB88323576C5C00741673 /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB88223576C5C00741673 /* EntityManager.swift */; };
 		B65FB885235817E200741673 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB884235817E200741673 /* Image.swift */; };
 		B65FB8872358184F00741673 /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8862358184F00741673 /* Bullet.swift */; };
@@ -54,6 +55,7 @@
 		B628926623576A6800BF4D7F /* Gun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gun.swift; sourceTree = "<group>"; };
 		B628926823576ADD00BF4D7F /* SpriteComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteComponent.swift; sourceTree = "<group>"; };
 		B634765E2351A5C700C275AC /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
 		B65FB88223576C5C00741673 /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
 		B65FB884235817E200741673 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		B65FB8862358184F00741673 /* Bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 			children = (
 				B6D1E6F3234D0549002817A4 /* GameViewController.swift */,
 				82E338A6234FD63100E8D234 /* MenuViewController.swift */,
+				B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				B634765F2351A5C700C275AC /* Helpers.swift in Sources */,
 				B6D1E6F4234D0549002817A4 /* GameViewController.swift in Sources */,
 				B65FB88323576C5C00741673 /* EntityManager.swift in Sources */,
+				B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */,
 				B65FB8A32359357900741673 /* Map.swift in Sources */,
 				B617ECE3235F9CD700136391 /* CustomNode.swift in Sources */,
 				B628925F235642AB00BF4D7F /* Controls.swift in Sources */,
@@ -546,7 +550,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CTAFH43K36;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

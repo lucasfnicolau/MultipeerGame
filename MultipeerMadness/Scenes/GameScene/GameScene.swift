@@ -30,7 +30,7 @@ class GameScene: SKScene {
         self.physicsWorld.contactDelegate = self
         
         playerCamera.name = "playerCamera"
-//        self.camera = playerCamera
+        self.camera = playerCamera
         
         entityManager = EntityManager(scene: self)
         
@@ -87,8 +87,6 @@ class GameScene: SKScene {
             velocity.y = String(format: "%.5f", joyVel.y).cgFloat()
             
             self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
-            
-            
         }
     }
     
@@ -112,13 +110,9 @@ class GameScene: SKScene {
     
     func reset() {
         joystick.reset()
-        var playerNode: SKSpriteNode? = nil
         let index = ServiceManager.peerID.pid
-        if index >= 0 && index < self.players.count {
-            playerNode = players[index].component(ofType: SpriteComponent.self)?.node
-        }
-        send("v:\(index):0:0:\(playerNode?.zRotation ?? 0)")
-        setVelocity([0, 0], on: ServiceManager.peerID.pid)
+        send("v:\(index):0:0:-")
+        setVelocity([0, 0], on: index)
     }
     
     override func update(_ currentTime: CFTimeInterval) {
