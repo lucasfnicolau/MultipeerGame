@@ -99,8 +99,6 @@ class GameScene: SKScene {
         if location.x <= 0 {
             if joystick.activo == true {
                 reset()
-                guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
-                playerSprite.removeAction(forKey: "moved")
 
             }
         }
