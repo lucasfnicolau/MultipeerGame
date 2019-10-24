@@ -25,12 +25,12 @@ class SpriteComponent: GKComponent {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func runTo(zRotation: CGFloat) {
+    func runTo(zRotation: CGFloat,_ index: Int) {
         // 0.5 = 90 graus
         // x = 0.5 / 2
         // y = 0.5 / 4
-        let pid = ServiceManager.peerID.pid
         node.zRotation = zRotation - .pi / 2
+        
         
         switch zRotation / .pi {
             
@@ -42,7 +42,7 @@ class SpriteComponent: GKComponent {
             
             case -0.625 ..< -0.375:
                 print("L")
-            
+
             case -0.875 ..< -0.625:
                 print("SE")
             
@@ -54,11 +54,11 @@ class SpriteComponent: GKComponent {
             
             case -1.5 ..< -1.375:
                 print("O")
-                animateFor(for: "run_nothing_left_\(pid)")
+                animateFor(for: "run_nothing_left_\(index)")
                 
             case 0.375 ..< 0.5:
                 print("O")
-                animateFor(for: "run_nothing_left_\(pid)")
+                animateFor(for: "run_nothing_left_\(index)")
             
             case 0.125 ..< 0.375:
                 print("NO")
@@ -71,8 +71,13 @@ class SpriteComponent: GKComponent {
     private func animateFor(for position: String) {
         if lastMoved != position {
             let texture = TextureManager.shared.getTextureAtlasFrames(for: position)
-            animate(in: node, with: texture)
-            lastMoved = position
+            if texture.count > 0 {
+                animate(in: node, with: texture)
+                lastMoved = position
+            } else {
+                NSLog("ERRO: Falha ao carregar os frames.")
+            }
+            
         }
     }
 

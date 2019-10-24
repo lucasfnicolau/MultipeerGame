@@ -50,8 +50,8 @@ extension GameScene: SceneDelegate {
     
     func createEntities(quantity: Int) {
         if self.players.count <= quantity {
-            for _ in self.players.count ... quantity {
-                let player = Player(imageName: "player", sceneDelegate: self)
+            for i in self.players.count ... quantity {
+                let player = Player(imageName: "idle_nothing_front_\(i)", sceneDelegate: self)
                 players.append(player)
                 add(player)
             }
@@ -85,7 +85,7 @@ extension GameScene: SceneDelegate {
     
     func setRotation(_ r: CGFloat, on index: Int) {
         guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
-        playerSprite.runTo(zRotation: r)
+        playerSprite.runTo(zRotation: r, index)
     }
     
     func announceShooting(on index: Int) {

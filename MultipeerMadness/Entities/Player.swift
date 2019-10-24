@@ -25,8 +25,11 @@ class Player: GKEntity, Shooter {
         super.init()
         
         self.sceneDelegate = sceneDelegate
-        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName), owner: self)
-        guard let texture = spriteComponent.node.texture else { return }
+        let texture = TextureManager.shared.getTextureAtlasFrames(for: imageName)[0]
+        
+        let spriteComponent = SpriteComponent(texture: texture, owner: self)
+//        guard let texture = spriteComponent.node.texture else { return }
+        spriteComponent.node.setScale(0.05)
         spriteComponent.node.physicsBody = SKPhysicsBody(circleOfRadius: texture.size().width / 4)
         spriteComponent.node.physicsBody?.isDynamic = false
         spriteComponent.node.physicsBody?.categoryBitMask = Player.bitmask

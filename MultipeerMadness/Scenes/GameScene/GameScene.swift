@@ -90,7 +90,7 @@ class GameScene: SKScene {
 
             guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
             let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
-            playerSprite.runTo(zRotation: joystick.getZRotation())
+            playerSprite.runTo(zRotation: joystick.getZRotation(), index)
 
             joystick.vX = dist.xDist / 16
             joystick.vY = dist.yDist / 16

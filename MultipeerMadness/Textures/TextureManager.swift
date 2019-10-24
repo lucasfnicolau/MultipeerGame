@@ -35,6 +35,11 @@ public class TextureManager: NSObject {
     let run_shooting_left_2:SKTextureAtlas = SKTextureAtlas(named: "run_shooting_left_2")
     let run_shooting_left_3:SKTextureAtlas = SKTextureAtlas(named: "run_shooting_left_3")
     
+    let idle_nothing_front_0:SKTextureAtlas = SKTextureAtlas(named: "idle_nothing_front_0")
+    let idle_nothing_front_1:SKTextureAtlas = SKTextureAtlas(named: "idle_nothing_front_1")
+    let idle_nothing_front_2:SKTextureAtlas = SKTextureAtlas(named: "idle_nothing_front_2")
+    let idle_nothing_front_3:SKTextureAtlas = SKTextureAtlas(named: "idle_nothing_front_3")
+    
     
     func preloadAssets(_ handler: @escaping () -> Void) {
         SKTextureAtlas.preloadTextureAtlases([map,
@@ -105,6 +110,15 @@ public class TextureManager: NSObject {
                 textureAtlas = run_shooting_left_2
             case "run_shooting_left_3":
                 textureAtlas = run_shooting_left_3
+            
+            case "idle_nothing_front_0":
+                textureAtlas = idle_nothing_front_0
+            case "idle_nothing_front_1":
+                textureAtlas = idle_nothing_front_1
+            case "idle_nothing_front_2":
+                textureAtlas = idle_nothing_front_2
+            case "idle_nothing_front_3":
+                textureAtlas = idle_nothing_front_3
             
             default:
                 print("Mangeger falhou ao carregar o Atlas: \(name)")
