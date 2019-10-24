@@ -15,36 +15,29 @@ import MultipeerConnectivity
 class LobbyViewController: UIViewController{
     
     @IBOutlet weak var numeroJogadoresUILabel: UILabel!
-    @IBOutlet weak var jogadorUmUILabel: UILabel!
-    @IBOutlet weak var jogadorUmImagem: UIImageView!
-    @IBOutlet weak var jogadorDoisUILabel: UILabel!
-    @IBOutlet weak var jogadorDoisImagem: UIImageView!
-    @IBOutlet weak var jogadorTresImagem: UIImageView!
-    @IBOutlet weak var jogadorTresUILabel: UILabel!
-    @IBOutlet weak var jogadorQuatroUILabel: UILabel!
-    @IBOutlet weak var jogadorQuatroImagem: UIImageView!
-    @IBOutlet weak var connectionsLabel: UILabel!
     @IBOutlet weak var sairUIButton: UIButton!
     @IBOutlet weak var beginUIButton: UIButton!
     @IBOutlet weak var readyUIButton: UIButton!
+    @IBOutlet var playersImageView: [UIImageView]!
+    @IBOutlet var playersLabel: [UILabel]!
     var prontos: [Bool] = []
     var name = ""
+    var playersName = ["Jack", "Loke", "Kate", "Claire"]
     let serviceManager = ServiceManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         beginUIButton.setTitle("Pronto", for: .normal)
+        serviceManager.lobbyDelegate = self
+        
         if name == "host" {
             serviceManager.createSession()
             ServiceManager.peerID.pid = 0
             readyUIButton.isHidden = true
-            
         } else {
             serviceManager.enterSession()
             prontos.append(false)
             beginUIButton.isHidden = true
         }
-        
     }
     
     override var shouldAutorotate: Bool {
@@ -64,7 +57,7 @@ class LobbyViewController: UIViewController{
     }
     
     @IBAction func readyAction(_ sender: Any) {
-        if readyUIButton.isEnabled{
+        if readyUIButton.isEnabled {
             readyUIButton.isEnabled = false
             for n in 0..<prontos.count {
                 if !prontos[n] {
@@ -73,7 +66,7 @@ class LobbyViewController: UIViewController{
                 }
             }
             
-        } else{
+        } else {
             readyUIButton.isEnabled = true
             for n in 0..<prontos.count {
                 if prontos[n] {
@@ -85,26 +78,62 @@ class LobbyViewController: UIViewController{
     }
     
     @IBAction func beginAction(_ sender: Any) {
-        
+        var allReady = true
         for pronto in prontos {
             if pronto == false {
+                allReady = false
                 print("nem todos os jogadores estão prontos!")
                 break
             }
         }
-
+        
+        if allReady {
+            send("start:")
+            self.performSegue(withIdentifier: "begin", sender: nil)
+        }
     }
     
-    func startGame(){
-        func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if let vc = segue.destination as? GameViewController {
-                vc.modalPresentationStyle = .fullScreen
-                    vc.name = "host"
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? GameViewController {
+            vc.modalPresentationStyle = .fullScreen
+            vc.serviceManager = serviceManager
+        }
+    }
+    
+    @IBAction func quitAction(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension LobbyViewController: LobbyDelegate {
+    func updatePlayers(to number: Int) {
+        DispatchQueue.main.async {
+            self.numeroJogadoresUILabel.text = "\(number)/4"
+            for index in 0 ..< number {
+                let image = UIImage(named: "idle_nothing_front_\(index)0")
+                if ServiceManager.peerID.pid != index {
+                    self.playersLabel[index].text = self.playersName[index]
+                } else {
+                    self.playersLabel[index].text = "Me"
+//                    self.playersLabel[index].textColor = 
+                }
+                self.playersImageView[index].image = image
             }
         }
     }
-    @IBAction func quitAction(_ sender: Any) {
-        //função de encerrar a conexão multipeer
+    
+    func startGame() {
+        performSegue(withIdentifier: "begin", sender: nil)
+    }
+    
+    func send(_ value: String) {
+        guard let data = value.data(using: .utf8) else { return }
+        do {
+            let session = serviceManager.session
+            try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
+        } catch {
+            print(error)
+        }
     }
 }
 

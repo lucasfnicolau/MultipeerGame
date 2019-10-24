@@ -17,8 +17,7 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var connectionsLabel: UILabel!
     
-    let serviceManager = ServiceManager()
-    
+    var serviceManager: ServiceManager!
     var name = ""
 
     override func viewDidLoad() {
@@ -30,22 +29,15 @@ class GameViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            scene = GameScene(fileNamed: "GameScene")
-            scene.session = serviceManager.session
-            serviceManager.sceneDelegate = scene
-            
-            if name == "host" {
-                serviceManager.createSession()
-                ServiceManager.peerID.pid = 0
-            } else {
-                serviceManager.enterSession()
-            }
+            self.scene = GameScene(fileNamed: "GameScene")
+            self.scene.session = self.serviceManager.session
+            self.serviceManager.sceneDelegate = self.scene
             
             // Set the scale mode to scale to fit the window
-            scene.scaleMode = .aspectFill
+            self.scene.scaleMode = .aspectFill
             
             // Present the scene
-            view.presentScene(scene)
+            view.presentScene(self.scene)
             
             view.ignoresSiblingOrder = true
             

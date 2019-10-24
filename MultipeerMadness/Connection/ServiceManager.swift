@@ -18,8 +18,8 @@ class ServiceManager: NSObject {
     private let ServiceType = "near"
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
-
     var sceneDelegate: SceneDelegate?
+    var lobbyDelegate: LobbyDelegate?
 
     lazy var session: MCSession = {
         let session = MCSession(peer: ServiceManager.peerID, securityIdentity: nil, encryptionPreference: .none)
@@ -108,7 +108,8 @@ extension ServiceManager: MCSessionDelegate {
                 
                 if (ServiceManager.peerID.pid == 0) {
                     send(value: "players:\(playersNumber)")
-                    sceneDelegate?.createEntities(quantity: playersNumber)
+//                    sceneDelegate?.createEntities(quantity: playersNumber)
+                    self.lobbyDelegate?.updatePlayers(to: playersNumber + 1)
                 }
                 
                 print("Connected: \(ServiceManager.peerID.displayName)")
@@ -136,7 +137,7 @@ extension ServiceManager: MCSessionDelegate {
                 if ServiceManager.peerID.pid == -1 {
                     ServiceManager.peerID.pid = playersNumber
                 }
-                self.sceneDelegate?.createEntities(quantity: playersNumber)
+                self.lobbyDelegate?.updatePlayers(to: playersNumber + 1)
                 
             } else if keyValue[0] == "v" {
                 let index = Int(keyValue[1]) ?? 0
@@ -153,6 +154,8 @@ extension ServiceManager: MCSessionDelegate {
             } else if keyValue[0] == "fire" {
                 let index = keyValue[1].int()
                 self.sceneDelegate?.announceShooting(on: index)
+            } else if keyValue[0] == "start" {
+                self.lobbyDelegate?.startGame()
             } else {
                 let id = keyValue[0].int()
                 let x = keyValue[1].cgFloat()

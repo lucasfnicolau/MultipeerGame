@@ -10,6 +10,7 @@ import SpriteKit
 import GameplayKit
 import GameController
 import MultipeerConnectivity
+import AVFoundation
 
 class GameScene: SKScene {
     
@@ -24,7 +25,7 @@ class GameScene: SKScene {
     var uiFactory: UIFactory!
     var scoreLabel: UILabel?
     let playerCamera = SKCameraNode()
-    
+    var audioPlayer: AVAudioPlayer?
     var xVariation: CGFloat?
     var yVariation: CGFloat?
     var lastTouch: CGPoint?
@@ -37,6 +38,7 @@ class GameScene: SKScene {
         self.camera = playerCamera
         
         entityManager = EntityManager(scene: self)
+        createEntities(quantity: 4)
         
         map = CustomMap(namedTile: "CustomMap", tileSize: CGSize(width: 128, height: 128))
         map.setScale(0.4)
@@ -197,6 +199,17 @@ class GameScene: SKScene {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
             players[index].dash()
+        }
+    }
+    
+    func loadAudio(named name: String) {
+        SoundManager.getAudio(name: name) { (response) in
+            switch response {
+            case .success(let audio):
+                audioPlayer = audio
+            case .error(let description):
+                print(description)
+            }
         }
     }
 }

@@ -113,7 +113,7 @@ class CustomMap: SKNode {
                     tileNode.position = CGPoint(x: x, y: y)
                     
                     if tileType != 0 {
-                        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 128, height: 128))
+                        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height))
                         tileNode.physicsBody?.isDynamic = false
                         
                         if tileType != 2 {

@@ -18,6 +18,7 @@
 		B6289264235769BE00BF4D7F /* Shooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6289263235769BE00BF4D7F /* Shooter.swift */; };
 		B628926723576A6800BF4D7F /* Gun.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628926623576A6800BF4D7F /* Gun.swift */; };
 		B628926923576ADD00BF4D7F /* SpriteComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628926823576ADD00BF4D7F /* SpriteComponent.swift */; };
+		B62B39BC236240B400C17915 /* LobbyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62B39BB236240B400C17915 /* LobbyDelegate.swift */; };
 		B634765F2351A5C700C275AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B634765E2351A5C700C275AC /* Helpers.swift */; };
 		B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */; };
 		B65FB88323576C5C00741673 /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB88223576C5C00741673 /* EntityManager.swift */; };
@@ -31,6 +32,7 @@
 		B65FB8A52359357900741673 /* MapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8A02359357900741673 /* MapHandler.swift */; };
 		B65FB8A62359357900741673 /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = B65FB8A12359357900741673 /* map.json */; };
 		B6A22287235E299A00AD4FCE /* GameSceneContactDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */; };
+		B6C108D92362552F00E95628 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108D82362552F00E95628 /* SoundManager.swift */; };
 		B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E6EB234D0549002817A4 /* AppDelegate.swift */; };
 		B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6ED234D0549002817A4 /* GameScene.sks */; };
 		B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6EF234D0549002817A4 /* Actions.sks */; };
@@ -56,6 +58,7 @@
 		B6289263235769BE00BF4D7F /* Shooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shooter.swift; sourceTree = "<group>"; };
 		B628926623576A6800BF4D7F /* Gun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gun.swift; sourceTree = "<group>"; };
 		B628926823576ADD00BF4D7F /* SpriteComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteComponent.swift; sourceTree = "<group>"; };
+		B62B39BB236240B400C17915 /* LobbyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyDelegate.swift; sourceTree = "<group>"; };
 		B634765E2351A5C700C275AC /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
 		B65FB88223576C5C00741673 /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
@@ -69,6 +72,7 @@
 		B65FB8A02359357900741673 /* MapHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapHandler.swift; sourceTree = "<group>"; };
 		B65FB8A12359357900741673 /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneContactDelegate.swift; sourceTree = "<group>"; };
+		B6C108D82362552F00E95628 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipeerMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D1E6EB234D0549002817A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6D1E6ED234D0549002817A4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -185,6 +189,14 @@
 			path = Contact;
 			sourceTree = "<group>";
 		};
+		B6C108D72362552700E95628 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				B6C108D82362552F00E95628 /* SoundManager.swift */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
 		B6D1E6DF234D0549002817A4 = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +216,7 @@
 		B6D1E6EA234D0549002817A4 /* MultipeerMadness */ = {
 			isa = PBXGroup;
 			children = (
+				B6C108D72362552700E95628 /* Sound */,
 				826C8DC32360CFB900FB6828 /* Textures */,
 				B6EE6119235FBD7F00F4BE09 /* Delegates */,
 				B617ECE1235F9CC700136391 /* Custom SK */,
@@ -302,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */,
+				B62B39BB236240B400C17915 /* LobbyDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -397,6 +411,7 @@
 				B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */,
 				B65FB8A32359357900741673 /* Map.swift in Sources */,
 				B617ECE3235F9CD700136391 /* CustomNode.swift in Sources */,
+				B62B39BC236240B400C17915 /* LobbyDelegate.swift in Sources */,
 				B628925F235642AB00BF4D7F /* Controls.swift in Sources */,
 				B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */,
 				B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */,
@@ -409,6 +424,7 @@
 				B65FB88C2358188400741673 /* Player.swift in Sources */,
 				B65FB8A52359357900741673 /* MapHandler.swift in Sources */,
 				B65FB8872358184F00741673 /* Bullet.swift in Sources */,
+				B6C108D92362552F00E95628 /* SoundManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,7 +570,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 532N45X4ZD;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -575,7 +591,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 532N45X4ZD;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

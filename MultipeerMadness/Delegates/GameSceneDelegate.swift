@@ -49,8 +49,8 @@ extension GameScene: SceneDelegate {
     }
     
     func createEntities(quantity: Int) {
-        if self.players.count <= quantity {
-            for i in self.players.count ... quantity {
+        if self.players.count < quantity {
+            for i in self.players.count ..< quantity {
                 let player = Player(imageName: "idle_nothing_front_\(i)", sceneDelegate: self)
                 players.append(player)
                 add(player)
