@@ -29,7 +29,6 @@ class Player: GKEntity, Shooter {
         let texture = TextureManager.shared.getTextureAtlasFrames(for: imageName)[0]
         
         let spriteComponent = SpriteComponent(texture: texture, owner: self)
-//        guard let texture = spriteComponent.node.texture else { return }
         spriteComponent.node.setScale(0.05)
         var size = spriteComponent.node.size
         size.width /= 2
