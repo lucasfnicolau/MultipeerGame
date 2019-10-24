@@ -31,10 +31,10 @@ class Player: GKEntity, Shooter {
         let spriteComponent = SpriteComponent(texture: texture, owner: self)
 //        guard let texture = spriteComponent.node.texture else { return }
         spriteComponent.node.setScale(0.05)
-        spriteComponent.node.physicsBody = SKPhysicsBody(circleOfRadius: texture.size().width / 4)
-        spriteComponent.node.physicsBody?.isDynamic = false
+        let size = spriteComponent.node.size
+        spriteComponent.node.physicsBody = SKPhysicsBody(rectangleOf: size)
         spriteComponent.node.physicsBody?.categoryBitMask = Player.bitmask
-//        spriteComponent.node.physicsBody?.collisionBitMask = Floor.bitmask
+        spriteComponent.node.physicsBody?.collisionBitMask = CustomMap.normalBitmask | CustomMap.hazardBitmask
         spriteComponent.node.physicsBody?.contactTestBitMask = Bullet.bitmask
         addComponent(spriteComponent)
         

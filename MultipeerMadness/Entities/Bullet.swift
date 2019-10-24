@@ -23,7 +23,7 @@ class Bullet: GKEntity {
         guard let texture = spriteComponent.node.texture else { return }
         spriteComponent.node.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         spriteComponent.node.physicsBody?.categoryBitMask = Bullet.bitmask
-//        spriteComponent.node.physicsBody?.collisionBitMask = Floor.bitmask
+        spriteComponent.node.physicsBody?.collisionBitMask = CustomMap.normalBitmask
         spriteComponent.node.physicsBody?.contactTestBitMask = Player.bitmask
         addComponent(spriteComponent)
     }
