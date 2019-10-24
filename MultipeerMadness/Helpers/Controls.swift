@@ -75,7 +75,7 @@ extension GameScene {
                 print("Controller: \(index), X-Button Pressed!")
                 let index = ServiceManager.peerID.pid
                 if index >= 0 && index < self.players.count {
-                    players[index].shoot()
+                    players[index].shoot(index: index)
                     self.send("fire:\(index)")
                 }
             }

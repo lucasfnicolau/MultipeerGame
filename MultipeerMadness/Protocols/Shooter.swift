@@ -9,6 +9,6 @@
 import Foundation
 
 protocol Shooter {
-    func shoot()
+    func shoot(index: Int)
     func reload()
 }

@@ -31,11 +31,15 @@ class SpriteComponent: GKComponent {
         animateTo(state: "run", action: "nothing", direction: direction, player: index)
     }
     
+    func animateShoot(to zRotation: CGFloat, _ index: Int) {
+        node.zRotation = zRotation - .pi / 2
+        let direction = getDirection(zRotation: zRotation)
+        animateTo(state: "run", action: "shooting", direction: direction, player: index)
+    }
+    
     func getDirection(zRotation: CGFloat) -> String {
         
-        // 0.5 = 90 graus
-        // x = 0.5 / 2
-        // y = 0.5 / 4
+        // 0.5 == 90 graus
         
         switch zRotation / .pi {
         case -0.125 ..< 0.125:
@@ -54,7 +58,7 @@ class SpriteComponent: GKComponent {
             return ("front")
             
         case -1.375 ..< -1.125:
-            return ("back_left")
+            return ("front_left")
             
         case -1.5 ..< -1.375:
             return ("left")
@@ -71,8 +75,6 @@ class SpriteComponent: GKComponent {
         }
     }
     
-    
-    
     private func animateTo(state: String, action: String, direction: String, player: Int) {
         let position = "\(state)_\(action)_\(direction)_\(player)"
         
@@ -80,7 +82,7 @@ class SpriteComponent: GKComponent {
             let texture = TextureManager.shared.getTextureAtlasFrames(for: position)
             if texture.count > 0 {
                 if action == "shooting" {
-                    
+                    animateFrames(in: node, with: texture)
                 } else  {
                     animateFramesForever(in: node, with: texture)
                 }

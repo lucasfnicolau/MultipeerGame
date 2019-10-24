@@ -188,7 +188,7 @@ class GameScene: SKScene {
     @objc func shoot() {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
-            players[index].shoot()
+            players[index].shoot(index: index)
             self.send("fire:\(index)")
         }
     }

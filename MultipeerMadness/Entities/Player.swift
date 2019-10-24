@@ -10,6 +10,7 @@ import UIKit
 import GameplayKit
 
 class Player: GKEntity, Shooter {
+    
     var isEnabled = true
     var sceneDelegate: SceneDelegate?
     var ammo = 3
@@ -45,20 +46,23 @@ class Player: GKEntity, Shooter {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func shoot() {
+    func shoot(index: Int) {
         if ammo > 0 && isEnabled {
             let bullet = Bullet(imageName: "bullet", sceneDelegate: sceneDelegate, owner: self)
             guard let bulletNode = bullet.component(ofType: SpriteComponent.self)?.node else { return }
             bulletNode.setScale(0.08)
             
-            guard let node = self.component(ofType: SpriteComponent.self)?.node else { return }
-            let x = node.position.x
-            let y = node.position.y
+            guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
+            let x = spriteNode.node.position.x
+            let y = spriteNode.node.position.y
+            
+            spriteNode.animateShoot(to: spriteNode.node.zRotation, index)
             
             bulletNode.position = CGPoint(x: x, y: y)
             bulletNode.name = "bullet"
             
-            bullet.fire(basedOn: node.zRotation)
+            bullet.fire(basedOn: spriteNode.node.zRotation + .pi)
+
             
             ammo -= 1
             if ammo == 0 {

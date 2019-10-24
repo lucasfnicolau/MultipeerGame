@@ -89,7 +89,7 @@ extension GameScene: SceneDelegate {
     }
     
     func announceShooting(on index: Int) {
-        players[index].shoot()
+        players[index].shoot(index: index)
     }
     
     func updateKills(to killCount: Int) {

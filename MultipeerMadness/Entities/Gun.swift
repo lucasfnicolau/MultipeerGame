@@ -11,6 +11,7 @@ import GameplayKit
 import UIKit
 
 class Gun: GKEntity, Shooter {
+    
     var ammo = 2
     
     init(imageName: String) {
@@ -24,7 +25,7 @@ class Gun: GKEntity, Shooter {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func shoot() {
+    func shoot(index: Int) {
         // Pew pew
     }
     
