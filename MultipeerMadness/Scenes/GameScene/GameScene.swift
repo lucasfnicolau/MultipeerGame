@@ -38,7 +38,7 @@ class GameScene: SKScene {
         
         entityManager = EntityManager(scene: self)
         
-        map = CustomMap(namedTile: "Map", tileSize: CGSize(width: 128, height: 128))
+        map = CustomMap(namedTile: "CustomMap", tileSize: CGSize(width: 128, height: 128))
         map.setScale(0.4)
         addChild(map)
         
