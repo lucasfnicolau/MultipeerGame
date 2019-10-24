@@ -31,10 +31,8 @@ class LobbyViewController: UIViewController{
     var name = ""
     let serviceManager = ServiceManager()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        serviceManager.delegate = self
          beginUIButton.setTitle("Pronto", for: .normal)
         if name == "host" {
             serviceManager.createSession()
@@ -48,8 +46,6 @@ class LobbyViewController: UIViewController{
         }
         
     }
-    
-    
     
     override var shouldAutorotate: Bool {
         return true
@@ -71,7 +67,7 @@ class LobbyViewController: UIViewController{
         if readyUIButton.isEnabled{
             readyUIButton.isEnabled = false
             for n in 0..<prontos.count {
-                if !prontos[n]{
+                if !prontos[n] {
                     prontos[n] = true
                     break
                 }
@@ -80,7 +76,7 @@ class LobbyViewController: UIViewController{
         } else{
             readyUIButton.isEnabled = true
             for n in 0..<prontos.count {
-                if prontos[n]{
+                if prontos[n] {
                     prontos[n] = false
                     break
                 }
@@ -110,19 +106,5 @@ class LobbyViewController: UIViewController{
     @IBAction func quitAction(_ sender: Any) {
         //função de encerrar a conexão multipeer
     }
-}
-
-extension LobbyViewController: ServiceManagerDelegate {
-
-    func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String]) {
-        OperationQueue.main.addOperation {
-            self.connectionsLabel.text = "Connections: \(connectedDevices)"
-
-        }
-        
-    }
-    
-    
-
 }
 
