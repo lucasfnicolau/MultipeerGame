@@ -107,6 +107,9 @@ class LobbyViewController: UIViewController{
             }
         }
     }
+    @IBAction func quitAction(_ sender: Any) {
+        //função de encerrar a conexão multipeer
+    }
 }
 
 extension LobbyViewController: ServiceManagerDelegate {
@@ -118,6 +121,8 @@ extension LobbyViewController: ServiceManagerDelegate {
         }
         
     }
+    
+    
 
 }
 
