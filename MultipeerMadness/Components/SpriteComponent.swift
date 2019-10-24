@@ -15,7 +15,7 @@ class SpriteComponent: GKComponent {
     var lastMoved: String = ""
     var owner: GKEntity?
     var state: String = ""
-
+    
     init(texture: SKTexture, owner: GKEntity) {
         node = CustomNode(texture: texture, color: .white, size: texture.size(), owner: owner)
         super.init()
@@ -25,54 +25,66 @@ class SpriteComponent: GKComponent {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func runTo(zRotation: CGFloat,_ index: Int) {
+    func animateRun(to zRotation: CGFloat, _ index: Int) {
+        node.zRotation = zRotation - .pi / 2
+        let direction = getDirection(zRotation: zRotation)
+        animateTo(state: "run", action: "nothing", direction: direction, player: index)
+    }
+    
+    func getDirection(zRotation: CGFloat) -> String {
+        
         // 0.5 = 90 graus
         // x = 0.5 / 2
         // y = 0.5 / 4
-        node.zRotation = zRotation - .pi / 2
-        
         
         switch zRotation / .pi {
+        case -0.125 ..< 0.125:
+            return ("back")
             
-            case -0.125 ..< 0.125:
-                print("N")
+        case -0.375 ..< -0.125:
+            return ("back_right")
             
-            case -0.375 ..< -0.125:
-                print("NE")
+        case -0.625 ..< -0.375:
+            return ("right")
             
-            case -0.625 ..< -0.375:
-                print("L")
-
-            case -0.875 ..< -0.625:
-                print("SE")
+        case -0.875 ..< -0.625:
+            return ("front_right")
             
-            case -1.125 ..< -0.875:
-                print("S")
-                            
-            case -1.375 ..< -1.125:
-                print("SO")
+        case -1.125 ..< -0.875:
+            return ("front")
             
-            case -1.5 ..< -1.375:
-                print("O")
-                animateFor(for: "run_nothing_left_\(index)")
-                
-            case 0.375 ..< 0.5:
-                print("O")
-                animateFor(for: "run_nothing_left_\(index)")
+        case -1.375 ..< -1.125:
+            return ("back_left")
             
-            case 0.125 ..< 0.375:
-                print("NO")
+        case -1.5 ..< -1.375:
+            return ("left")
             
-            default:
-                print("RUIM")
+        case 0.375 ..< 0.5:
+            return ("left")
+            
+        case 0.125 ..< 0.375:
+            return ("back_left")
+            
+        default:
+            return ("RUIM")
+            
         }
     }
     
-    private func animateFor(for position: String) {
+    
+    
+    private func animateTo(state: String, action: String, direction: String, player: Int) {
+        let position = "\(state)_\(action)_\(direction)_\(player)"
+        
         if lastMoved != position {
             let texture = TextureManager.shared.getTextureAtlasFrames(for: position)
             if texture.count > 0 {
-                animate(in: node, with: texture)
+                if action == "shooting" {
+                    
+                } else  {
+                    animateFramesForever(in: node, with: texture)
+                }
+                
                 lastMoved = position
             } else {
                 NSLog("ERRO: Falha ao carregar os frames.")
@@ -80,11 +92,18 @@ class SpriteComponent: GKComponent {
             
         }
     }
-
-    private func animate(in obj: SKSpriteNode, with frames: [SKTexture]) {
+    
+    private func animateFrames(in obj: SKSpriteNode, with frames: [SKTexture]) {
+        let animate = SKAction.animate(with: frames, timePerFrame: 1 / (TimeInterval(frames.count)))
+        obj.run(animate, withKey: "moved")
+    }
+    
+    private func animateFramesForever(in obj: SKSpriteNode, with frames: [SKTexture]) {
         let animate = SKAction.animate(with: frames, timePerFrame: 1 / (TimeInterval(frames.count)))
         
         obj.run(SKAction.repeatForever(animate), withKey: "moved")
     }
+    
+    
     
 }
