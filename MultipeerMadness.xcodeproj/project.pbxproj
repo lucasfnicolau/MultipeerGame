@@ -27,7 +27,6 @@
 		B65FB8912358D68000741673 /* VelocityComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8902358D68000741673 /* VelocityComponent.swift */; };
 		B65FB8A22359357900741673 /* CustomMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB89D2359357900741673 /* CustomMap.swift */; };
 		B65FB8A32359357900741673 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB89E2359357900741673 /* Map.swift */; };
-		B65FB8A42359357900741673 /* Map.sks in Resources */ = {isa = PBXBuildFile; fileRef = B65FB89F2359357900741673 /* Map.sks */; };
 		B65FB8A52359357900741673 /* MapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8A02359357900741673 /* MapHandler.swift */; };
 		B65FB8A62359357900741673 /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = B65FB8A12359357900741673 /* map.json */; };
 		B6A22287235E299A00AD4FCE /* GameSceneContactDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */; };
@@ -64,7 +63,6 @@
 		B65FB8902358D68000741673 /* VelocityComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VelocityComponent.swift; sourceTree = "<group>"; };
 		B65FB89D2359357900741673 /* CustomMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMap.swift; sourceTree = "<group>"; };
 		B65FB89E2359357900741673 /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
-		B65FB89F2359357900741673 /* Map.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Map.sks; sourceTree = "<group>"; };
 		B65FB8A02359357900741673 /* MapHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapHandler.swift; sourceTree = "<group>"; };
 		B65FB8A12359357900741673 /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneContactDelegate.swift; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 			children = (
 				B65FB89D2359357900741673 /* CustomMap.swift */,
 				B65FB8A12359357900741673 /* map.json */,
-				B65FB89F2359357900741673 /* Map.sks */,
 				B65FB89E2359357900741673 /* Map.swift */,
 				B65FB8A02359357900741673 /* MapHandler.swift */,
 			);
@@ -361,7 +358,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B65FB8A42359357900741673 /* Map.sks in Resources */,
 				B6D1E6F7234D0549002817A4 /* Main.storyboard in Resources */,
 				B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */,
 				B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */,
