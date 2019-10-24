@@ -10,10 +10,21 @@ import UIKit
 import GameplayKit
 
 class Bullet: GKEntity {
-    init(imageName: String) {
+    static let bitmask: UInt32 = 0010
+    var sceneDelegate: SceneDelegate?
+    var owner: Player?
+    
+    init(imageName: String, sceneDelegate: SceneDelegate?, owner: Player) {
         super.init()
 
-        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName))
+        self.owner = owner
+        self.sceneDelegate = sceneDelegate
+        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName), owner: self)
+        guard let texture = spriteComponent.node.texture else { return }
+        spriteComponent.node.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        spriteComponent.node.physicsBody?.categoryBitMask = Bullet.bitmask
+        spriteComponent.node.physicsBody?.collisionBitMask = CustomMap.normalBitmask
+        spriteComponent.node.physicsBody?.contactTestBitMask = Player.bitmask
         addComponent(spriteComponent)
     }
     
@@ -28,9 +39,6 @@ class Bullet: GKEntity {
         node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
         node.physicsBody?.isDynamic = true
         node.physicsBody?.affectedByGravity = false
-    //        node.physicsBody?.categoryBitMask = collectableObjectCategory
-    //        node.physicsBody?.contactTestBitMask = playerCategory
-        node.physicsBody?.collisionBitMask = 0
         
         let animationDuration: TimeInterval = 5
 
@@ -40,6 +48,11 @@ class Bullet: GKEntity {
         
         let xDist: CGFloat = sin(rotation - .pi / 2) * radius / 5
         let yDist: CGFloat = cos(rotation - .pi / 2) * radius / 5
+        
+        node.position.x -= xDist
+        node.position.y += yDist
+        
+        sceneDelegate?.add(self)
         
         actionArray.append(SKAction.applyImpulse(CGVector(dx: -xDist, dy: yDist), at: node.position, duration: animationDuration))
         actionArray.append(SKAction.removeFromParent())

@@ -11,12 +11,13 @@ import GameplayKit
 import UIKit
 
 class Gun: GKEntity, Shooter {
+    
     var ammo = 2
     
     init(imageName: String) {
         super.init()
 
-        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName))
+        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName), owner: self)
         addComponent(spriteComponent)
     }
     
@@ -24,7 +25,7 @@ class Gun: GKEntity, Shooter {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func shoot() {
+    func shoot(index: Int) {
         // Pew pew
     }
     

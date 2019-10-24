@@ -11,15 +11,6 @@ import GameplayKit
 import GameController
 import MultipeerConnectivity
 
-protocol SceneDelegate {
-    func createEntities(quantity: Int)
-    func add(_ entity: GKEntity)
-    func move(onIndex index: Int, by values: (CGFloat, CGFloat))
-    func setVelocity(_ v: [CGFloat], on index: Int)
-    func setRotation(_ r: CGFloat, on index: Int)
-    func announceShooting(on index: Int)
-}
-
 class GameScene: SKScene {
     
     var joystick: Joystick = Joystick()
@@ -29,11 +20,25 @@ class GameScene: SKScene {
     var session: MCSession?
     var entityManager: EntityManager!
     var map = CustomMap()
+    var shootButton = UIButton()
+    var uiFactory: UIFactory!
+    var scoreLabel: UILabel?
+    let playerCamera = SKCameraNode()
+    
+    var xVariation: CGFloat?
+    var yVariation: CGFloat?
+    var lastTouch: CGPoint?
     
     override func didMove(to view: SKView) {
+        self.physicsWorld.gravity = .zero
+        self.physicsWorld.contactDelegate = self
+        
+        playerCamera.name = "playerCamera"
+        self.camera = playerCamera
+        
         entityManager = EntityManager(scene: self)
         
-        map = CustomMap(namedTile: "Map", tileSize: CGSize(width: 128, height: 128))
+        map = CustomMap(namedTile: "CustomMap", tileSize: CGSize(width: 128, height: 128))
         map.setScale(0.4)
         addChild(map)
         
@@ -42,65 +47,76 @@ class GameScene: SKScene {
         
         joystick = Joystick(radius: 50, in: self)
         addChild(joystick)
+        
+        uiFactory = UIFactory(scene: self)
+        uiFactory.createButton(ofType: "shoot")
+        uiFactory.createButton(ofType: "dash")
+        scoreLabel = uiFactory.createLabel(ofType: "score")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let index = ServiceManager.peerID.pid
+        
         for touch in touches {
-            let location = touch.location(in: self)
+            let locationScene = touch.location(in: self)
+            let locationView = touch.location(in: self.view)
             
-            if location.x <= 0 {
-                joystick.setNewPosition(withLocation: location)
+            if locationView.x <= UIScreen.main.bounds.width / 2 && index < players.count && index >= 0 {
+                joystick.setNewPosition(withLocation: locationScene)
                 joystick.activo = true
                 joystick.show()
+                
+                guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else {
+                    return
+                }
+                
+                self.xVariation = playerNode.position.x - joystick.position.x
+                self.yVariation = playerNode.position.y - joystick.position.y
+                
             }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            let location = touch.location(in: self)
-            let index = ServiceManager.peerID.pid
+        guard let first = touches.first else { return }
+        let locationScene = first.location(in: self)
+        let locationView = first.location(in: self.view)
+        let index = ServiceManager.peerID.pid
+        
+        if locationView.x <= UIScreen.main.bounds.width / 2 && index >= 0 && index < self.players.count
+            && joystick.activo == true {
             
-            if location.x <= 0 && index >= 0 && index < self.players.count
-                && joystick.activo == true {
-                
-                let dist = joystick.getDist(withLocation: location)
+            let dist = joystick.getDist(withLocation: locationScene)
 
-                guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-                let rotation = String(format: "%.5f", joystick.getZRotation() + .pi / 2).cgFloat()
-                playerNode.zRotation = rotation
+            guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+            let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
+            playerSprite.animateRun(to: joystick.getZRotation(), index)
 
-                joystick.vX = dist.xDist / 16
-                joystick.vY = dist.yDist / 16
-                
-                guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
-//                var joyVel = CGPoint(x: joystick.vX, y: joystick.vY)
-//                joyVel.normalize()
-//                velocity.x = joyVel.x
-//                velocity.y = joyVel.y
-                velocity.x = String(format: "%.2f", joystick.vX).cgFloat()
-                velocity.y = String(format: "%.2f", joystick.vY).cgFloat()
-                self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
-            }
+            joystick.vX = dist.xDist / 16
+            joystick.vY = dist.yDist / 16
+            
+            guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+            var joyVel = CGPoint(x: joystick.vX, y: joystick.vY)
+            joyVel.normalize()
+            
+            velocity.x = String(format: "%.5f", joyVel.x).cgFloat()
+            velocity.y = String(format: "%.5f", joyVel.y).cgFloat()
+            
+            self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
+            
+            self.lastTouch = locationScene
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            let location = touch.location(in: self)
-            
-            if location.x <= 0 {
-                if joystick.activo == true {
-                    reset()
-                }
-            } else {
-                let index = ServiceManager.peerID.pid
-                if index >= 0 && index < self.players.count {
-                    players[index].shoot()
-                    self.send("fire:\(index)")
-                }
+        guard let first = touches.first else { return }
+        let location = first.location(in: self.view)
+        print("\(location) <<<<")
+//        if location.x <= UIScreen.main.bounds.width / 2 {
+            if joystick.activo == true {
+                reset()
             }
-        }
+//        }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -111,23 +127,30 @@ class GameScene: SKScene {
     
     func reset() {
         joystick.reset()
-        var playerNode: SKSpriteNode? = nil
         let index = ServiceManager.peerID.pid
-        if index >= 0 && index < self.players.count {
-            playerNode = players[index].component(ofType: SpriteComponent.self)?.node
-        }
-        send("v:\(index):0:0:\(playerNode?.zRotation ?? 0)")
-        setVelocity([0, 0], on: ServiceManager.peerID.pid)
+        send("v:\(index):0:0:-")
+        setVelocity([0, 0], on: index)
     }
     
-    func send(_ value: String) {
-        guard let data = value.data(using: .utf8) else { return }
-        do {
-            guard let session = session else { return }
-            try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
-        } catch {
-            print(error)
+    func setNewJoystickPosition(basedOn position: CGPoint) {
+        
+        guard let xVariation = self.xVariation,
+            let yVariation = self.yVariation,
+            let lastTouch = self.lastTouch else {
+            return
         }
+        
+        let newX: CGFloat = position.x - xVariation
+        let newY: CGFloat = position.y - yVariation
+        let newPosition = CGPoint(x: newX, y: newY)
+        
+        joystick.position = newPosition
+        joystick.setNewPosition(withLocation: newPosition)
+        
+        joystick.update(withLocation: lastTouch)
+        
+        
+        
     }
     
     override func update(_ currentTime: CFTimeInterval) {
@@ -136,56 +159,44 @@ class GameScene: SKScene {
         deltaTime = currentTime - lastTime
         
         if index >= 0 && index < self.players.count {
+
+            guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node,
+                let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+            playerNode.position.x -= velocity.x * UIScreen.main.bounds.width
+            playerNode.position.y += velocity.y * UIScreen.main.bounds.height
             
-            for i in 0 ..< players.count {
-                guard let playerNode = players[i].component(ofType: SpriteComponent.self)?.node else { return }
-                guard let velocity = players[i].component(ofType: VelocityComponent.self) else { return }
-                playerNode.position = CGPoint(x: playerNode.position.x - velocity.x,
-                                              y: playerNode.position.y + velocity.y)
-            }
+            playerCamera.position = playerNode.position
+            
+            var normalizedPos = playerNode.position
+            normalizedPos.normalize()
+            self.send("\(index):\(normalizedPos.x):\(normalizedPos.y)")
+            
+//            for i in 0 ..< players.count {
+//                guard let playerNode = players[i].component(ofType: SpriteComponent.self)?.node,
+//                    let velocity = players[i].component(ofType: VelocityComponent.self) else { return }
+//                playerNode.position.x -= velocity.x
+//                playerNode.position.y += velocity.y
+//            }
+            
+            setNewJoystickPosition(basedOn: playerNode.position)
+            
         }
         
         lastTime = currentTime
     }
-}
-
-extension GameScene: SceneDelegate {
     
-    func add(_ entity: GKEntity) {
-        entityManager.add(entity)
-    }
-    
-    func createEntities(quantity: Int) {
-        if self.players.count <= quantity {
-            for _ in self.players.count ... quantity {
-                let player = Player(imageName: "player", sceneDelegate: self)
-                players.append(player)
-                add(player)
-            }
-        }
-    }
-    
-    func move(onIndex index: Int, by values: (CGFloat, CGFloat)) {
-        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-        playerNode.position.x -= values.0
-        playerNode.position.y += values.1
-    }
-    
-    func setVelocity(_ v: [CGFloat], on index: Int) {
-        var velocity: VelocityComponent? = nil
+    @objc func shoot() {
+        let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
-            velocity = players[index].component(ofType: VelocityComponent.self)
+            players[index].shoot(index: index)
+            self.send("fire:\(index)")
         }
-        velocity?.x = v[0]
-        velocity?.y = v[1]
     }
     
-    func setRotation(_ r: CGFloat, on index: Int) {
-        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-        playerNode.zRotation = r
-    }
-    
-    func announceShooting(on index: Int) {
-        players[index].shoot()
+    @objc func dash() {
+        let index = ServiceManager.peerID.pid
+        if index >= 0 && index < self.players.count {
+            players[index].dash()
+        }
     }
 }

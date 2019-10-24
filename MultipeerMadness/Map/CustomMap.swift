@@ -10,9 +10,11 @@ import Foundation
 import SpriteKit
 
 enum MapCase: Int {
-    case grass = 0
-    case sand
-    case water
+    case floor = 0
+    case wall
+    case hazard
+    case ceiling
+    case shadow
 }
 
 class CustomMap: SKNode {
@@ -21,6 +23,8 @@ class CustomMap: SKNode {
     private(set) var tileSize = CGSize()
     private(set) var columns  = Int()
     private(set) var rows     = Int()
+    static var normalBitmask: UInt32 = 00100
+    static var hazardBitmask: UInt32 = 01000
     
     override init() {
         super.init()
@@ -47,11 +51,11 @@ class CustomMap: SKNode {
         self.rows         = mapJSON.getRows()
         
         // Componentes
-        let grass = tileSet.tileGroups.first { $0.name == "Grass" }
-        let sand  = tileSet.tileGroups.first { $0.name == "Sand" }
-        let water = tileSet.tileGroups.first { $0.name == "Water" }
+        let floor = tileSet.tileGroups.first { $0.name == "Floor" }
+        let wall  = tileSet.tileGroups.first { $0.name == "Wall" }
+        let hazard = tileSet.tileGroups.first { $0.name == "Hazard" }
         
-        setBottonLayer(bottonLayer: sand)
+        setBottonLayer(bottonLayer: floor)
         
         let layer = SKTileMapNode(tileSet: tileSet,
                                   columns: columns,
@@ -62,12 +66,16 @@ class CustomMap: SKNode {
         for column in 0 ..< columns {
             for row in 0 ..< rows {
                 switch mapJSON.map[column][row] {
-                case MapCase.grass.rawValue:
-                    layer.setTileGroup(grass, forColumn: column, row: row)
-                case MapCase.sand.rawValue:
-                    layer.setTileGroup(sand, forColumn: column, row: row)
+                case MapCase.floor.rawValue:
+                    layer.setTileGroup(floor, forColumn: column, row: row)
+                case MapCase.wall.rawValue:
+                    layer.setTileGroup(wall, forColumn: column, row: row)
+                case MapCase.hazard.rawValue:
+                    layer.setTileGroup(hazard, forColumn: column, row: row)
+//                case MapCase.wall.rawValue:
+//                    layer.setTileGroup(wall, forColumn: column, row: row)
                 default:
-                    layer.setTileGroup(water, forColumn: column, row: row)
+                    layer.setTileGroup(floor, forColumn: column, row: row)
                     
                 }
                 
@@ -91,32 +99,35 @@ class CustomMap: SKNode {
         for column in 0..<tileMap.numberOfColumns {
             for row in 0..<tileMap.numberOfRows {
                 
-                if let tileDefinition = tileMap.tileDefinition(atColumn: column, row: row)
+                if let tileDefinition = tileMap.tileDefinition(atColumn: column, row: row) {
+                    guard let tileType = tileDefinition.userData?["TileType"] as? Int else { return }
                     
-                {
-                    let isWaterTile = tileDefinition.userData?["AddBody"] as? Int
-                    if (isWaterTile == 1) {
-                        let tileArray = tileDefinition.textures
-                        let tileTexture = tileArray[0]
-                        
-                        let x = CGFloat(column) * tileSize.width - halfWidth + (tileSize.width/2)
-                        let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height/2)
-                        
-                        let tileNode = SKNode()
-                        
-                        tileNode.position = CGPoint(x: x, y: y)
-                        tileNode.physicsBody = SKPhysicsBody(texture: tileTexture,
-                                                             alphaThreshold: 0.3,
-                                                             size: tileTexture.size())
+                    let tileArray = tileDefinition.textures
+                    let tileTexture = tileArray[0]
+                    
+                    let x = CGFloat(column) * tileSize.width - halfWidth + (tileSize.width/2)
+                    let y = CGFloat(row) * tileSize.height - halfHeight + (tileSize.height/2)
+                    
+                    let tileNode = SKNode()
+                    
+                    tileNode.position = CGPoint(x: x, y: y)
+                    
+                    if tileType != 0 {
+                        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 128, height: 128))
                         tileNode.physicsBody?.isDynamic = false
                         
-                        
-                        tileMap.addChild(tileNode)
+                        if tileType != 2 {
+                            tileNode.physicsBody?.categoryBitMask = CustomMap.normalBitmask
+                            tileNode.physicsBody?.collisionBitMask = Player.bitmask | Bullet.bitmask
+                        } else {
+                            tileNode.physicsBody?.categoryBitMask = CustomMap.hazardBitmask
+                            tileNode.physicsBody?.collisionBitMask = Player.bitmask 
+                        }
                     }
+                    
+                    tileMap.addChild(tileNode)
                 }
             }
-            
         }
-        
     }
 }

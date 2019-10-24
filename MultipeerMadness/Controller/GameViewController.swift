@@ -24,12 +24,9 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let map = SKTextureAtlas(named: "Map")
-        SKTextureAtlas.preloadTextureAtlases([map]) {
-            print("tudo carregado")
+        TextureManager.shared.preloadAssets() {
+            print("Texturas caregadas...")
         }
-        
-        serviceManager.delegate = self
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -54,7 +51,7 @@ class GameViewController: UIViewController {
             
             view.showsFPS = true
             view.showsNodeCount = true
-            
+            view.showsPhysics = true
         }
     }
 
@@ -73,34 +70,4 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-    @IBAction func scalePiece(_ gestureRecognizer : UIPinchGestureRecognizer) {   guard gestureRecognizer.view != nil else { return }
-            
-//        if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
-//            let currentScale = scene.map.xScale
-//            var newScale = gestureRecognizer.scale
-//            if currentScale * gestureRecognizer.scale < 0.1 {
-//                newScale = 0.1 / currentScale
-//            } else if currentScale * gestureRecognizer.scale > 1 {
-//                newScale = 1 / currentScale
-//            }
-//
-//            scene.map.set;Scale(newScale)
-//            print("current scale: \(currentScale), new scale: \(newScale)")
-//
-////            gestureRecognizer.scale = 1
-//        }
-        
-    }
-}
-
-extension GameViewController: ServiceManagerDelegate {
-
-    func connectedDevicesChanged(manager: ServiceManager, connectedDevices: [String]) {
-        OperationQueue.main.addOperation {
-            self.connectionsLabel.text = "Connections: \(connectedDevices)"
-            
-        }
-    }
-
 }
