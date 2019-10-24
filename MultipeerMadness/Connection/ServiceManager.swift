@@ -45,7 +45,7 @@ class ServiceManager: NSObject {
         if session.connectedPeers.count > 0 {
             guard let data = value.data(using: .utf8) else { return }
             do {
-                try self.session.send(data, toPeers: session.connectedPeers, with: .unreliable)
+                try self.session.send(data, toPeers: session.connectedPeers, with: .reliable)
             }
             catch {
                 NSLog("%@", "Error for sending: \(error)")
