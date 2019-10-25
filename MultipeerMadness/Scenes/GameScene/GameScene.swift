@@ -30,7 +30,8 @@ class GameScene: SKScene {
     var yVariation: CGFloat?
     var lastTouch: CGPoint?
     var playersNumber = 0
-    
+    var shootBtn: CircleButton!
+    var dashBtn: CircleButton!
     var soundtrackAudioPlayer: AVAudioPlayer?
     var shootAudioPlayer: AVAudioPlayer?
     var dashAudioPlayer: AVAudioPlayer?
@@ -94,8 +95,8 @@ class GameScene: SKScene {
         addChild(joystick)
         
         uiFactory = UIFactory(scene: self)
-        uiFactory.createButton(ofType: "shoot")
-        uiFactory.createButton(ofType: "dash")
+        shootBtn = uiFactory.createButton(ofType: "shoot")
+        dashBtn = uiFactory.createButton(ofType: "dash")
         scoreLabel = uiFactory.createLabel(ofType: "score")
         
         for i in 0 ..< audioTitles.count {

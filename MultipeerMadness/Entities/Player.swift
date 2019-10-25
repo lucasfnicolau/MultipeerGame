@@ -92,8 +92,8 @@ class Player: GKEntity, Shooter {
             
             let radius = UIScreen.main.bounds.width / 2.0
             
-            let xDist: CGFloat = sin(zRotation) * radius / 2.5
-            let yDist: CGFloat = cos(zRotation) * radius / 2.5
+            let xDist: CGFloat = sin(zRotation) * radius / 2
+            let yDist: CGFloat = cos(zRotation) * radius / 2
             
             actionArray.append(SKAction.move(by: CGVector(dx: -xDist, dy: yDist), duration: animationDuration))
             playerNode.run(SKAction.sequence(actionArray))

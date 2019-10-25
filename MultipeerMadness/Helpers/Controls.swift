@@ -15,7 +15,9 @@ extension GameScene {
         if (gamepad.leftThumbstick == element && ServiceManager.peerID.pid < players.count) {
             if (gamepad.leftThumbstick.xAxis.value != 0 || gamepad.leftThumbstick.yAxis.value != 0) {
                 
-                print("Controller: \(index), leftThumbstickXAxis: \(gamepad.leftThumbstick.yAxis.value)")
+                let playerIndex = ServiceManager.peerID.pid
+                
+                print("Controller: \(playerIndex), leftThumbstickXAxis: \(gamepad.leftThumbstick.yAxis.value)")
                 
                 joystick.vX = -CGFloat(gamepad.leftThumbstick.xAxis.value) * 3.20
                 joystick.vY = CGFloat(gamepad.leftThumbstick.yAxis.value) * 3.20
@@ -23,18 +25,18 @@ extension GameScene {
                 
                 joystick.angle = CGFloat(atan2(gamepad.leftThumbstick.yAxis.value, gamepad.leftThumbstick.xAxis.value))
                 
-                guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+                guard let playerSprite = players[playerIndex].component(ofType: SpriteComponent.self) else { return }
                 let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
-                playerSprite.animateRun(to: rotation, index)
+                playerSprite.animateRun(to: rotation, playerIndex)
                 
-                guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+                guard let velocity = players[playerIndex].component(ofType: VelocityComponent.self) else { return }
                 var joyVel = CGPoint(x: joystick.vX, y: joystick.vY)
                 joyVel.normalize()
                 
                 velocity.x = String(format: "%.5f", joystick.vX).cgFloat()
                 velocity.y = String(format: "%.5f", joystick.vY).cgFloat()
                 
-                self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
+                self.send("v:\(playerIndex):\(velocity.x):\(velocity.y):\(rotation)")
                 
             } else {
                 joystick.vX = 0
