@@ -19,17 +19,19 @@ extension GameScene {
                 
                 joystick.vX = -CGFloat(gamepad.leftThumbstick.xAxis.value) * 3.20
                 joystick.vY = CGFloat(gamepad.leftThumbstick.yAxis.value) * 3.20
+
+                guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+                let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
+                playerSprite.animateRun(to: joystick.getZRotation(), index)
                 
-                guard let velocity = players[ServiceManager.peerID.pid].component(ofType: VelocityComponent.self) else { return }
-                velocity.x = String(format: "%.2f", joystick.vX).cgFloat()
-                velocity.y = String(format: "%.2f", joystick.vY).cgFloat()
+                guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+                var joyVel = CGPoint(x: joystick.vX, y: joystick.vY)
+                joyVel.normalize()
                 
-                guard let playerNode = players[ServiceManager.peerID.pid].component(ofType: SpriteComponent.self)?.node else { return }
-                let angle = atan2(velocity.x, velocity.y)
-                let rotation = String(format: "%.5f", angle).cgFloat()
-                    playerNode.zRotation = rotation
-                    
-                self.send("v:\(ServiceManager.peerID.pid):\(String(format: "%.2f", joystick.vX)):\(String(format: "%.2f", joystick.vY)):\(playerNode.zRotation)")
+                velocity.x = String(format: "%.5f", joyVel.x).cgFloat()
+                velocity.y = String(format: "%.5f", joyVel.y).cgFloat()
+                
+                self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
                 
             } else {
                 joystick.vX = 0
@@ -58,7 +60,10 @@ extension GameScene {
             // A-Button
         else if (gamepad.buttonA == element) {
             if (gamepad.buttonA.value != 0) {
-                print("Controller: \(index), A-Button Pressed!")
+                let index = ServiceManager.peerID.pid
+                if index >= 0 && index < self.players.count {
+                    players[index].dash()
+                }
             }
         }
         // B-Button
@@ -68,11 +73,10 @@ extension GameScene {
             }
         } else if (gamepad.buttonY == element) {
             if (gamepad.buttonY.value != 0) {
-                print("Controller: \(index), Y-Button Pressed!")
+                
             }
         } else if (gamepad.buttonX == element) {
             if (gamepad.buttonX.value != 0) {
-                print("Controller: \(index), X-Button Pressed!")
                 let index = ServiceManager.peerID.pid
                 if index >= 0 && index < self.players.count {
                     players[index].shoot(index: index)

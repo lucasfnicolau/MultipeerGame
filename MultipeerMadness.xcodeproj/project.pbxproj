@@ -33,6 +33,10 @@
 		B65FB8A62359357900741673 /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = B65FB8A12359357900741673 /* map.json */; };
 		B6A22287235E299A00AD4FCE /* GameSceneContactDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */; };
 		B6C108D92362552F00E95628 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108D82362552F00E95628 /* SoundManager.swift */; };
+		B6C108DB23625C5F00E95628 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108DA23625C5F00E95628 /* RoundedButton.swift */; };
+		B6C108DD23625CB200E95628 /* LobbyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108DC23625CB200E95628 /* LobbyImageView.swift */; };
+		B6C108DF2362843400E95628 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108DE2362843400E95628 /* CircleButton.swift */; };
+		B6C108E12362B2F900E95628 /* RoundedVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108E02362B2F900E95628 /* RoundedVisualEffectView.swift */; };
 		B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E6EB234D0549002817A4 /* AppDelegate.swift */; };
 		B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6ED234D0549002817A4 /* GameScene.sks */; };
 		B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6EF234D0549002817A4 /* Actions.sks */; };
@@ -73,7 +77,11 @@
 		B65FB8A12359357900741673 /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneContactDelegate.swift; sourceTree = "<group>"; };
 		B6C108D82362552F00E95628 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
-		B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipeerMadness.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6C108DA23625C5F00E95628 /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		B6C108DC23625CB200E95628 /* LobbyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyImageView.swift; sourceTree = "<group>"; };
+		B6C108DE2362843400E95628 /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
+		B6C108E02362B2F900E95628 /* RoundedVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedVisualEffectView.swift; sourceTree = "<group>"; };
+		B6D1E6E8234D0549002817A4 /* The Hatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Hatch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D1E6EB234D0549002817A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6D1E6ED234D0549002817A4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		B6D1E6EF234D0549002817A4 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -208,7 +216,7 @@
 		B6D1E6E9234D0549002817A4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */,
+				B6D1E6E8234D0549002817A4 /* The Hatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -283,6 +291,10 @@
 			children = (
 				B6D1E6FA234D054B002817A4 /* LaunchScreen.storyboard */,
 				B6D1E6F5234D0549002817A4 /* Main.storyboard */,
+				B6C108DA23625C5F00E95628 /* RoundedButton.swift */,
+				B6C108DC23625CB200E95628 /* LobbyImageView.swift */,
+				B6C108DE2362843400E95628 /* CircleButton.swift */,
+				B6C108E02362B2F900E95628 /* RoundedVisualEffectView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -337,7 +349,7 @@
 			);
 			name = MultipeerMadness;
 			productName = MultipeerMadness;
-			productReference = B6D1E6E8234D0549002817A4 /* MultipeerMadness.app */;
+			productReference = B6D1E6E8234D0549002817A4 /* The Hatch.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -398,9 +410,13 @@
 				B628926923576ADD00BF4D7F /* SpriteComponent.swift in Sources */,
 				B6D1E6F2234D0549002817A4 /* GameScene.swift in Sources */,
 				B65FB88A2358187200741673 /* PlayerFactory.swift in Sources */,
+				B6C108DB23625C5F00E95628 /* RoundedButton.swift in Sources */,
 				82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */,
+				B6C108DD23625CB200E95628 /* LobbyImageView.swift in Sources */,
+				B6C108DF2362843400E95628 /* CircleButton.swift in Sources */,
 				82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */,
 				B6EE611B235FBD9400F4BE09 /* GameSceneDelegate.swift in Sources */,
+				B6C108E12362B2F900E95628 /* RoundedVisualEffectView.swift in Sources */,
 				B65FB885235817E200741673 /* Image.swift in Sources */,
 				B6000320234EB7D400589D95 /* Joystick.swift in Sources */,
 				B617ECE0235F6B8800136391 /* UIFactory.swift in Sources */,
@@ -578,7 +594,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lucasfn.MultipeerMadness;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "The Hatch";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -599,7 +615,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lucasfn.MultipeerMadness;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "The Hatch";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

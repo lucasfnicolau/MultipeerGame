@@ -94,5 +94,10 @@ extension GameScene: SceneDelegate {
     
     func updateKills(to killCount: Int) {
         scoreLabel?.text = "Kills: \(killCount)"
+        if killCount == 10 {
+            send("winner:\(ServiceManager.peerID.pid)")
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameOver"), object: nil, userInfo: ["winner": ServiceManager.peerID.pid])
+        }
     }
 }

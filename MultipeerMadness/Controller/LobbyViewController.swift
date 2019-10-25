@@ -14,6 +14,8 @@ import MultipeerConnectivity
 
 class LobbyViewController: UIViewController{
     
+    @IBOutlet weak var stackViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var stackViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var numeroJogadoresUILabel: UILabel!
     @IBOutlet weak var sairUIButton: UIButton!
     @IBOutlet weak var beginUIButton: UIButton!
@@ -22,19 +24,26 @@ class LobbyViewController: UIViewController{
     @IBOutlet var playersLabel: [UILabel]!
     var prontos: [Bool] = []
     var name = ""
-    var playersName = ["Jack", "Loke", "Kate", "Claire"]
-    let serviceManager = ServiceManager()
+    var playersName = ["Jack", "Locke", "Kate", "Claire"]
+    var playersNumber = 0
+    var serviceManager: ServiceManager? = ServiceManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        serviceManager.lobbyDelegate = self
+        serviceManager?.lobbyDelegate = self
+        
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+        if deviceIdiom == .pad {
+            stackViewTopConstraint.constant = 140
+            stackViewBottomConstraint.constant = 48
+        }
         
         if name == "host" {
-            serviceManager.createSession()
+            serviceManager?.createSession()
             ServiceManager.peerID.pid = 0
             readyUIButton.isHidden = true
         } else {
-            serviceManager.enterSession()
+            serviceManager?.enterSession()
             prontos.append(false)
             beginUIButton.isHidden = true
         }
@@ -78,16 +87,8 @@ class LobbyViewController: UIViewController{
     }
     
     @IBAction func beginAction(_ sender: Any) {
-        var allReady = true
-        for pronto in prontos {
-            if pronto == false {
-                allReady = false
-                print("nem todos os jogadores estão prontos!")
-                break
-            }
-        }
-        
-        if allReady {
+        guard let serviceManager = serviceManager else { return }
+        if !serviceManager.session.connectedPeers.isEmpty {
             send("start:")
             self.performSegue(withIdentifier: "begin", sender: nil)
         }
@@ -97,10 +98,12 @@ class LobbyViewController: UIViewController{
         if let vc = segue.destination as? GameViewController {
             vc.modalPresentationStyle = .fullScreen
             vc.serviceManager = serviceManager
+            vc.playersNumber = playersNumber
         }
     }
     
     @IBAction func quitAction(_ sender: Any) {
+        serviceManager = nil
         self.dismiss(animated: true, completion: nil)
     }
 }
@@ -109,13 +112,13 @@ extension LobbyViewController: LobbyDelegate {
     func updatePlayers(to number: Int) {
         DispatchQueue.main.async {
             self.numeroJogadoresUILabel.text = "\(number)/4"
+            self.playersNumber = number
             for index in 0 ..< number {
                 let image = UIImage(named: "idle_nothing_front_\(index)0")
                 if ServiceManager.peerID.pid != index {
                     self.playersLabel[index].text = self.playersName[index]
                 } else {
                     self.playersLabel[index].text = "Me"
-//                    self.playersLabel[index].textColor = 
                 }
                 self.playersImageView[index].image = image
             }
@@ -129,7 +132,7 @@ extension LobbyViewController: LobbyDelegate {
     func send(_ value: String) {
         guard let data = value.data(using: .utf8) else { return }
         do {
-            let session = serviceManager.session
+            guard let session = serviceManager?.session else { return }
             try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
         } catch {
             print(error)

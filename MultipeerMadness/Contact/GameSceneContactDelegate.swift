@@ -21,25 +21,42 @@ extension GameScene: SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
-        guard let playerShot: CustomNode = firstBody.node as? CustomNode,
-            let bulletNode: CustomNode = secondBody.node as? CustomNode else { return }
-        
-        for player in players {
-            guard let playerNode = player.component(ofType: SpriteComponent.self)?.node else { return }
-
-            if playerNode == playerShot {
-                destroy([playerShot, bulletNode])
-                player.die()
+        if firstBody.categoryBitMask == CustomMap.normalBitmask {
+            guard let node = secondBody.node else { return }
+            destroy([node])
+            
+        } else if secondBody.categoryBitMask == CustomMap.hazardBitmask {
+            guard let playerNode: CustomNode = firstBody.node as? CustomNode else { return }
+            destroy([playerNode])
+            guard let player = findPlayer(basedOn: playerNode) else { return }
+            player.die()
+            
+        } else {
+            guard let playerShot: CustomNode = firstBody.node as? CustomNode,
+                let bulletNode: CustomNode = secondBody.node as? CustomNode else { return }
+            
+            destroy([playerShot, bulletNode])
+            guard let player = findPlayer(basedOn: playerShot) else { return }
+            player.die()
+            
+            guard let bullet: Bullet = bulletNode.owner as? Bullet,
+            let owner: Player = bullet.owner else { return }
+            let myPlayer = players[ServiceManager.peerID.pid]
+            
+            if owner == myPlayer {
+                myPlayer.kills += 1
             }
         }
-        
-        guard let bullet: Bullet = bulletNode.owner as? Bullet,
-        let owner: Player = bullet.owner else { return }
-        let player = players[ServiceManager.peerID.pid]
-        
-        if owner == player {
-            player.kills += 1
+    }
+    
+    func findPlayer(basedOn node: CustomNode) -> Player? {
+        for player in players {
+            guard let playerNode = player.component(ofType: SpriteComponent.self)?.node else { return nil }
+            if playerNode == node {
+                return player
+            }
         }
+        return nil
     }
     
     func destroy(_ nodes: [SKNode]) {

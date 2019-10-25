@@ -14,7 +14,7 @@ class Player: GKEntity, Shooter {
     var isEnabled = true
     var sceneDelegate: SceneDelegate?
     var ammo = 3
-    static let bitmask: UInt32 = 0001
+    static let bitmask: UInt32 = 0x1
     var dashIsAvailable = true
     var kills = 0 {
         didSet {
@@ -29,14 +29,16 @@ class Player: GKEntity, Shooter {
         let texture = TextureManager.shared.getTextureAtlasFrames(for: imageName)[0]
         
         let spriteComponent = SpriteComponent(texture: texture, owner: self)
-        spriteComponent.node.setScale(0.05)
-        var size = spriteComponent.node.size
-        size.width /= 2
-        size.height /= 2
-        spriteComponent.node.physicsBody = SKPhysicsBody(rectangleOf: size)
-        spriteComponent.node.physicsBody?.categoryBitMask = Player.bitmask
-        spriteComponent.node.physicsBody?.collisionBitMask = CustomMap.normalBitmask | CustomMap.hazardBitmask
-        spriteComponent.node.physicsBody?.contactTestBitMask = Bullet.bitmask
+        let node = spriteComponent.node
+        node.setScale(0.05)
+        let size = node.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5))
+        var origin = node.position
+        origin.x -= node.size.width / 6
+        origin.y -= node.size.height / 3
+        node.physicsBody = SKPhysicsBody(polygonFrom: CGPath(ellipseIn: CGRect(origin: origin, size: CGSize(width: size.width / 1.2, height: size.height * 1.2)), transform: nil))
+        node.physicsBody?.categoryBitMask = Player.bitmask
+        node.physicsBody?.collisionBitMask = CustomMap.normalBitmask
+        node.physicsBody?.contactTestBitMask = Bullet.bitmask | CustomMap.hazardBitmask
         addComponent(spriteComponent)
         
         let velocity = VelocityComponent()
@@ -49,9 +51,9 @@ class Player: GKEntity, Shooter {
     
     func shoot(index: Int) {
         if ammo > 0 && isEnabled {
-            let bullet = Bullet(imageName: "bullet", sceneDelegate: sceneDelegate, owner: self)
+            let bullet = Bullet(imageName: "bullet\(index)", sceneDelegate: sceneDelegate, owner: self)
             guard let bulletNode = bullet.component(ofType: SpriteComponent.self)?.node else { return }
-            bulletNode.setScale(0.08)
+            bulletNode.setScale(0.1)
             
             guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
             let x = spriteNode.node.position.x
@@ -63,7 +65,6 @@ class Player: GKEntity, Shooter {
             bulletNode.name = "bullet"
             
             bullet.fire(basedOn: spriteNode.node.zRotation + .pi)
-
             
             ammo -= 1
             if ammo == 0 {
@@ -114,8 +115,9 @@ class Player: GKEntity, Shooter {
     
     @objc func respawn() {
         guard let node = self.component(ofType: SpriteComponent.self)?.node else { return }
-        node.position.x = 0
-        node.position.y = 0
+//        let randIndex = Int.random(in: 0 ..< CustomMap.spawnablePositions.count)
+//        let position = CustomMap.spawnablePositions[randIndex]
+        node.position = CGPoint.zero
         sceneDelegate?.addNode(node)
         isEnabled = true
     }

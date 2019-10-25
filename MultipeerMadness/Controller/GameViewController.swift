@@ -14,11 +14,10 @@ import MultipeerConnectivity
 class GameViewController: UIViewController {
 
     var scene: GameScene!
-    
-    @IBOutlet weak var connectionsLabel: UILabel!
-    
     var serviceManager: ServiceManager!
     var name = ""
+    var playersNumber = 0
+    var winner = -1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +31,7 @@ class GameViewController: UIViewController {
             self.scene = GameScene(fileNamed: "GameScene")
             self.scene.session = self.serviceManager.session
             self.serviceManager.sceneDelegate = self.scene
+            self.scene.playersNumber = playersNumber
             
             // Set the scale mode to scale to fit the window
             self.scene.scaleMode = .aspectFill
@@ -41,9 +41,26 @@ class GameViewController: UIViewController {
             
             view.ignoresSiblingOrder = true
             
-            view.showsFPS = true
-            view.showsNodeCount = true
-            view.showsPhysics = true
+            NotificationCenter.default.addObserver(self, selector: #selector(gotoGameOverVC(_:)), name: NSNotification.Name(rawValue: "gameOver"), object: nil)
+            
+//            view.showsFPS = true
+//            view.showsNodeCount = true
+//            view.showsPhysics = true
+        }
+    }
+    
+    @objc func gotoGameOverVC(_ notif: Notification) {
+        guard let userInfo = notif.userInfo else { return }
+        guard let winner = userInfo["winner"] as? Int else { return }
+        self.winner = winner
+        performSegue(withIdentifier: "gameOver", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let gameOverVC = segue.destination as? GameOverViewController {
+            gameOverVC.modalPresentationStyle = .fullScreen
+            gameOverVC.winner = winner
+            gameOverVC.serviceManager = serviceManager
         }
     }
 

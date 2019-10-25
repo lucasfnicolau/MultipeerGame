@@ -156,6 +156,9 @@ extension ServiceManager: MCSessionDelegate {
                 self.sceneDelegate?.announceShooting(on: index)
             } else if keyValue[0] == "start" {
                 self.lobbyDelegate?.startGame()
+            } else if keyValue[0] == "winner" {
+                let winner = keyValue[1].int()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameOver"), object: nil, userInfo: ["winner": winner])
             } else {
                 let id = keyValue[0].int()
                 let x = keyValue[1].cgFloat()

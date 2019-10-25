@@ -23,8 +23,9 @@ class CustomMap: SKNode {
     private(set) var tileSize = CGSize()
     private(set) var columns  = Int()
     private(set) var rows     = Int()
-    static var normalBitmask: UInt32 = 00100
-    static var hazardBitmask: UInt32 = 01000
+    static var normalBitmask: UInt32 = 0x1 << 2
+    static var hazardBitmask: UInt32 = 0x1 << 3
+    static var spawnablePositions = [CGPoint]()
     
     override init() {
         super.init()
@@ -54,6 +55,8 @@ class CustomMap: SKNode {
         let floor = tileSet.tileGroups.first { $0.name == "Floor" }
         let wall  = tileSet.tileGroups.first { $0.name == "Wall" }
         let hazard = tileSet.tileGroups.first { $0.name == "Hazard" }
+        let ceiling  = tileSet.tileGroups.first { $0.name == "Ceiling" }
+        let shadow = tileSet.tileGroups.first { $0.name == "Shadow" }
         
         setBottonLayer(bottonLayer: floor)
         
@@ -72,8 +75,10 @@ class CustomMap: SKNode {
                     layer.setTileGroup(wall, forColumn: column, row: row)
                 case MapCase.hazard.rawValue:
                     layer.setTileGroup(hazard, forColumn: column, row: row)
-//                case MapCase.wall.rawValue:
-//                    layer.setTileGroup(wall, forColumn: column, row: row)
+                case MapCase.ceiling.rawValue:
+                    layer.setTileGroup(ceiling, forColumn: column, row: row)
+                case MapCase.shadow.rawValue:
+                    layer.setTileGroup(shadow, forColumn: column, row: row)
                 default:
                     layer.setTileGroup(floor, forColumn: column, row: row)
                     
@@ -112,17 +117,24 @@ class CustomMap: SKNode {
                     
                     tileNode.position = CGPoint(x: x, y: y)
                     
-                    if tileType != 0 {
-                        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height))
-                        tileNode.physicsBody?.isDynamic = false
+                    if tileType != MapCase.floor.rawValue
+                        && tileType != MapCase.shadow.rawValue {
+                        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 128, height: 128))
+                        tileNode.physicsBody?.isDynamic = true
+                        tileNode.physicsBody?.pinned = true
+                        tileNode.physicsBody?.allowsRotation = false
                         
-                        if tileType != 2 {
+                        if tileType != MapCase.hazard.rawValue {
                             tileNode.physicsBody?.categoryBitMask = CustomMap.normalBitmask
                             tileNode.physicsBody?.collisionBitMask = Player.bitmask | Bullet.bitmask
+                            tileNode.physicsBody?.contactTestBitMask = Bullet.bitmask
                         } else {
                             tileNode.physicsBody?.categoryBitMask = CustomMap.hazardBitmask
-                            tileNode.physicsBody?.collisionBitMask = Player.bitmask 
+                            tileNode.physicsBody?.collisionBitMask = Player.bitmask
+                            tileNode.physicsBody?.contactTestBitMask = Player.bitmask
                         }
+                    } else {
+                        CustomMap.spawnablePositions.append(tileNode.position)
                     }
                     
                     tileMap.addChild(tileNode)
