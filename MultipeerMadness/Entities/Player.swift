@@ -110,7 +110,11 @@ class Player: GKEntity, Shooter {
     func die(index: Int) {
         self.isEnabled = false
         guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
+        guard let velocity = self.component(ofType: VelocityComponent.self) else { return }
+        velocity.x = 0
+        velocity.y = 0
         spriteNode.state = "die"
+        
         spriteNode.animateDie(index: index) {
 //            self.sceneDelegate?.remove(self)
             spriteNode.node.removeFromParent()
@@ -120,10 +124,9 @@ class Player: GKEntity, Shooter {
     }
     
     @objc func respawn() {
-        sceneDelegate?.enableJoystick()
         guard let spriteComponent = self.component(ofType: SpriteComponent.self) else { return }
-        
         spriteComponent.state = ""
+        sceneDelegate?.enableJoystick()
         let node = spriteComponent.node
 //        let randIndex = Int.random(in: 0 ..< CustomMap.spawnablePositions.count)
 //        let position = CustomMap.spawnablePositions[randIndex]

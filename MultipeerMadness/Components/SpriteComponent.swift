@@ -42,6 +42,14 @@ class SpriteComponent: GKComponent {
         animateTo(state: "idle", action: "nothing", direction: direction, player: index)
     }
     
+    func animateRunControl(to zRotation: CGFloat, _ index: Int) {
+        print(zRotation)
+        if state != "die" {
+            let direction = getDirectionControl(zRotation: zRotation)
+            animateTo(state: "run", action: "nothing", direction: direction, player: index)
+        }
+    }
+    
     func animateRun(to zRotation: CGFloat, _ index: Int) {
         if state != "die" {
             let direction = getDirection(zRotation: zRotation)
@@ -53,6 +61,38 @@ class SpriteComponent: GKComponent {
         if state != "die" {
             let direction = getDirectionShoot(zRotation: zRotation)
             animateTo(state: "run", action: "shooting", direction: direction, player: index)
+        }
+    }
+    
+    func getDirectionControl(zRotation: CGFloat) -> String {
+        
+        // 0.5 == 90 graus
+        
+        switch zRotation / .pi {
+        case 0.75 ... 0.25:
+            node.zRotation = zRotation
+            return ("back")
+            
+        case -0.75 ... 0.25:
+            node.zRotation = zRotation + .pi / 2
+            return ("right") //("back_right")
+            
+        case -0.75 ... -0.25:
+            node.zRotation = zRotation + .pi
+            return ("front") //("front_right")
+            
+            
+        case -1 ... -0.75:
+            node.zRotation = zRotation - .pi / 2
+            return ("left") //("front_left")
+            
+        case 0.75 ... 1:
+            node.zRotation = zRotation - .pi / 2
+            return ("left")
+            
+        default:
+            return ("RUIM")
+            
         }
     }
     
