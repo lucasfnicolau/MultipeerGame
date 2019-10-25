@@ -25,7 +25,7 @@ class Gun: GKEntity, Shooter {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func shoot(index: Int) {
+    func shoot(index: Int, zRotation: CGFloat) {
         // Pew pew
     }
     

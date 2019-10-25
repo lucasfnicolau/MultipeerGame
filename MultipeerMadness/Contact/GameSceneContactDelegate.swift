@@ -26,10 +26,11 @@ extension GameScene: SKPhysicsContactDelegate {
         
         for player in players {
             guard let playerNode = player.component(ofType: SpriteComponent.self)?.node else { return }
-
+            
             if playerNode == playerShot {
-                destroy([playerShot, bulletNode])
-                player.die()
+                destroy([bulletNode])
+                guard let index = players.firstIndex(of: player) else { return }
+                player.die(index: index)
             }
         }
         
