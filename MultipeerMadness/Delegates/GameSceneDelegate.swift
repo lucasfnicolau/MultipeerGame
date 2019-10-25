@@ -27,8 +27,6 @@ protocol SceneDelegate {
 
 extension GameScene: SceneDelegate {
     
-    
-    
     func send(_ value: String) {
         guard let data = value.data(using: .utf8) else { return }
         do {
@@ -72,8 +70,8 @@ extension GameScene: SceneDelegate {
     func move(onIndex index: Int, to pos: (CGFloat, CGFloat)) {
         if index < players.count {
             guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
-            playerNode.position.x = pos.0 * UIScreen.main.bounds.width
-            playerNode.position.y = pos.1 * UIScreen.main.bounds.height
+            playerNode.position.x = pos.0 // * UIScreen.main.bounds.width
+            playerNode.position.y = pos.1 // * UIScreen.main.bounds.height
         }
     }
     
@@ -84,6 +82,12 @@ extension GameScene: SceneDelegate {
         }
         velocity?.x = v[0]
         velocity?.y = v[1]
+        
+        if v[0] == 0 && v[1] == 0 {
+            guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+            let node = playerSprite.node
+            playerSprite.animateIdle(to: node.zRotation, index)
+        }
     }
     
     func setRotation(_ r: CGFloat, on index: Int) {
