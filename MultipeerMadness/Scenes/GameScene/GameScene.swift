@@ -210,7 +210,7 @@ class GameScene: SKScene {
         deltaTime = currentTime - lastTime
         
         if index >= 0 && index < self.players.count {
-            if players[index].isEnabled {
+            if players[index].isEnabled && joystick.activo {
                 guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node,
                     let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
                 playerNode.position.x -= velocity.x // * UIScreen.main.bounds.width

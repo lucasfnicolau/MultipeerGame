@@ -33,6 +33,7 @@ extension GameScene: SKPhysicsContactDelegate {
             guard let index = players.firstIndex(of: player) else { return }
             player.die(index: index)
             joystick.activo = false
+            joystick.reset()
             
         } else {
             guard let playerShot: CustomNode = firstBody.node as? CustomNode,
@@ -44,6 +45,7 @@ extension GameScene: SKPhysicsContactDelegate {
             guard let index = players.firstIndex(of: player) else { return }
             player.die(index: index)
             joystick.activo = false
+            joystick.reset()
             
             guard let bullet: Bullet = bulletNode.owner as? Bullet,
             let owner: Player = bullet.owner else { return }
