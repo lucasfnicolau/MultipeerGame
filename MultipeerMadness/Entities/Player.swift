@@ -41,6 +41,8 @@ class Player: GKEntity, Shooter {
         node.physicsBody?.contactTestBitMask = Bullet.bitmask | CustomMap.hazardBitmask
         addComponent(spriteComponent)
         
+        
+        
         let velocity = VelocityComponent()
         addComponent(velocity)
     }
@@ -108,6 +110,7 @@ class Player: GKEntity, Shooter {
     func die(index: Int) {
         guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
         spriteNode.animateDie(index: index) {
+//            self.sceneDelegate?.remove(self)
             self.isEnabled = false
             self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
         }
@@ -119,6 +122,7 @@ class Player: GKEntity, Shooter {
 //        let randIndex = Int.random(in: 0 ..< CustomMap.spawnablePositions.count)
 //        let position = CustomMap.spawnablePositions[randIndex]
         node.position = CGPoint.zero
+        sceneDelegate?.addNode(node)
         isEnabled = true
     }
 }
