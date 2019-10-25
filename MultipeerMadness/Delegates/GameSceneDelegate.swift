@@ -20,11 +20,14 @@ protocol SceneDelegate {
     func setVelocity(_ v: [CGFloat], on index: Int)
     func setRotation(_ r: CGFloat, on index: Int)
     func announceShooting(on index: Int)
+    func announceStop(on index: Int)
     func send(_ value: String)
     func updateKills(to killCount: Int)
 }
 
 extension GameScene: SceneDelegate {
+    
+    
     
     func send(_ value: String) {
         guard let data = value.data(using: .utf8) else { return }
@@ -32,7 +35,7 @@ extension GameScene: SceneDelegate {
             guard let session = session else { return }
             try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
         } catch {
-            print(error)
+            NSLog("Erro ao carregar SESSION de Multipier\(error)")
         }
     }
     
@@ -89,7 +92,8 @@ extension GameScene: SceneDelegate {
     }
     
     func announceShooting(on index: Int) {
-        players[index].shoot(index: index)
+        
+        players[index].shoot(index: index, zRotation: joystick.getZRotation())
     }
     
     func updateKills(to killCount: Int) {
@@ -99,5 +103,10 @@ extension GameScene: SceneDelegate {
             
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameOver"), object: nil, userInfo: ["winner": ServiceManager.peerID.pid])
         }
+    }
+    
+    func announceStop(on index: Int) {
+        guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+        playerSprite.animateIdle(to: playerSprite.node.zRotation, index)
     }
 }

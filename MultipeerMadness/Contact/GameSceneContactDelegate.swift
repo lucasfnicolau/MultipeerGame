@@ -29,7 +29,7 @@ extension GameScene: SKPhysicsContactDelegate {
             guard let playerNode: CustomNode = firstBody.node as? CustomNode else { return }
             destroy([playerNode])
             guard let player = findPlayer(basedOn: playerNode) else { return }
-            player.die()
+            player.die(index: index)
             
         } else {
             guard let playerShot: CustomNode = firstBody.node as? CustomNode,
@@ -37,7 +37,7 @@ extension GameScene: SKPhysicsContactDelegate {
             
             destroy([playerShot, bulletNode])
             guard let player = findPlayer(basedOn: playerShot) else { return }
-            player.die()
+            player.die(index: index)
             
             guard let bullet: Bullet = bulletNode.owner as? Bullet,
             let owner: Player = bullet.owner else { return }

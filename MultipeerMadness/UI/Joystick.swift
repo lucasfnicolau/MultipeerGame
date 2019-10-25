@@ -19,7 +19,7 @@ class Joystick: SKShapeNode {
     private(set) var angle: CGFloat = 0
     private(set) var raio: CGFloat = 0
     
-    private var radius90: CGFloat = 1.57079633
+    private var radius90: CGFloat = .pi / 2
     
     public var vX: CGFloat = 0
     public var vY: CGFloat = 0

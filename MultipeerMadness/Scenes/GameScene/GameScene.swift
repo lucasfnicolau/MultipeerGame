@@ -105,7 +105,7 @@ class GameScene: SKScene {
             
             velocity.x = String(format: "%.5f", joyVel.x).cgFloat()
             velocity.y = String(format: "%.5f", joyVel.y).cgFloat()
-            
+                        
             self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
             
             self.lastTouch = locationScene
@@ -113,12 +113,12 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let first = touches.first else { return }
-        let location = first.location(in: self.view)
-        print("\(location) <<<<")
+//        guard let first = touches.first else { return }
+//        let location = first.location(in: self.view)
 //        if location.x <= UIScreen.main.bounds.width / 2 {
             if joystick.activo == true {
                 reset()
+                
             }
 //        }
     }
@@ -190,7 +190,7 @@ class GameScene: SKScene {
     @objc func shoot() {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
-            players[index].shoot(index: index)
+            players[index].shoot(index: index, zRotation: joystick.getZRotation())
             self.send("fire:\(index)")
         }
     }
@@ -198,7 +198,7 @@ class GameScene: SKScene {
     @objc func dash() {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
-            players[index].dash()
+            players[index].dash(zRotation: joystick.getZRotation())
         }
     }
     

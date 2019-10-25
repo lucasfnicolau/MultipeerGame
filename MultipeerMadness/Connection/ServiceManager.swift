@@ -118,7 +118,7 @@ extension ServiceManager: MCSessionDelegate {
             case .notConnected:
                 print("Not Connected: \(ServiceManager.peerID.displayName)")
             @unknown default:
-                print("fatal error")
+                NSLog("fatal error")
         }
     }
 

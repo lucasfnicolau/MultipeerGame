@@ -21,10 +21,27 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        TextureManager.shared.preloadAssets() {
-            print("Texturas caregadas...")
+        DispatchQueue.main.async {
+            TextureManager.shared.preloadAssetsMap {
+                print("Map: Texturas caregadas...")
+            }
+            TextureManager.shared.preloadAssetsIdle {
+                print("Idle: Texturas caregadas...")
+            }
+            TextureManager.shared.preloadAssetsIdleShooting {
+                print("Idle Shooting: Texturas caregadas...")
+            }
+            TextureManager.shared.preloadAssetsRun() {
+                print("Run: Texturas caregadas...")
+            }
+            TextureManager.shared.preloadAssetsRunShooting {
+                print("Run Shooting: Texturas caregadas...")
+            }
+            TextureManager.shared.preloadAssetsDie {
+                print("Die: Texturas caregadas...")
+            }
         }
+        
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'

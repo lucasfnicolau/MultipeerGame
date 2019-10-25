@@ -25,15 +25,30 @@ class SpriteComponent: GKComponent {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func animateDie(index: Int, withCompletion completion: @escaping() -> Void) {
+        print(index)
+        var position = "die_nothing_front_\(index)"
+        var texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+        animateFrames(in: node, with: texture) {
+            position = "idle_nothing_front_\(index)"
+            texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+            self.animateFramesForever(in: self.node, with: texture)
+            completion()
+        }
+    }
+    
+    func animateIdle(to zRotation: CGFloat, _ index: Int) {
+        let direction = getDirection(zRotation: zRotation)
+        animateTo(state: "idle", action: "nothing", direction: direction, player: index)
+    }
+    
     func animateRun(to zRotation: CGFloat, _ index: Int) {
-        node.zRotation = zRotation - .pi / 2
         let direction = getDirection(zRotation: zRotation)
         animateTo(state: "run", action: "nothing", direction: direction, player: index)
     }
     
-    func animateShoot(to zRotation: CGFloat, _ index: Int) {
-        node.zRotation = zRotation - .pi / 2
-        let direction = getDirection(zRotation: zRotation)
+    func animateRunShoot(to zRotation: CGFloat, _ index: Int) {
+        let direction = getDirectionShoot(zRotation: zRotation)
         animateTo(state: "run", action: "shooting", direction: direction, player: index)
     }
     
@@ -42,32 +57,78 @@ class SpriteComponent: GKComponent {
         // 0.5 == 90 graus
         
         switch zRotation / .pi {
-        case -0.125 ..< 0.125:
+        case -0.125 ... 0.125:
+            node.zRotation = zRotation
             return ("back")
             
-        case -0.375 ..< -0.125:
-            return ("back_right")
+        case -0.375 ... -0.125:
+            node.zRotation = zRotation + .pi / 2
+            return ("right") //("back_right")
             
-        case -0.625 ..< -0.375:
+        case -0.625 ... -0.375:
+            node.zRotation = zRotation + .pi / 2
             return ("right")
             
-        case -0.875 ..< -0.625:
-            return ("front_right")
+        case -0.875 ... -0.625:
+            node.zRotation = zRotation + .pi
+            return ("front") //("front_right")
             
-        case -1.125 ..< -0.875:
+        case -1.125 ... -0.875:
+            node.zRotation = zRotation - .pi
             return ("front")
             
-        case -1.375 ..< -1.125:
-            return ("front_left")
+        case -1.375 ... -1.125:
+            node.zRotation = zRotation - .pi / 2
+            return ("left") //("front_left")
             
-        case -1.5 ..< -1.375:
+        case -1.5 ... -1.375:
+            node.zRotation = zRotation - .pi / 2
             return ("left")
             
-        case 0.375 ..< 0.5:
+        case 0.375 ... 0.5:
+            node.zRotation = zRotation - .pi / 2
             return ("left")
             
-        case 0.125 ..< 0.375:
-            return ("back_left")
+        case 0.125 ... 0.375:
+            node.zRotation = zRotation - .pi / 2
+            return ("left") //("back_left")
+            
+        default:
+            return ("RUIM")
+            
+        }
+    }
+    
+    func getDirectionShoot(zRotation: CGFloat) -> String {
+        
+        // 0.5 == 90 graus
+        switch zRotation / .pi {
+        case -0.125 ... 0.125:
+            return ("back")
+            
+        case -0.375 ... -0.125:
+            return ("right") //("back_right")
+            
+        case -0.625 ... -0.375:
+            return ("right")
+            
+        case -0.875 ... -0.625:
+            return ("front") //("front_right")
+            
+        case -1.125 ... -0.875:
+            return ("front")
+            
+        case -1.375 ... -1.125:
+            return ("left") //("front_left")
+            
+        case -1.5 ... -1.375:
+            return ("left")
+            
+        case 0.375 ... 0.5:
+            return ("left")
+            
+        case 0.125 ... 0.375:
+            return ("left") //("back_left")
             
         default:
             return ("RUIM")
@@ -76,13 +137,17 @@ class SpriteComponent: GKComponent {
     }
     
     private func animateTo(state: String, action: String, direction: String, player: Int) {
-        let position = "\(state)_\(action)_\(direction)_\(player)"
-        
+        var position = "\(state)_\(action)_\(direction)_\(player)"
+
         if lastMoved != position {
-            let texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+            var texture = TextureManager.shared.getTextureAtlasFrames(for: position)
             if texture.count > 0 {
-                if action == "shooting" {
-                    animateFrames(in: node, with: texture)
+                if action == "shooting" || state == "die" {
+                    animateFrames(in: node, with: texture) {
+                        position = "idle_\(action)_\(direction)_\(player)"
+                        texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+                        self.animateFramesForever(in: self.node, with: texture)
+                    }
                 } else  {
                     animateFramesForever(in: node, with: texture)
                 }
@@ -95,9 +160,12 @@ class SpriteComponent: GKComponent {
         }
     }
     
-    private func animateFrames(in obj: SKSpriteNode, with frames: [SKTexture]) {
+    private func animateFrames(in obj: SKSpriteNode, with frames: [SKTexture], withCompletion completion: @escaping () -> Void) {
         let animate = SKAction.animate(with: frames, timePerFrame: 1 / (TimeInterval(frames.count)))
-        obj.run(animate, withKey: "moved")
+        let completion = SKAction.run {
+            completion()
+        }
+        obj.run(SKAction.sequence([animate, completion]), withKey: "moved")
     }
     
     private func animateFramesForever(in obj: SKSpriteNode, with frames: [SKTexture]) {

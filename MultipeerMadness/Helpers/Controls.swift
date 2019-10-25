@@ -79,7 +79,7 @@ extension GameScene {
             if (gamepad.buttonX.value != 0) {
                 let index = ServiceManager.peerID.pid
                 if index >= 0 && index < self.players.count {
-                    players[index].shoot(index: index)
+                    players[index].shoot(index: index, zRotation: joystick.getZRotation())
                     self.send("fire:\(index)")
                 }
             }

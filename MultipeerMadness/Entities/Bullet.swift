@@ -46,8 +46,8 @@ class Bullet: GKEntity {
         
         let radius = UIScreen.main.bounds.width / 2.0
         
-        let xDist: CGFloat = sin(rotation - .pi / 2) * radius / 5
-        let yDist: CGFloat = cos(rotation - .pi / 2) * radius / 5
+        let xDist: CGFloat = sin(rotation) * radius / 5
+        let yDist: CGFloat = cos(rotation) * radius / 5
         
         node.position.x -= xDist
         node.position.y += yDist
