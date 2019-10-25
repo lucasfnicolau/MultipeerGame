@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import SpriteKit
 
 protocol Shooter {
-    func shoot()
+    func shoot(index: Int, zRotation: CGFloat)
     func reload()
 }

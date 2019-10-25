@@ -18,7 +18,7 @@ class MapHandler {
                 jsonData.rotate90Degrees() //REMAKE
                 return jsonData
             } catch {
-                print("error:\(error)")
+                NSLog("Erro ao carregar Map do JSON: \(error)")
             }
         }
         return nil

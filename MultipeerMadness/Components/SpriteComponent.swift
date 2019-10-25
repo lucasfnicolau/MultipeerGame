@@ -15,7 +15,7 @@ class SpriteComponent: GKComponent {
     var lastMoved: String = ""
     var owner: GKEntity?
     var state: String = ""
-
+    
     init(texture: SKTexture, owner: GKEntity) {
         node = CustomNode(texture: texture, color: .white, size: texture.size(), owner: owner)
         super.init()
@@ -25,61 +25,155 @@ class SpriteComponent: GKComponent {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func runTo(zRotation: CGFloat) {
-        // 0.5 = 90 graus
-        // x = 0.5 / 2
-        // y = 0.5 / 4
-        let pid = ServiceManager.peerID.pid
-        node.zRotation = zRotation - .pi / 2
-        
-        switch zRotation / .pi {
-            
-            case -0.125 ..< 0.125:
-                print("N")
-            
-            case -0.375 ..< -0.125:
-                print("NE")
-            
-            case -0.625 ..< -0.375:
-                print("L")
-            
-            case -0.875 ..< -0.625:
-                print("SE")
-            
-            case -1.125 ..< -0.875:
-                print("S")
-                            
-            case -1.375 ..< -1.125:
-                print("SO")
-            
-            case -1.5 ..< -1.375:
-                print("O")
-                animateFor(for: "run_nothing_left_\(pid)")
-                
-            case 0.375 ..< 0.5:
-                print("O")
-                animateFor(for: "run_nothing_left_\(pid)")
-            
-            case 0.125 ..< 0.375:
-                print("NO")
-            
-            default:
-                print("RUIM")
+    func animateDie(index: Int, withCompletion completion: @escaping() -> Void) {
+        print(index)
+        var position = "die_nothing_front_\(index)"
+        var texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+        animateFrames(in: node, with: texture) {
+            position = "idle_nothing_front_\(index)"
+            texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+            self.animateFramesForever(in: self.node, with: texture)
+            completion()
         }
     }
     
-    private func animateFor(for position: String) {
-        if lastMoved != position {
-            let texture = TextureManager.shared.getTextureAtlasFrames(for: position)
-            animate(in: node, with: texture)
-            lastMoved = position
+    func animateIdle(to zRotation: CGFloat, _ index: Int) {
+        let direction = getDirection(zRotation: zRotation)
+        animateTo(state: "idle", action: "nothing", direction: direction, player: index)
+    }
+    
+    func animateRun(to zRotation: CGFloat, _ index: Int) {
+        let direction = getDirection(zRotation: zRotation)
+        animateTo(state: "run", action: "nothing", direction: direction, player: index)
+    }
+    
+    func animateRunShoot(to zRotation: CGFloat, _ index: Int) {
+        let direction = getDirectionShoot(zRotation: zRotation)
+        animateTo(state: "run", action: "shooting", direction: direction, player: index)
+    }
+    
+    func getDirection(zRotation: CGFloat) -> String {
+        
+        // 0.5 == 90 graus
+        
+        switch zRotation / .pi {
+        case -0.125 ... 0.125:
+            node.zRotation = zRotation
+            return ("back")
+            
+        case -0.375 ... -0.125:
+            node.zRotation = zRotation + .pi / 2
+            return ("right") //("back_right")
+            
+        case -0.625 ... -0.375:
+            node.zRotation = zRotation + .pi / 2
+            return ("right")
+            
+        case -0.875 ... -0.625:
+            node.zRotation = zRotation + .pi
+            return ("front") //("front_right")
+            
+        case -1.125 ... -0.875:
+            node.zRotation = zRotation - .pi
+            return ("front")
+            
+        case -1.375 ... -1.125:
+            node.zRotation = zRotation - .pi / 2
+            return ("left") //("front_left")
+            
+        case -1.5 ... -1.375:
+            node.zRotation = zRotation - .pi / 2
+            return ("left")
+            
+        case 0.375 ... 0.5:
+            node.zRotation = zRotation - .pi / 2
+            return ("left")
+            
+        case 0.125 ... 0.375:
+            node.zRotation = zRotation - .pi / 2
+            return ("left") //("back_left")
+            
+        default:
+            return ("RUIM")
+            
         }
     }
+    
+    func getDirectionShoot(zRotation: CGFloat) -> String {
+        
+        // 0.5 == 90 graus
+        switch zRotation / .pi {
+        case -0.125 ... 0.125:
+            return ("back")
+            
+        case -0.375 ... -0.125:
+            return ("right") //("back_right")
+            
+        case -0.625 ... -0.375:
+            return ("right")
+            
+        case -0.875 ... -0.625:
+            return ("front") //("front_right")
+            
+        case -1.125 ... -0.875:
+            return ("front")
+            
+        case -1.375 ... -1.125:
+            return ("left") //("front_left")
+            
+        case -1.5 ... -1.375:
+            return ("left")
+            
+        case 0.375 ... 0.5:
+            return ("left")
+            
+        case 0.125 ... 0.375:
+            return ("left") //("back_left")
+            
+        default:
+            return ("RUIM")
+            
+        }
+    }
+    
+    private func animateTo(state: String, action: String, direction: String, player: Int) {
+        var position = "\(state)_\(action)_\(direction)_\(player)"
 
-    private func animate(in obj: SKSpriteNode, with frames: [SKTexture]) {
+        if lastMoved != position {
+            var texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+            if texture.count > 0 {
+                if action == "shooting" || state == "die" {
+                    animateFrames(in: node, with: texture) {
+                        position = "idle_\(action)_\(direction)_\(player)"
+                        texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+                        self.animateFramesForever(in: self.node, with: texture)
+                    }
+                } else  {
+                    animateFramesForever(in: node, with: texture)
+                }
+                
+                lastMoved = position
+            } else {
+                NSLog("ERRO: Falha ao carregar os frames.")
+            }
+            
+        }
+    }
+    
+    private func animateFrames(in obj: SKSpriteNode, with frames: [SKTexture], withCompletion completion: @escaping () -> Void) {
+        let animate = SKAction.animate(with: frames, timePerFrame: 1 / (TimeInterval(frames.count)))
+        let completion = SKAction.run {
+            completion()
+        }
+        obj.run(SKAction.sequence([animate, completion]), withKey: "moved")
+    }
+    
+    private func animateFramesForever(in obj: SKSpriteNode, with frames: [SKTexture]) {
         let animate = SKAction.animate(with: frames, timePerFrame: 1 / (TimeInterval(frames.count)))
         
         obj.run(SKAction.repeatForever(animate), withKey: "moved")
     }
+    
+    
     
 }

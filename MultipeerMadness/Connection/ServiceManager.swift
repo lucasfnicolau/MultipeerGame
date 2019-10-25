@@ -18,8 +18,8 @@ class ServiceManager: NSObject {
     private let ServiceType = "near"
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
-
     var sceneDelegate: SceneDelegate?
+    var lobbyDelegate: LobbyDelegate?
 
     lazy var session: MCSession = {
         let session = MCSession(peer: ServiceManager.peerID, securityIdentity: nil, encryptionPreference: .none)
@@ -45,7 +45,7 @@ class ServiceManager: NSObject {
         if session.connectedPeers.count > 0 {
             guard let data = value.data(using: .utf8) else { return }
             do {
-                try self.session.send(data, toPeers: session.connectedPeers, with: .unreliable)
+                try self.session.send(data, toPeers: session.connectedPeers, with: .reliable)
             }
             catch {
                 NSLog("%@", "Error for sending: \(error)")
@@ -108,7 +108,8 @@ extension ServiceManager: MCSessionDelegate {
                 
                 if (ServiceManager.peerID.pid == 0) {
                     send(value: "players:\(playersNumber)")
-                    sceneDelegate?.createEntities(quantity: playersNumber)
+//                    sceneDelegate?.createEntities(quantity: playersNumber)
+                    self.lobbyDelegate?.updatePlayers(to: playersNumber + 1)
                 }
                 
                 print("Connected: \(ServiceManager.peerID.displayName)")
@@ -117,7 +118,7 @@ extension ServiceManager: MCSessionDelegate {
             case .notConnected:
                 print("Not Connected: \(ServiceManager.peerID.displayName)")
             @unknown default:
-                print("fatal error")
+                NSLog("fatal error")
         }
     }
 
@@ -136,7 +137,7 @@ extension ServiceManager: MCSessionDelegate {
                 if ServiceManager.peerID.pid == -1 {
                     ServiceManager.peerID.pid = playersNumber
                 }
-                self.sceneDelegate?.createEntities(quantity: playersNumber)
+                self.lobbyDelegate?.updatePlayers(to: playersNumber + 1)
                 
             } else if keyValue[0] == "v" {
                 let index = Int(keyValue[1]) ?? 0
@@ -153,6 +154,11 @@ extension ServiceManager: MCSessionDelegate {
             } else if keyValue[0] == "fire" {
                 let index = keyValue[1].int()
                 self.sceneDelegate?.announceShooting(on: index)
+            } else if keyValue[0] == "start" {
+                self.lobbyDelegate?.startGame()
+            } else if keyValue[0] == "winner" {
+                let winner = keyValue[1].int()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameOver"), object: nil, userInfo: ["winner": winner])
             } else {
                 let id = keyValue[0].int()
                 let x = keyValue[1].cgFloat()

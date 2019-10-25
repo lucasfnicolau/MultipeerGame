@@ -7,24 +7,38 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 class GameOverViewController: UIViewController {
 
+    var winner = -1
+    var serviceManager: ServiceManager?
+    @IBOutlet weak var winnerImageView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        winnerImageView.image = UIImage(named: "idle_nothing_front_\(winner)0")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func exit() {
+        serviceManager = nil
+        performSegue(withIdentifier: "menu", sender: self)
     }
-    */
 
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .allButUpsideDown
+        } else {
+            return .all
+        }
+    }
+
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 }

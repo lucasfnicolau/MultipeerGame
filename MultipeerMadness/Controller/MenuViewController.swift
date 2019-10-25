@@ -9,13 +9,13 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? GameViewController {
+        if let vc = segue.destination as? LobbyViewController {
             vc.modalPresentationStyle = .fullScreen
             if segue.identifier == "create" {
                 vc.name = "host"
@@ -24,4 +24,22 @@ class MenuViewController: UIViewController {
             }
         }
     }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .allButUpsideDown
+        } else {
+            return .all
+        }
+    }
+
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    @IBAction func unwindToMenu(segue: UIStoryboardSegue) { }
 }

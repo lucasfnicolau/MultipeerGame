@@ -10,7 +10,7 @@ import UIKit
 import GameplayKit
 
 class Bullet: GKEntity {
-    static let bitmask: UInt32 = 0010
+    static let bitmask: UInt32 = 0x1 << 1
     var sceneDelegate: SceneDelegate?
     var owner: Player?
     
@@ -23,8 +23,8 @@ class Bullet: GKEntity {
         guard let texture = spriteComponent.node.texture else { return }
         spriteComponent.node.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         spriteComponent.node.physicsBody?.categoryBitMask = Bullet.bitmask
-//        spriteComponent.node.physicsBody?.collisionBitMask = Floor.bitmask
-        spriteComponent.node.physicsBody?.contactTestBitMask = Player.bitmask
+        spriteComponent.node.physicsBody?.collisionBitMask = CustomMap.normalBitmask
+        spriteComponent.node.physicsBody?.contactTestBitMask = Player.bitmask | CustomMap.normalBitmask
         addComponent(spriteComponent)
     }
     
@@ -37,7 +37,7 @@ class Bullet: GKEntity {
         guard let node = self.component(ofType: SpriteComponent.self)?.node else { return }
 
         node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
-        node.physicsBody?.isDynamic = true
+        node.physicsBody?.isDynamic = false
         node.physicsBody?.affectedByGravity = false
         
         let animationDuration: TimeInterval = 5
@@ -46,15 +46,14 @@ class Bullet: GKEntity {
         
         let radius = UIScreen.main.bounds.width / 2.0
         
-        let xDist: CGFloat = sin(rotation - .pi / 2) * radius / 5
-        let yDist: CGFloat = cos(rotation - .pi / 2) * radius / 5
+        let xDist: CGFloat = sin(rotation) * radius / 5
+        let yDist: CGFloat = cos(rotation) * radius / 5
         
         node.position.x -= xDist
         node.position.y += yDist
         
         sceneDelegate?.add(self)
-        
-        actionArray.append(SKAction.applyImpulse(CGVector(dx: -xDist, dy: yDist), at: node.position, duration: animationDuration))
+        actionArray.append(SKAction.move(by: CGVector(dx: -xDist * 35, dy: yDist * 35), duration: animationDuration))
         actionArray.append(SKAction.removeFromParent())
         
         node.run(SKAction.sequence(actionArray))

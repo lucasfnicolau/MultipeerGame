@@ -10,10 +10,11 @@ import UIKit
 import GameplayKit
 
 class Player: GKEntity, Shooter {
+    
     var isEnabled = true
     var sceneDelegate: SceneDelegate?
     var ammo = 3
-    static let bitmask: UInt32 = 0001
+    static let bitmask: UInt32 = 0x1
     var dashIsAvailable = true
     var kills = 0 {
         didSet {
@@ -25,13 +26,19 @@ class Player: GKEntity, Shooter {
         super.init()
         
         self.sceneDelegate = sceneDelegate
-        let spriteComponent = SpriteComponent(texture: SKTexture(imageNamed: imageName), owner: self)
-        guard let texture = spriteComponent.node.texture else { return }
-        spriteComponent.node.physicsBody = SKPhysicsBody(circleOfRadius: texture.size().width / 4)
-        spriteComponent.node.physicsBody?.isDynamic = false
-        spriteComponent.node.physicsBody?.categoryBitMask = Player.bitmask
-//        spriteComponent.node.physicsBody?.collisionBitMask = Floor.bitmask
-        spriteComponent.node.physicsBody?.contactTestBitMask = Bullet.bitmask
+        let texture = TextureManager.shared.getTextureAtlasFrames(for: imageName)[0]
+        
+        let spriteComponent = SpriteComponent(texture: texture, owner: self)
+        let node = spriteComponent.node
+        node.setScale(0.3)
+        let size = node.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5))
+        var origin = node.position
+        origin.x -= node.size.width / 6
+        origin.y -= node.size.height / 3
+        node.physicsBody = SKPhysicsBody(polygonFrom: CGPath(ellipseIn: CGRect(origin: origin, size: CGSize(width: size.width / 1.2, height: size.height * 1.2)), transform: nil))
+        node.physicsBody?.categoryBitMask = Player.bitmask
+        node.physicsBody?.collisionBitMask = CustomMap.normalBitmask
+        node.physicsBody?.contactTestBitMask = Bullet.bitmask | CustomMap.hazardBitmask
         addComponent(spriteComponent)
         
         let velocity = VelocityComponent()
@@ -42,21 +49,22 @@ class Player: GKEntity, Shooter {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func shoot() {
+    func shoot(index: Int, zRotation: CGFloat) {
         if ammo > 0 && isEnabled {
-            let bullet = Bullet(imageName: "bullet", sceneDelegate: sceneDelegate, owner: self)
+            let bullet = Bullet(imageName: "bullet\(index)", sceneDelegate: sceneDelegate, owner: self)
             guard let bulletNode = bullet.component(ofType: SpriteComponent.self)?.node else { return }
-            bulletNode.setScale(0.08)
+            bulletNode.setScale(0.1)
             
-            guard let node = self.component(ofType: SpriteComponent.self)?.node else { return }
-            let x = node.position.x
-            let y = node.position.y
+            guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
+            let x = spriteNode.node.position.x
+            let y = spriteNode.node.position.y
+            
+            spriteNode.animateRunShoot(to: zRotation, index)
             
             bulletNode.position = CGPoint(x: x, y: y)
             bulletNode.name = "bullet"
             
-            bullet.fire(basedOn: node.zRotation)
-            
+            bullet.fire(basedOn: zRotation)
             ammo -= 1
             if ammo == 0 {
                 perform(#selector(reload), with: nil, afterDelay: 0.5)
@@ -70,7 +78,7 @@ class Player: GKEntity, Shooter {
         }
     }
     
-    func dash() {
+    func dash(zRotation: CGFloat) {
         if dashIsAvailable && isEnabled {
             guard self.component(ofType: VelocityComponent.self) != nil else { return }
             
@@ -80,13 +88,12 @@ class Player: GKEntity, Shooter {
             
             guard let playerNode = self.component(ofType: SpriteComponent.self)?.node else { return }
             
-            let rotation = playerNode.zRotation
             let radius = UIScreen.main.bounds.width / 2.0
             
-            let xDist: CGFloat = -(sin(rotation - .pi / 2) * radius / 2.5)
-            let yDist: CGFloat = cos(rotation - .pi / 2) * radius / 2.5
+            let xDist: CGFloat = sin(zRotation) * radius / 2.5
+            let yDist: CGFloat = cos(zRotation) * radius / 2.5
             
-            actionArray.append(SKAction.move(by: CGVector(dx: xDist, dy: yDist), duration: animationDuration))
+            actionArray.append(SKAction.move(by: CGVector(dx: -xDist, dy: yDist), duration: animationDuration))
             playerNode.run(SKAction.sequence(actionArray))
             
             dashIsAvailable = false
@@ -98,17 +105,20 @@ class Player: GKEntity, Shooter {
         dashIsAvailable = true
     }
     
-    func die() {
-        sceneDelegate?.remove(self)
-        isEnabled = false
-        perform(#selector(respawn), with: nil, afterDelay: 1.0)
+    func die(index: Int) {
+        guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
+        spriteNode.animateDie(index: index) {
+            self.isEnabled = false
+            self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
+        }
+        
     }
     
     @objc func respawn() {
         guard let node = self.component(ofType: SpriteComponent.self)?.node else { return }
-        node.position.x = 0
-        node.position.y = 0
-        sceneDelegate?.addNode(node)
+//        let randIndex = Int.random(in: 0 ..< CustomMap.spawnablePositions.count)
+//        let position = CustomMap.spawnablePositions[randIndex]
+        node.position = CGPoint.zero
         isEnabled = true
     }
 }
