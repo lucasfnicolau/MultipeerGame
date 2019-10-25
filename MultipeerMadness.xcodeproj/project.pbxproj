@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		764344042363444800257B00 /* soundtrackAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 764344032363444800257B00 /* soundtrackAudio.mp3 */; };
-		76B7197B23635D6C0028AE96 /* killAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B7197823635D6B0028AE96 /* killAudio.mp3 */; };
-		76B7197C23635D6C0028AE96 /* dashAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B7197923635D6B0028AE96 /* dashAudio.mp3 */; };
-		76B7197D23635D6C0028AE96 /* shootAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B7197A23635D6C0028AE96 /* shootAudio.mp3 */; };
+		76B71981236364510028AE96 /* dashAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B7197E236364500028AE96 /* dashAudio.mp3 */; };
+		76B71982236364510028AE96 /* shootAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B7197F236364500028AE96 /* shootAudio.mp3 */; };
+		76B71983236364510028AE96 /* killAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B71980236364500028AE96 /* killAudio.mp3 */; };
 		824B30EF2362301F00EDF57A /* Map.sks in Resources */ = {isa = PBXBuildFile; fileRef = 824B30EE2362301F00EDF57A /* Map.sks */; };
 		826C8DC52360CFD100FB6828 /* TextureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826C8DC42360CFD100FB6828 /* TextureManager.swift */; };
 		82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A4234FADBF00E8D234 /* ServiceManager.swift */; };
@@ -57,9 +57,9 @@
 
 /* Begin PBXFileReference section */
 		764344032363444800257B00 /* soundtrackAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = soundtrackAudio.mp3; sourceTree = "<group>"; };
-		76B7197823635D6B0028AE96 /* killAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = killAudio.mp3; sourceTree = "<group>"; };
-		76B7197923635D6B0028AE96 /* dashAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dashAudio.mp3; sourceTree = "<group>"; };
-		76B7197A23635D6C0028AE96 /* shootAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shootAudio.mp3; sourceTree = "<group>"; };
+		76B7197E236364500028AE96 /* dashAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dashAudio.mp3; sourceTree = "<group>"; };
+		76B7197F236364500028AE96 /* shootAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shootAudio.mp3; sourceTree = "<group>"; };
+		76B71980236364500028AE96 /* killAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = killAudio.mp3; sourceTree = "<group>"; };
 		824B30EE2362301F00EDF57A /* Map.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Map.sks; sourceTree = "<group>"; };
 		826C8DC42360CFD100FB6828 /* TextureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureManager.swift; sourceTree = "<group>"; };
 		82E338A4234FADBF00E8D234 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
@@ -212,9 +212,9 @@
 			children = (
 				B6C108D82362552F00E95628 /* AudioManager.swift */,
 				764344032363444800257B00 /* soundtrackAudio.mp3 */,
-				76B7197923635D6B0028AE96 /* dashAudio.mp3 */,
-				76B7197823635D6B0028AE96 /* killAudio.mp3 */,
-				76B7197A23635D6C0028AE96 /* shootAudio.mp3 */,
+				76B7197E236364500028AE96 /* dashAudio.mp3 */,
+				76B71980236364500028AE96 /* killAudio.mp3 */,
+				76B7197F236364500028AE96 /* shootAudio.mp3 */,
 			);
 			path = Audio;
 			sourceTree = "<group>";
@@ -405,18 +405,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76B7197D23635D6C0028AE96 /* shootAudio.mp3 in Resources */,
+				76B71982236364510028AE96 /* shootAudio.mp3 in Resources */,
 				B644F4EE23633E6D008BBDE7 /* Azonix.otf in Resources */,
 				B6D1E6F7234D0549002817A4 /* Main.storyboard in Resources */,
 				764344042363444800257B00 /* soundtrackAudio.mp3 in Resources */,
+				76B71981236364510028AE96 /* dashAudio.mp3 in Resources */,
+				76B71983236364510028AE96 /* killAudio.mp3 in Resources */,
 				B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */,
-				76B7197C23635D6C0028AE96 /* dashAudio.mp3 in Resources */,
 				B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */,
 				B6D1E6FC234D054B002817A4 /* LaunchScreen.storyboard in Resources */,
 				B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */,
 				824B30EF2362301F00EDF57A /* Map.sks in Resources */,
 				B65FB8A62359357900741673 /* map.json in Resources */,
-				76B7197B23635D6C0028AE96 /* killAudio.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,7 +606,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CTAFH43K36;
+				DEVELOPMENT_TEAM = 4BUKN8ST5B;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

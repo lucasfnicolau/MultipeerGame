@@ -50,15 +50,15 @@ class GameScene: SKScene {
                     soundtrackAudioPlayer = audio
                     soundtrackAudioPlayer?.prepareToPlay()
                 
-                } else if name == "shootSound" {
+                } else if name == "shootAudio" {
                     shootAudioPlayer = audio
                     shootAudioPlayer?.prepareToPlay()
                 
-                } else if name == "dashSound" {
+                } else if name == "dashAudio" {
                     dashAudioPlayer = audio
                     dashAudioPlayer?.prepareToPlay()
                 
-                } else if name == "killSound" {
+                } else if name == "killAudio" {
                     killAudioPlayer = audio
                     killAudioPlayer?.prepareToPlay()
                     
@@ -104,6 +104,7 @@ class GameScene: SKScene {
         
         DispatchQueue.main.async {
             self.soundtrackAudioPlayer?.play()
+            self.soundtrackAudioPlayer?.volume = 0.8
             self.soundtrackAudioPlayer?.numberOfLoops = -1
         }
     }
