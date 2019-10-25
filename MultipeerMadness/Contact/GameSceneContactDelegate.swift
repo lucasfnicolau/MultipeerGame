@@ -32,6 +32,9 @@ extension GameScene: SKPhysicsContactDelegate {
             guard let player = findPlayer(basedOn: playerNode) else { return }
             guard let index = players.firstIndex(of: player) else { return }
             player.die(index: index)
+            DispatchQueue.main.async {
+                self.killAudioPlayer?.play()
+            }
             joystick.activo = false
             joystick.reset()
             
@@ -44,6 +47,9 @@ extension GameScene: SKPhysicsContactDelegate {
             guard let player = findPlayer(basedOn: playerShot) else { return }
             guard let index = players.firstIndex(of: player) else { return }
             player.die(index: index)
+            DispatchQueue.main.async {
+                self.killAudioPlayer?.play()
+            }
             joystick.activo = false
             joystick.reset()
             
