@@ -62,7 +62,7 @@ extension GameScene {
             if (gamepad.buttonA.value != 0) {
                 let index = ServiceManager.peerID.pid
                 if index >= 0 && index < self.players.count {
-                    players[index].dash()
+                    players[index].dash(zRotation: joystick.getZRotation())
                 }
             }
         }

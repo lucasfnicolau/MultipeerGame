@@ -27,16 +27,18 @@ extension GameScene: SKPhysicsContactDelegate {
             
         } else if secondBody.categoryBitMask == CustomMap.hazardBitmask {
             guard let playerNode: CustomNode = firstBody.node as? CustomNode else { return }
-            destroy([playerNode])
+            destroy([])
             guard let player = findPlayer(basedOn: playerNode) else { return }
+            guard let index = players.firstIndex(of: player) else { return }
             player.die(index: index)
             
         } else {
             guard let playerShot: CustomNode = firstBody.node as? CustomNode,
                 let bulletNode: CustomNode = secondBody.node as? CustomNode else { return }
             
-            destroy([playerShot, bulletNode])
+            destroy([bulletNode])
             guard let player = findPlayer(basedOn: playerShot) else { return }
+            guard let index = players.firstIndex(of: player) else { return }
             player.die(index: index)
             
             guard let bullet: Bullet = bulletNode.owner as? Bullet,
