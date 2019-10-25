@@ -153,7 +153,9 @@ extension ServiceManager: MCSessionDelegate {
                 }
             } else if keyValue[0] == "fire" {
                 let index = keyValue[1].int()
-                self.sceneDelegate?.announceShooting(on: index)
+                let rotation = keyValue[2].cgFloat()
+                self.sceneDelegate?.announceShooting(on: index, with: rotation)
+                
             } else if keyValue[0] == "start" {
                 self.lobbyDelegate?.startGame()
             } else if keyValue[0] == "winner" {
