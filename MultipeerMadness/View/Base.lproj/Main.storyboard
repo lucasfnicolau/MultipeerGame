@@ -373,7 +373,7 @@
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="idle_nothing_front_00" translatesAutoresizingMaskIntoConstraints="NO" id="v3T-dT-djM">
-                                <rect key="frame" x="276" y="36" width="300" height="327"/>
+                                <rect key="frame" x="276" y="58.333333333333343" width="300" height="304.66666666666663"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="Lor-uA-ow9"/>
                                 </constraints>
@@ -396,6 +396,9 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WINNER:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xtj-gn-2my">
                                 <rect key="frame" x="361.33333333333331" y="20.000000000000004" width="173.33333333333331" height="38.333333333333343"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38.329999999999998" id="yMm-ka-S1J"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="AzonixRegular" family="Azonix" pointSize="38"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -410,6 +413,7 @@
                             <constraint firstAttribute="bottom" secondItem="bUW-yc-WSI" secondAttribute="bottom" id="J7S-5T-FgG"/>
                             <constraint firstAttribute="trailing" secondItem="bUW-yc-WSI" secondAttribute="trailing" id="L1J-6Z-ktH"/>
                             <constraint firstItem="aL7-ks-gZO" firstAttribute="centerX" secondItem="gmX-7V-ZOA" secondAttribute="centerX" id="NuE-et-W5q"/>
+                            <constraint firstItem="v3T-dT-djM" firstAttribute="top" secondItem="xtj-gn-2my" secondAttribute="bottom" id="RDz-g1-Pwg"/>
                             <constraint firstItem="xtj-gn-2my" firstAttribute="top" secondItem="8RR-EV-IvV" secondAttribute="top" constant="20" id="TiA-DF-28l"/>
                             <constraint firstItem="8RR-EV-IvV" firstAttribute="bottom" secondItem="75f-Gd-uau" secondAttribute="bottom" constant="16" id="YaZ-pK-cLa"/>
                             <constraint firstItem="aL7-ks-gZO" firstAttribute="bottom" secondItem="8RR-EV-IvV" secondAttribute="bottom" id="dfo-yq-Sm7"/>
@@ -422,6 +426,7 @@
                     <navigationItem key="navigationItem" id="MDn-Tm-std"/>
                     <connections>
                         <outlet property="winnerImageView" destination="v3T-dT-djM" id="GN5-KA-EgA"/>
+                        <outlet property="winnerImageViewTopConstraint" destination="RDz-g1-Pwg" id="sF3-Qb-uv4"/>
                         <segue destination="w8i-uT-Bcr" kind="unwind" identifier="menu" unwindAction="unwindToMenuWithSegue:" id="Ep7-LX-NFn"/>
                     </connections>
                 </viewController>

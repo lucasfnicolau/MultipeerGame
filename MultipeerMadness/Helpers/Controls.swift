@@ -65,9 +65,10 @@ extension GameScene {
             // A-Button
         else if (gamepad.buttonA == element) {
             if (gamepad.buttonA.value != 0) {
-                let index = ServiceManager.peerID.pid
-                if index >= 0 && index < self.players.count {
-                    players[index].dash(zRotation: joystick.getZRotation())
+                let playerIndex = ServiceManager.peerID.pid
+                if playerIndex >= 0 && playerIndex < self.players.count {
+                    let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
+                    players[playerIndex].dash(zRotation: rotation)
                 }
             }
         }
@@ -82,10 +83,11 @@ extension GameScene {
             }
         } else if (gamepad.buttonX == element) {
             if (gamepad.buttonX.value != 0) {
-                let index = ServiceManager.peerID.pid
-                if index >= 0 && index < self.players.count {
-                    players[index].shoot(index: index, zRotation: joystick.getZRotation())
-                    self.send("fire:\(index)")
+                let playerIndex = ServiceManager.peerID.pid
+                if playerIndex >= 0 && playerIndex < self.players.count {
+                    let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
+                    players[playerIndex].shoot(index: playerIndex, zRotation: joystick.getZRotation())
+                    self.send("fire:\(playerIndex):\(rotation)")
                 }
             }
         }
