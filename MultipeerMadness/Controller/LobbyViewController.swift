@@ -32,6 +32,10 @@ class LobbyViewController: UIViewController{
         super.viewDidLoad()
         serviceManager?.lobbyDelegate = self
         
+        for imageView in playersImageView {
+            imageView.layer.zPosition = 10
+        }
+        
         let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
         if deviceIdiom == .pad {
             stackViewTopConstraint.constant = 140
@@ -114,7 +118,7 @@ extension LobbyViewController: LobbyDelegate {
             self.numeroJogadoresUILabel.text = "\(number)/4"
             self.playersNumber = number
             for index in 0 ..< number {
-                let image = UIImage(named: "idle_nothing_front_\(index)0")
+                let image = UIImage(named: "lobby\(index)")
                 if ServiceManager.peerID.pid != index {
                     self.playersLabel[index].text = self.playersName[index]
                 } else {

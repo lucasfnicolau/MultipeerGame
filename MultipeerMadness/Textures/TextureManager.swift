@@ -13,7 +13,7 @@ public class TextureManager: NSObject {
     //Sing
     static let shared = TextureManager()
     
-    let map:SKTextureAtlas = SKTextureAtlas(named: "Map")
+    let map:SKTextureAtlas = SKTextureAtlas(named: "CustomMapA")
     
     //IDLE NOTHING
     let idle_nothing_left_0:SKTextureAtlas = SKTextureAtlas(named: "idle_nothing_left_0")

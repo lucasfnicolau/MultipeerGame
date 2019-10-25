@@ -19,10 +19,11 @@ protocol SceneDelegate {
     func move(onIndex index: Int, to pos: (CGFloat, CGFloat))
     func setVelocity(_ v: [CGFloat], on index: Int)
     func setRotation(_ r: CGFloat, on index: Int)
-    func announceShooting(on index: Int)
+    func announceShooting(on index: Int, with rotation: CGFloat)
     func announceStop(on index: Int)
     func send(_ value: String)
     func updateKills(to killCount: Int)
+    func enableJoystick()
 }
 
 extension GameScene: SceneDelegate {
@@ -85,19 +86,18 @@ extension GameScene: SceneDelegate {
         
         if v[0] == 0 && v[1] == 0 {
             guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
-            let node = playerSprite.node
-            playerSprite.animateIdle(to: node.zRotation, index)
+            playerSprite.animateIdle(to: joystick.getZRotation(), index)
         }
     }
     
     func setRotation(_ r: CGFloat, on index: Int) {
         guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
+        print("HERE: \(r)")
         playerSprite.animateRun(to: r, index)
     }
     
-    func announceShooting(on index: Int) {
-        
-        players[index].shoot(index: index, zRotation: joystick.getZRotation())
+    func announceShooting(on index: Int, with rotation: CGFloat) {
+        players[index].shoot(index: index, zRotation: rotation)
     }
     
     func updateKills(to killCount: Int) {
@@ -112,5 +112,9 @@ extension GameScene: SceneDelegate {
     func announceStop(on index: Int) {
         guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
         playerSprite.animateIdle(to: playerSprite.node.zRotation, index)
+    }
+    
+    func enableJoystick() {
+        joystick.activo = true
     }
 }

@@ -33,7 +33,6 @@ class SpriteComponent: GKComponent {
             position = "idle_nothing_front_\(index)"
             texture = TextureManager.shared.getTextureAtlasFrames(for: position)
             self.animateFramesForever(in: self.node, with: texture)
-            self.node.removeFromParent()
             completion()
         }
     }
@@ -44,13 +43,17 @@ class SpriteComponent: GKComponent {
     }
     
     func animateRun(to zRotation: CGFloat, _ index: Int) {
-        let direction = getDirection(zRotation: zRotation)
-        animateTo(state: "run", action: "nothing", direction: direction, player: index)
+        if state != "die" {
+            let direction = getDirection(zRotation: zRotation)
+            animateTo(state: "run", action: "nothing", direction: direction, player: index)
+        }
     }
     
     func animateRunShoot(to zRotation: CGFloat, _ index: Int) {
-        let direction = getDirectionShoot(zRotation: zRotation)
-        animateTo(state: "run", action: "shooting", direction: direction, player: index)
+        if state != "die" {
+            let direction = getDirectionShoot(zRotation: zRotation)
+            animateTo(state: "run", action: "shooting", direction: direction, player: index)
+        }
     }
     
     func getDirection(zRotation: CGFloat) -> String {

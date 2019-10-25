@@ -24,6 +24,7 @@
 		B628926923576ADD00BF4D7F /* SpriteComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628926823576ADD00BF4D7F /* SpriteComponent.swift */; };
 		B62B39BC236240B400C17915 /* LobbyDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62B39BB236240B400C17915 /* LobbyDelegate.swift */; };
 		B634765F2351A5C700C275AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B634765E2351A5C700C275AC /* Helpers.swift */; };
+		B644F4EE23633E6D008BBDE7 /* Azonix.otf in Resources */ = {isa = PBXBuildFile; fileRef = B644F4EC23633E62008BBDE7 /* Azonix.otf */; };
 		B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */; };
 		B65FB88323576C5C00741673 /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB88223576C5C00741673 /* EntityManager.swift */; };
 		B65FB885235817E200741673 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB884235817E200741673 /* Image.swift */; };
@@ -72,6 +73,7 @@
 		B628926823576ADD00BF4D7F /* SpriteComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteComponent.swift; sourceTree = "<group>"; };
 		B62B39BB236240B400C17915 /* LobbyDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyDelegate.swift; sourceTree = "<group>"; };
 		B634765E2351A5C700C275AC /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B644F4EC23633E62008BBDE7 /* Azonix.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Azonix.otf; sourceTree = "<group>"; };
 		B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
 		B65FB88223576C5C00741673 /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
 		B65FB884235817E200741673 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -96,7 +98,7 @@
 		B6D1E6F1234D0549002817A4 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		B6D1E6F3234D0549002817A4 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		B6D1E6F6234D0549002817A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B6D1E6F8234D054B002817A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B6D1E6F8234D054B002817A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = MultipeerMadness/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		B6D1E6FB234D054B002817A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6D1E6FD234D054B002817A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6D1E707234E8F68002817A4 /* CustomPeerID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPeerID.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C108D72362552700E95628 /* Audio */,
+				B644F4EC23633E62008BBDE7 /* Azonix.otf */,
 				826C8DC32360CFB900FB6828 /* Textures */,
 				B6EE6119235FBD7F00F4BE09 /* Delegates */,
 				B617ECE1235F9CC700136391 /* Custom SK */,
@@ -403,6 +406,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76B7197D23635D6C0028AE96 /* shootAudio.mp3 in Resources */,
+				B644F4EE23633E6D008BBDE7 /* Azonix.otf in Resources */,
 				B6D1E6F7234D0549002817A4 /* Main.storyboard in Resources */,
 				764344042363444800257B00 /* soundtrackAudio.mp3 in Resources */,
 				B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */,
@@ -602,7 +606,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4BUKN8ST5B;
+				DEVELOPMENT_TEAM = CTAFH43K36;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

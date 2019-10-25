@@ -143,6 +143,7 @@ class GameScene: SKScene {
 
             guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
             let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
+            
             playerSprite.animateRun(to: joystick.getZRotation(), index)
 
             joystick.vX = dist.xDist / 16
@@ -239,11 +240,10 @@ class GameScene: SKScene {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
             players[index].shoot(index: index, zRotation: joystick.getZRotation())
-            self.send("fire:\(index)")
-            
             DispatchQueue.main.async {
                 self.shootAudioPlayer?.play()
             }
+            self.send("fire:\(index):\(joystick.getZRotation())")
         }
     }
     
