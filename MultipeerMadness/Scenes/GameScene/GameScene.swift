@@ -103,8 +103,8 @@ class GameScene: SKScene {
             var joyVel = CGPoint(x: joystick.vX, y: joystick.vY)
             joyVel.normalize()
             
-            velocity.x = String(format: "%.5f", joyVel.x).cgFloat()
-            velocity.y = String(format: "%.5f", joyVel.y).cgFloat()
+            velocity.x = String(format: "%.5f", joystick.vX).cgFloat()
+            velocity.y = String(format: "%.5f", joystick.vY).cgFloat()
                         
             self.send("v:\(index):\(velocity.x):\(velocity.y):\(rotation)")
             
@@ -118,7 +118,6 @@ class GameScene: SKScene {
 //        if location.x <= UIScreen.main.bounds.width / 2 {
             if joystick.activo == true {
                 reset()
-                
             }
 //        }
     }
@@ -164,13 +163,13 @@ class GameScene: SKScene {
             if players[index].isEnabled {
                 guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node,
                     let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
-                playerNode.position.x -= velocity.x * UIScreen.main.bounds.width
-                playerNode.position.y += velocity.y * UIScreen.main.bounds.height
+                playerNode.position.x -= velocity.x // * UIScreen.main.bounds.width
+                playerNode.position.y += velocity.y // * UIScreen.main.bounds.height
                 
                 playerCamera.position = playerNode.position
                 
                 var normalizedPos = playerNode.position
-                normalizedPos.normalize()
+//                normalizedPos.normalize()
                 self.send("\(index):\(normalizedPos.x):\(normalizedPos.y)")
                 
     //            for i in 0 ..< players.count {

@@ -108,10 +108,10 @@ class Player: GKEntity, Shooter {
     }
     
     func die(index: Int) {
+        self.isEnabled = false
         guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
         spriteNode.animateDie(index: index) {
 //            self.sceneDelegate?.remove(self)
-            self.isEnabled = false
             self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
         }
         
