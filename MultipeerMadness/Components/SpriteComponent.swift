@@ -33,6 +33,7 @@ class SpriteComponent: GKComponent {
             position = "idle_nothing_front_\(index)"
             texture = TextureManager.shared.getTextureAtlasFrames(for: position)
             self.animateFramesForever(in: self.node, with: texture)
+            self.node.removeFromParent()
             completion()
         }
     }
