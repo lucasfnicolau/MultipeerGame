@@ -10,6 +10,7 @@ import SpriteKit
 import GameplayKit
 import GameController
 import MultipeerConnectivity
+import AVFoundation
 
 class GameScene: SKScene {
     
@@ -24,22 +25,26 @@ class GameScene: SKScene {
     var uiFactory: UIFactory!
     var scoreLabel: UILabel?
     let playerCamera = SKCameraNode()
-    
+    var audioPlayer: AVAudioPlayer?
     var xVariation: CGFloat?
     var yVariation: CGFloat?
     var lastTouch: CGPoint?
+    var playersNumber = 0
     
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = .zero
         self.physicsWorld.contactDelegate = self
         
+        print(ServiceManager.peerID.pid)
+        
         playerCamera.name = "playerCamera"
         self.camera = playerCamera
         
         entityManager = EntityManager(scene: self)
+        createEntities(quantity: playersNumber)
         
         map = CustomMap(namedTile: "CustomMap", tileSize: CGSize(width: 128, height: 128))
-        map.setScale(0.4)
+        map.setScale(0.8)
         addChild(map)
         
         ObserveForGameControllers()
@@ -72,7 +77,6 @@ class GameScene: SKScene {
                 
                 self.xVariation = playerNode.position.x - joystick.position.x
                 self.yVariation = playerNode.position.y - joystick.position.y
-                
             }
         }
     }
@@ -148,9 +152,7 @@ class GameScene: SKScene {
         joystick.setNewPosition(withLocation: newPosition)
         
         joystick.update(withLocation: lastTouch)
-        
-        
-        
+
     }
     
     override func update(_ currentTime: CFTimeInterval) {
@@ -159,27 +161,27 @@ class GameScene: SKScene {
         deltaTime = currentTime - lastTime
         
         if index >= 0 && index < self.players.count {
-
-            guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node,
-                let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
-            playerNode.position.x -= velocity.x * UIScreen.main.bounds.width
-            playerNode.position.y += velocity.y * UIScreen.main.bounds.height
-            
-            playerCamera.position = playerNode.position
-            
-            var normalizedPos = playerNode.position
-            normalizedPos.normalize()
-            self.send("\(index):\(normalizedPos.x):\(normalizedPos.y)")
-            
-//            for i in 0 ..< players.count {
-//                guard let playerNode = players[i].component(ofType: SpriteComponent.self)?.node,
-//                    let velocity = players[i].component(ofType: VelocityComponent.self) else { return }
-//                playerNode.position.x -= velocity.x
-//                playerNode.position.y += velocity.y
-//            }
-            
-            setNewJoystickPosition(basedOn: playerNode.position)
-            
+            if players[index].isEnabled {
+                guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node,
+                    let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
+                playerNode.position.x -= velocity.x * UIScreen.main.bounds.width
+                playerNode.position.y += velocity.y * UIScreen.main.bounds.height
+                
+                playerCamera.position = playerNode.position
+                
+                var normalizedPos = playerNode.position
+                normalizedPos.normalize()
+                self.send("\(index):\(normalizedPos.x):\(normalizedPos.y)")
+                
+    //            for i in 0 ..< players.count {
+    //                guard let playerNode = players[i].component(ofType: SpriteComponent.self)?.node,
+    //                    let velocity = players[i].component(ofType: VelocityComponent.self) else { return }
+    //                playerNode.position.x -= velocity.x
+    //                playerNode.position.y += velocity.y
+    //            }
+                
+                setNewJoystickPosition(basedOn: playerNode.position)
+            }
         }
         
         lastTime = currentTime
@@ -197,6 +199,17 @@ class GameScene: SKScene {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
             players[index].dash(zRotation: joystick.getZRotation())
+        }
+    }
+    
+    func loadAudio(named name: String) {
+        SoundManager.getAudio(name: name) { (response) in
+            switch response {
+            case .success(let audio):
+                audioPlayer = audio
+            case .error(let description):
+                print(description)
+            }
         }
     }
 }

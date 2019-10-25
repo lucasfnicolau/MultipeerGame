@@ -52,8 +52,8 @@ extension GameScene: SceneDelegate {
     }
     
     func createEntities(quantity: Int) {
-        if self.players.count <= quantity {
-            for i in self.players.count ... quantity {
+        if self.players.count < quantity {
+            for i in self.players.count ..< quantity {
                 let player = Player(imageName: "idle_nothing_front_\(i)", sceneDelegate: self)
                 players.append(player)
                 add(player)
@@ -98,6 +98,11 @@ extension GameScene: SceneDelegate {
     
     func updateKills(to killCount: Int) {
         scoreLabel?.text = "Kills: \(killCount)"
+        if killCount == 10 {
+            send("winner:\(ServiceManager.peerID.pid)")
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "gameOver"), object: nil, userInfo: ["winner": ServiceManager.peerID.pid])
+        }
     }
     
     func announceStop(on index: Int) {
