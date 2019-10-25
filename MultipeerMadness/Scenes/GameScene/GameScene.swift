@@ -31,6 +31,46 @@ class GameScene: SKScene {
     var lastTouch: CGPoint?
     var playersNumber = 0
     
+    var soundtrackAudioPlayer: AVAudioPlayer?
+    var shootAudioPlayer: AVAudioPlayer?
+    var dashAudioPlayer: AVAudioPlayer?
+    var killAudioPlayer: AVAudioPlayer?
+    
+    var audioTitles: [String] = ["soundtrackAudio", "shootAudio", "dashAudio", "killAudio"]
+    
+    func loadAudio(named name: String) {
+        
+        AudioManager.getAudio(name: name) { (response) in
+            
+            switch response {
+                
+            case .success(let audio):
+            
+                if name == "soundtrackAudio" {
+                    soundtrackAudioPlayer = audio
+                    soundtrackAudioPlayer?.prepareToPlay()
+                
+                } else if name == "shootSound" {
+                    shootAudioPlayer = audio
+                    shootAudioPlayer?.prepareToPlay()
+                
+                } else if name == "dashSound" {
+                    dashAudioPlayer = audio
+                    dashAudioPlayer?.prepareToPlay()
+                
+                } else if name == "killSound" {
+                    killAudioPlayer = audio
+                    killAudioPlayer?.prepareToPlay()
+                    
+                } else {
+                }
+                
+            case .error(let description):
+                print(description)
+            }
+        }
+    }
+    
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = .zero
         self.physicsWorld.contactDelegate = self
@@ -57,6 +97,15 @@ class GameScene: SKScene {
         uiFactory.createButton(ofType: "shoot")
         uiFactory.createButton(ofType: "dash")
         scoreLabel = uiFactory.createLabel(ofType: "score")
+        
+        for i in 0 ..< audioTitles.count {
+            loadAudio(named: audioTitles[i])
+        }
+        
+        DispatchQueue.main.async {
+            self.soundtrackAudioPlayer?.play()
+            self.soundtrackAudioPlayer?.numberOfLoops = -1
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -191,6 +240,10 @@ class GameScene: SKScene {
         if index >= 0 && index < self.players.count {
             players[index].shoot(index: index, zRotation: joystick.getZRotation())
             self.send("fire:\(index)")
+            
+            DispatchQueue.main.async {
+                self.shootAudioPlayer?.play()
+            }
         }
     }
     
@@ -198,16 +251,9 @@ class GameScene: SKScene {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
             players[index].dash(zRotation: joystick.getZRotation())
-        }
-    }
-    
-    func loadAudio(named name: String) {
-        SoundManager.getAudio(name: name) { (response) in
-            switch response {
-            case .success(let audio):
-                audioPlayer = audio
-            case .error(let description):
-                print(description)
+            
+            DispatchQueue.main.async {
+                self.dashAudioPlayer?.play()
             }
         }
     }
