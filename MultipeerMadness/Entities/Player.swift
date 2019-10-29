@@ -42,8 +42,6 @@ class Player: GKEntity, Shooter {
         node.physicsBody?.contactTestBitMask = Bullet.bitmask | CustomMap.hazardBitmask
         addComponent(spriteComponent)
         
-        
-        
         let velocity = VelocityComponent()
         addComponent(velocity)
     }
@@ -126,21 +124,7 @@ class Player: GKEntity, Shooter {
             nodeCopy.zPosition = 10
             nodeCopy.physicsBody = nil
             sceneDelegate?.addNode(nodeCopy)
-            
         }
-        
-        
-        
-        
-//        if let spriteCopy = spriteComponent.copy() as? SpriteComponent {
-//            let nodeCopy = spriteCopy.node
-//            nodeCopy.physicsBody = nil
-//            sceneDelegate?.addNode(nodeCopy)
-//            spriteCopy.animateDie(index: index) {
-//                print("terminou animacao")
-//            }
-//        }
-//
     }
     
     @objc func respawn() {

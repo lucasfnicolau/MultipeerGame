@@ -34,7 +34,7 @@ class UIFactory {
         
         switch type {
         case "shoot":
-            button.addTarget(scene, action: #selector(scene.shoot), for: .touchUpInside)
+            button.addTarget(scene, action: #selector(scene.shoot), for: .touchDown)
             NSLayoutConstraint.activate([
                 button.trailingAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.trailingAnchor, constant: -125),
                 button.bottomAnchor.constraint(equalTo: sceneView.bottomAnchor, constant: -25),
@@ -42,7 +42,7 @@ class UIFactory {
                 button.heightAnchor.constraint(equalToConstant: imgSize.height / 5)
             ])
         case "dash":
-            button.addTarget(scene, action: #selector(scene.dash), for: .touchUpInside)
+            button.addTarget(scene, action: #selector(scene.dash), for: .touchDown)
             NSLayoutConstraint.activate([
                 button.trailingAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.trailingAnchor, constant: -25),
                 button.bottomAnchor.constraint(equalTo: sceneView.bottomAnchor, constant: -90),

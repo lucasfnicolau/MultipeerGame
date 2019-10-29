@@ -15,7 +15,7 @@ class ServiceManager: NSObject {
 
     // Service type must be a unique string, at most 15 characters long
     // and can contain only ASCII lowercase letters, numbers and hyphens.
-    private let ServiceType = "near"
+    private let serviceType = "near"
     private let serviceAdvertiser: MCNearbyServiceAdvertiser
     private let serviceBrowser: MCNearbyServiceBrowser
     var sceneDelegate: SceneDelegate?
@@ -28,8 +28,8 @@ class ServiceManager: NSObject {
     }()
 
     override init() {
-        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: ServiceManager.peerID, discoveryInfo: nil, serviceType: ServiceType)
-        self.serviceBrowser = MCNearbyServiceBrowser(peer: ServiceManager.peerID, serviceType: ServiceType)
+        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: ServiceManager.peerID, discoveryInfo: nil, serviceType: serviceType)
+        self.serviceBrowser = MCNearbyServiceBrowser(peer: ServiceManager.peerID, serviceType: serviceType)
 
         super.init()
     }
@@ -45,7 +45,7 @@ class ServiceManager: NSObject {
         if session.connectedPeers.count > 0 {
             guard let data = value.data(using: .utf8) else { return }
             do {
-                try self.session.send(data, toPeers: session.connectedPeers, with: .reliable)
+                try self.session.send(data, toPeers: session.connectedPeers, with: .unreliable)
             }
             catch {
                 NSLog("%@", "Error for sending: \(error)")
@@ -108,7 +108,6 @@ extension ServiceManager: MCSessionDelegate {
                 
                 if (ServiceManager.peerID.pid == 0) {
                     send(value: "players:\(playersNumber)")
-//                    sceneDelegate?.createEntities(quantity: playersNumber)
                     self.lobbyDelegate?.updatePlayers(to: playersNumber + 1)
                 }
                 

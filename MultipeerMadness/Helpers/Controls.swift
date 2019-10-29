@@ -96,7 +96,7 @@ extension GameScene {
 
 extension GameScene {
     
-    func ObserveForGameControllers() {
+    func observeForGameControllers() {
         NotificationCenter.default.addObserver(self, selector: #selector(connectControllers), name: NSNotification.Name.GCControllerDidConnect, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(disconnectControllers), name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
     }
