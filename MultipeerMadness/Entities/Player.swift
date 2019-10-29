@@ -30,6 +30,7 @@ class Player: GKEntity, Shooter {
         
         let spriteComponent = SpriteComponent(texture: texture, owner: self)
         let node = spriteComponent.node
+        node.zPosition = 1000
         node.setScale(0.3)
         let size = node.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5))
         var origin = node.position
@@ -109,18 +110,37 @@ class Player: GKEntity, Shooter {
     
     func die(index: Int) {
         self.isEnabled = false
-        guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
+        guard let spriteComponent = self.component(ofType: SpriteComponent.self) else { return }
         guard let velocity = self.component(ofType: VelocityComponent.self) else { return }
         velocity.x = 0
         velocity.y = 0
-        spriteNode.state = "die"
+        spriteComponent.state = "die"
         
-        spriteNode.animateDie(index: index) {
-//            self.sceneDelegate?.remove(self)
-            spriteNode.node.removeFromParent()
-            self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
+        self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
+        self.sceneDelegate?.remove(self)
+        
+        spriteComponent.animateDie(index: index) {
+            print("terminou")
+        }
+        if let nodeCopy = spriteComponent.node.copy() as? CustomNode {
+            nodeCopy.zPosition = 10
+            nodeCopy.physicsBody = nil
+            sceneDelegate?.addNode(nodeCopy)
+            
         }
         
+        
+        
+        
+//        if let spriteCopy = spriteComponent.copy() as? SpriteComponent {
+//            let nodeCopy = spriteCopy.node
+//            nodeCopy.physicsBody = nil
+//            sceneDelegate?.addNode(nodeCopy)
+//            spriteCopy.animateDie(index: index) {
+//                print("terminou animacao")
+//            }
+//        }
+//
     }
     
     @objc func respawn() {
