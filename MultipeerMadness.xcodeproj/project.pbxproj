@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		764344042363444800257B00 /* soundtrackAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 764344032363444800257B00 /* soundtrackAudio.mp3 */; };
+		76B71981236364510028AE96 /* dashAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B7197E236364500028AE96 /* dashAudio.mp3 */; };
+		76B71982236364510028AE96 /* shootAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B7197F236364500028AE96 /* shootAudio.mp3 */; };
+		76B71983236364510028AE96 /* killAudio.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 76B71980236364500028AE96 /* killAudio.mp3 */; };
 		824B30EF2362301F00EDF57A /* Map.sks in Resources */ = {isa = PBXBuildFile; fileRef = 824B30EE2362301F00EDF57A /* Map.sks */; };
 		826C8DC52360CFD100FB6828 /* TextureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826C8DC42360CFD100FB6828 /* TextureManager.swift */; };
 		82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A4234FADBF00E8D234 /* ServiceManager.swift */; };
@@ -22,6 +26,7 @@
 		B634765F2351A5C700C275AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B634765E2351A5C700C275AC /* Helpers.swift */; };
 		B644F4EE23633E6D008BBDE7 /* Azonix.otf in Resources */ = {isa = PBXBuildFile; fileRef = B644F4EC23633E62008BBDE7 /* Azonix.otf */; };
 		B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */; };
+		B65803AE2363A6C60020776B /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65803AD2363A6C60020776B /* CircleButton.swift */; };
 		B65FB88323576C5C00741673 /* EntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB88223576C5C00741673 /* EntityManager.swift */; };
 		B65FB885235817E200741673 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB884235817E200741673 /* Image.swift */; };
 		B65FB8872358184F00741673 /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8862358184F00741673 /* Bullet.swift */; };
@@ -33,11 +38,8 @@
 		B65FB8A52359357900741673 /* MapHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65FB8A02359357900741673 /* MapHandler.swift */; };
 		B65FB8A62359357900741673 /* map.json in Resources */ = {isa = PBXBuildFile; fileRef = B65FB8A12359357900741673 /* map.json */; };
 		B6A22287235E299A00AD4FCE /* GameSceneContactDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */; };
-		B6C108D92362552F00E95628 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108D82362552F00E95628 /* SoundManager.swift */; };
+		B6C108D92362552F00E95628 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108D82362552F00E95628 /* AudioManager.swift */; };
 		B6C108DB23625C5F00E95628 /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108DA23625C5F00E95628 /* RoundedButton.swift */; };
-		B6C108DD23625CB200E95628 /* LobbyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108DC23625CB200E95628 /* LobbyImageView.swift */; };
-		B6C108DF2362843400E95628 /* CircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108DE2362843400E95628 /* CircleButton.swift */; };
-		B6C108E12362B2F900E95628 /* RoundedVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C108E02362B2F900E95628 /* RoundedVisualEffectView.swift */; };
 		B6D1E6EC234D0549002817A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E6EB234D0549002817A4 /* AppDelegate.swift */; };
 		B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6ED234D0549002817A4 /* GameScene.sks */; };
 		B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = B6D1E6EF234D0549002817A4 /* Actions.sks */; };
@@ -52,6 +54,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		764344032363444800257B00 /* soundtrackAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = soundtrackAudio.mp3; sourceTree = "<group>"; };
+		76B7197E236364500028AE96 /* dashAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dashAudio.mp3; sourceTree = "<group>"; };
+		76B7197F236364500028AE96 /* shootAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shootAudio.mp3; sourceTree = "<group>"; };
+		76B71980236364500028AE96 /* killAudio.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = killAudio.mp3; sourceTree = "<group>"; };
 		824B30EE2362301F00EDF57A /* Map.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Map.sks; sourceTree = "<group>"; };
 		826C8DC42360CFD100FB6828 /* TextureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureManager.swift; sourceTree = "<group>"; };
 		82E338A4234FADBF00E8D234 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
@@ -67,6 +73,7 @@
 		B634765E2351A5C700C275AC /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		B644F4EC23633E62008BBDE7 /* Azonix.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Azonix.otf; sourceTree = "<group>"; };
 		B6506CCF2360CFBE00F8940F /* GameOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverViewController.swift; sourceTree = "<group>"; };
+		B65803AD2363A6C60020776B /* CircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
 		B65FB88223576C5C00741673 /* EntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityManager.swift; sourceTree = "<group>"; };
 		B65FB884235817E200741673 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		B65FB8862358184F00741673 /* Bullet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
@@ -78,11 +85,8 @@
 		B65FB8A02359357900741673 /* MapHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapHandler.swift; sourceTree = "<group>"; };
 		B65FB8A12359357900741673 /* map.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map.json; sourceTree = "<group>"; };
 		B6A22286235E299A00AD4FCE /* GameSceneContactDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneContactDelegate.swift; sourceTree = "<group>"; };
-		B6C108D82362552F00E95628 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		B6C108D82362552F00E95628 /* AudioManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		B6C108DA23625C5F00E95628 /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
-		B6C108DC23625CB200E95628 /* LobbyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyImageView.swift; sourceTree = "<group>"; };
-		B6C108DE2362843400E95628 /* CircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButton.swift; sourceTree = "<group>"; };
-		B6C108E02362B2F900E95628 /* RoundedVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedVisualEffectView.swift; sourceTree = "<group>"; };
 		B6D1E6E8234D0549002817A4 /* The Hatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Hatch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D1E6EB234D0549002817A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6D1E6ED234D0549002817A4 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -199,12 +203,16 @@
 			path = Contact;
 			sourceTree = "<group>";
 		};
-		B6C108D72362552700E95628 /* Sound */ = {
+		B6C108D72362552700E95628 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				B6C108D82362552F00E95628 /* SoundManager.swift */,
+				B6C108D82362552F00E95628 /* AudioManager.swift */,
+				764344032363444800257B00 /* soundtrackAudio.mp3 */,
+				76B7197E236364500028AE96 /* dashAudio.mp3 */,
+				76B71980236364500028AE96 /* killAudio.mp3 */,
+				76B7197F236364500028AE96 /* shootAudio.mp3 */,
 			);
-			path = Sound;
+			path = Audio;
 			sourceTree = "<group>";
 		};
 		B6D1E6DF234D0549002817A4 = {
@@ -226,8 +234,8 @@
 		B6D1E6EA234D0549002817A4 /* MultipeerMadness */ = {
 			isa = PBXGroup;
 			children = (
+				B6C108D72362552700E95628 /* Audio */,
 				B644F4EC23633E62008BBDE7 /* Azonix.otf */,
-				B6C108D72362552700E95628 /* Sound */,
 				826C8DC32360CFB900FB6828 /* Textures */,
 				B6EE6119235FBD7F00F4BE09 /* Delegates */,
 				B617ECE1235F9CC700136391 /* Custom SK */,
@@ -294,10 +302,8 @@
 			children = (
 				B6D1E6FA234D054B002817A4 /* LaunchScreen.storyboard */,
 				B6D1E6F5234D0549002817A4 /* Main.storyboard */,
+				B65803AD2363A6C60020776B /* CircleButton.swift */,
 				B6C108DA23625C5F00E95628 /* RoundedButton.swift */,
-				B6C108DC23625CB200E95628 /* LobbyImageView.swift */,
-				B6C108DE2362843400E95628 /* CircleButton.swift */,
-				B6C108E02362B2F900E95628 /* RoundedVisualEffectView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -393,8 +399,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76B71982236364510028AE96 /* shootAudio.mp3 in Resources */,
 				B644F4EE23633E6D008BBDE7 /* Azonix.otf in Resources */,
 				B6D1E6F7234D0549002817A4 /* Main.storyboard in Resources */,
+				764344042363444800257B00 /* soundtrackAudio.mp3 in Resources */,
+				76B71981236364510028AE96 /* dashAudio.mp3 in Resources */,
+				76B71983236364510028AE96 /* killAudio.mp3 in Resources */,
 				B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */,
 				B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */,
 				B6D1E6FC234D054B002817A4 /* LaunchScreen.storyboard in Resources */,
@@ -416,11 +426,8 @@
 				B65FB88A2358187200741673 /* PlayerFactory.swift in Sources */,
 				B6C108DB23625C5F00E95628 /* RoundedButton.swift in Sources */,
 				82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */,
-				B6C108DD23625CB200E95628 /* LobbyImageView.swift in Sources */,
-				B6C108DF2362843400E95628 /* CircleButton.swift in Sources */,
 				82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */,
 				B6EE611B235FBD9400F4BE09 /* GameSceneDelegate.swift in Sources */,
-				B6C108E12362B2F900E95628 /* RoundedVisualEffectView.swift in Sources */,
 				B65FB885235817E200741673 /* Image.swift in Sources */,
 				B6000320234EB7D400589D95 /* Joystick.swift in Sources */,
 				B617ECE0235F6B8800136391 /* UIFactory.swift in Sources */,
@@ -441,10 +448,11 @@
 				B628926723576A6800BF4D7F /* Gun.swift in Sources */,
 				B6289264235769BE00BF4D7F /* Shooter.swift in Sources */,
 				B65FB8A22359357900741673 /* CustomMap.swift in Sources */,
+				B65803AE2363A6C60020776B /* CircleButton.swift in Sources */,
 				B65FB88C2358188400741673 /* Player.swift in Sources */,
 				B65FB8A52359357900741673 /* MapHandler.swift in Sources */,
 				B65FB8872358184F00741673 /* Bullet.swift in Sources */,
-				B6C108D92362552F00E95628 /* SoundManager.swift in Sources */,
+				B6C108D92362552F00E95628 /* AudioManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,7 +598,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CTAFH43K36;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -611,7 +619,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = CTAFH43K36;
+				DEVELOPMENT_TEAM = 87G2Y58K9U;
 				INFOPLIST_FILE = MultipeerMadness/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (

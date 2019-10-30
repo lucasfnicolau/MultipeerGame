@@ -30,12 +30,51 @@ class GameScene: SKScene {
     var yVariation: CGFloat?
     var lastTouch: CGPoint?
     var playersNumber = 0
+    var shootBtn: CircleButton!
+    var dashBtn: CircleButton!
+    var soundtrackAudioPlayer: AVAudioPlayer?
+    var shootAudioPlayer: AVAudioPlayer?
+    var dashAudioPlayer: AVAudioPlayer?
+    var killAudioPlayer: AVAudioPlayer?
+    
+    var audioTitles: [String] = ["soundtrackAudio", "shootAudio", "dashAudio", "killAudio"]
+    
+    func loadAudio(named name: String) {
+        
+        AudioManager.getAudio(name: name) { (response) in
+            
+            switch response {
+                
+            case .success(let audio):
+            
+                if name == "soundtrackAudio" {
+                    soundtrackAudioPlayer = audio
+                    soundtrackAudioPlayer?.prepareToPlay()
+                
+                } else if name == "shootAudio" {
+                    shootAudioPlayer = audio
+                    shootAudioPlayer?.prepareToPlay()
+                
+                } else if name == "dashAudio" {
+                    dashAudioPlayer = audio
+                    dashAudioPlayer?.prepareToPlay()
+                
+                } else if name == "killAudio" {
+                    killAudioPlayer = audio
+                    killAudioPlayer?.prepareToPlay()
+                    
+                } else {
+                }
+                
+            case .error(let description):
+                print(description)
+            }
+        }
+    }
     
     override func didMove(to view: SKView) {
         self.physicsWorld.gravity = .zero
         self.physicsWorld.contactDelegate = self
-        
-        print(ServiceManager.peerID.pid)
         
         playerCamera.name = "playerCamera"
         self.camera = playerCamera
@@ -47,16 +86,26 @@ class GameScene: SKScene {
         map.setScale(0.8)
         addChild(map)
         
-        ObserveForGameControllers()
+        observeForGameControllers()
         connectControllers()
         
         joystick = Joystick(radius: 50, in: self)
         addChild(joystick)
         
         uiFactory = UIFactory(scene: self)
-        uiFactory.createButton(ofType: "shoot")
-        uiFactory.createButton(ofType: "dash")
+        shootBtn = uiFactory.createButton(ofType: "shoot")
+        dashBtn = uiFactory.createButton(ofType: "dash")
         scoreLabel = uiFactory.createLabel(ofType: "score")
+        
+        for i in 0 ..< audioTitles.count {
+            loadAudio(named: audioTitles[i])
+        }
+        
+        DispatchQueue.main.async {
+            self.soundtrackAudioPlayer?.play()
+            self.soundtrackAudioPlayer?.volume = 0.8
+            self.soundtrackAudioPlayer?.numberOfLoops = -1
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -101,9 +150,6 @@ class GameScene: SKScene {
             joystick.vY = dist.yDist / 16
             
             guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
-            var joyVel = CGPoint(x: joystick.vX, y: joystick.vY)
-            joyVel.normalize()
-            
             velocity.x = String(format: "%.5f", joystick.vX).cgFloat()
             velocity.y = String(format: "%.5f", joystick.vY).cgFloat()
                         
@@ -114,13 +160,9 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        guard let first = touches.first else { return }
-//        let location = first.location(in: self.view)
-//        if location.x <= UIScreen.main.bounds.width / 2 {
-            if joystick.activo == true {
-                reset()
-            }
-//        }
+        if joystick.activo == true {
+            reset()
+        }
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -132,7 +174,7 @@ class GameScene: SKScene {
     func reset() {
         joystick.reset()
         let index = ServiceManager.peerID.pid
-        send("v:\(index):0:0:-")
+        send("v:\(index):0:0:-") // TODO: Adicionar rotação
         setVelocity([0, 0], on: index)
     }
     
@@ -161,25 +203,17 @@ class GameScene: SKScene {
         deltaTime = currentTime - lastTime
         
         if index >= 0 && index < self.players.count {
-            if players[index].isEnabled {
+            if players[index].isEnabled && joystick.activo {
                 guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node,
                     let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
-                playerNode.position.x -= velocity.x // * UIScreen.main.bounds.width
-                playerNode.position.y += velocity.y // * UIScreen.main.bounds.height
+                playerNode.position.x -= velocity.x
+                playerNode.position.y += velocity.y
                 
                 playerCamera.position = playerNode.position
                 
-                var normalizedPos = playerNode.position
-//                normalizedPos.normalize()
-                self.send("\(index):\(normalizedPos.x):\(normalizedPos.y)")
-                
-    //            for i in 0 ..< players.count {
-    //                guard let playerNode = players[i].component(ofType: SpriteComponent.self)?.node,
-    //                    let velocity = players[i].component(ofType: VelocityComponent.self) else { return }
-    //                playerNode.position.x -= velocity.x
-    //                playerNode.position.y += velocity.y
-    //            }
-                
+                let position = playerNode.position
+                self.send("\(index):\(position.x):\(position.y)")
+
                 setNewJoystickPosition(basedOn: playerNode.position)
             }
         }
@@ -191,6 +225,9 @@ class GameScene: SKScene {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
             players[index].shoot(index: index, zRotation: joystick.getZRotation())
+            DispatchQueue.main.async {
+                self.shootAudioPlayer?.play()
+            }
             self.send("fire:\(index):\(joystick.getZRotation())")
         }
     }
@@ -199,16 +236,9 @@ class GameScene: SKScene {
         let index = ServiceManager.peerID.pid
         if index >= 0 && index < self.players.count {
             players[index].dash(zRotation: joystick.getZRotation())
-        }
-    }
-    
-    func loadAudio(named name: String) {
-        SoundManager.getAudio(name: name) { (response) in
-            switch response {
-            case .success(let audio):
-                audioPlayer = audio
-            case .error(let description):
-                print(description)
+            
+            DispatchQueue.main.async {
+                self.dashAudioPlayer?.play()
             }
         }
     }

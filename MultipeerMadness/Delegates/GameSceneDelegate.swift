@@ -116,5 +116,7 @@ extension GameScene: SceneDelegate {
     
     func enableJoystick() {
         joystick.activo = true
+        shootBtn.isEnabled = true
+        dashBtn.isEnabled = true
     }
 }

@@ -36,7 +36,7 @@ class Bullet: GKEntity {
 
         guard let node = self.component(ofType: SpriteComponent.self)?.node else { return }
 
-        node.physicsBody = SKPhysicsBody(rectangleOf: node.size)
+        node.physicsBody = SKPhysicsBody(rectangleOf: node.size) // REMAKE
         node.physicsBody?.isDynamic = false
         node.physicsBody?.affectedByGravity = false
         

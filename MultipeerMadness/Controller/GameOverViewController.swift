@@ -14,11 +14,18 @@ class GameOverViewController: UIViewController {
     var winner = -1
     var serviceManager: ServiceManager?
     @IBOutlet weak var winnerImageView: UIImageView!
+    @IBOutlet weak var winnerImageViewTopConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        winnerImageView.image = UIImage(named: "idle_nothing_front_\(winner)0")
+//        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+//        if deviceIdiom == .pad {
+//            winnerImageViewTopConstraint.constant = 140
+//            winnerImageViewTopConstraint.constant = 48
+//        }
+        
+        winnerImageView.image = UIImage(named: "lobby\(winner)")
     }
     
     @IBAction func exit() {

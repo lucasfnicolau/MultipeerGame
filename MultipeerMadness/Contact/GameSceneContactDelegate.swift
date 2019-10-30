@@ -32,7 +32,18 @@ extension GameScene: SKPhysicsContactDelegate {
             guard let player = findPlayer(basedOn: playerNode) else { return }
             guard let index = players.firstIndex(of: player) else { return }
             player.die(index: index)
-            joystick.activo = false
+            DispatchQueue.main.async {
+                self.killAudioPlayer?.play()
+            }
+            
+            let myPlayer = players[ServiceManager.peerID.pid]
+            
+            if player == myPlayer {
+                joystick.activo = false
+                joystick.reset()
+                shootBtn.isEnabled = false
+                dashBtn.isEnabled = false
+            }
             
         } else {
             guard let playerShot: CustomNode = firstBody.node as? CustomNode,
@@ -43,11 +54,20 @@ extension GameScene: SKPhysicsContactDelegate {
             guard let player = findPlayer(basedOn: playerShot) else { return }
             guard let index = players.firstIndex(of: player) else { return }
             player.die(index: index)
-            joystick.activo = false
+            DispatchQueue.main.async {
+                self.killAudioPlayer?.play()
+            }
             
             guard let bullet: Bullet = bulletNode.owner as? Bullet,
             let owner: Player = bullet.owner else { return }
             let myPlayer = players[ServiceManager.peerID.pid]
+            
+            if player == myPlayer {
+                joystick.activo = false
+                joystick.reset()
+                shootBtn.isEnabled = false
+                dashBtn.isEnabled = false
+            }
             
             if owner == myPlayer {
                 myPlayer.kills += 1

@@ -16,10 +16,10 @@ class UIFactory {
         self.scene = scene
     }
     
-    func createButton(ofType type: String) {
+    func createButton(ofType type: String) -> CircleButton {
         let button = CircleButton(frame: .zero)
         
-        guard let sceneView = scene.view else { return }
+        guard let sceneView = scene.view else { return CircleButton() }
 
         sceneView.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -29,51 +29,31 @@ class UIFactory {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .bold)
         button.setTitleColor(.black, for: .normal)
         button.setBackgroundImage(image, for: .normal)
-        
-//        let blurEffect = UIBlurEffect(style: .dark)
-//        let vfxView = UIVisualEffectView(effect: blurEffect)
-//        vfxView.layer.cornerRadius = imgSize.width / 10
-//        vfxView.clipsToBounds = true
-//
-//        sceneView.addSubview(vfxView)
-//        vfxView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        vfxView.contentView.addSubview(button)
         sceneView.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         switch type {
         case "shoot":
-//            button.setTitle("S", for: .normal)
-            button.addTarget(scene, action: #selector(scene.shoot), for: .touchUpInside)
+            button.addTarget(scene, action: #selector(scene.shoot), for: .touchDown)
             NSLayoutConstraint.activate([
                 button.trailingAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.trailingAnchor, constant: -125),
                 button.bottomAnchor.constraint(equalTo: sceneView.bottomAnchor, constant: -25),
                 button.widthAnchor.constraint(equalToConstant: imgSize.width / 5),
-                button.heightAnchor.constraint(equalToConstant: imgSize.height / 5),
-                
-//                button.leadingAnchor.constraint(equalTo: vfxView.contentView.leadingAnchor),
-//                button.trailingAnchor.constraint(equalTo: vfxView.contentView.trailingAnchor),
-//                button.topAnchor.constraint(equalTo: vfxView.contentView.topAnchor),
-//                button.bottomAnchor.constraint(equalTo: vfxView.contentView.bottomAnchor),
+                button.heightAnchor.constraint(equalToConstant: imgSize.height / 5)
             ])
         case "dash":
-//        button.setTitle("D", for: .normal)
-            button.addTarget(scene, action: #selector(scene.dash), for: .touchUpInside)
+            button.addTarget(scene, action: #selector(scene.dash), for: .touchDown)
             NSLayoutConstraint.activate([
                 button.trailingAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.trailingAnchor, constant: -25),
                 button.bottomAnchor.constraint(equalTo: sceneView.bottomAnchor, constant: -90),
                 button.widthAnchor.constraint(equalToConstant: imgSize.width / 5),
-                button.heightAnchor.constraint(equalToConstant: imgSize.height / 5),
-                
-//                button.leadingAnchor.constraint(equalTo: vfxView.contentView.leadingAnchor),
-//                button.trailingAnchor.constraint(equalTo: vfxView.contentView.trailingAnchor),
-//                button.topAnchor.constraint(equalTo: vfxView.contentView.topAnchor),
-//                button.bottomAnchor.constraint(equalTo: vfxView.contentView.bottomAnchor)
+                button.heightAnchor.constraint(equalToConstant: imgSize.height / 5)
             ])
         default:
-            return
+            return CircleButton()
         }
+        
+        return button
     }
     
     func createLabel(ofType type: String) -> UILabel {

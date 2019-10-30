@@ -30,6 +30,7 @@ class Player: GKEntity, Shooter {
         
         let spriteComponent = SpriteComponent(texture: texture, owner: self)
         let node = spriteComponent.node
+        node.zPosition = 1000
         node.setScale(0.3)
         let size = node.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5))
         var origin = node.position
@@ -40,8 +41,6 @@ class Player: GKEntity, Shooter {
         node.physicsBody?.collisionBitMask = CustomMap.normalBitmask
         node.physicsBody?.contactTestBitMask = Bullet.bitmask | CustomMap.hazardBitmask
         addComponent(spriteComponent)
-        
-        
         
         let velocity = VelocityComponent()
         addComponent(velocity)
@@ -92,8 +91,8 @@ class Player: GKEntity, Shooter {
             
             let radius = UIScreen.main.bounds.width / 2.0
             
-            let xDist: CGFloat = sin(zRotation) * radius / 2.5
-            let yDist: CGFloat = cos(zRotation) * radius / 2.5
+            let xDist: CGFloat = sin(zRotation) * radius / 2
+            let yDist: CGFloat = cos(zRotation) * radius / 2
             
             actionArray.append(SKAction.move(by: CGVector(dx: -xDist, dy: yDist), duration: animationDuration))
             playerNode.run(SKAction.sequence(actionArray))
@@ -109,21 +108,29 @@ class Player: GKEntity, Shooter {
     
     func die(index: Int) {
         self.isEnabled = false
-        guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
-        spriteNode.state = "die"
-        spriteNode.animateDie(index: index) {
-//            self.sceneDelegate?.remove(self)
-            spriteNode.node.removeFromParent()
-            self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
-        }
+        guard let spriteComponent = self.component(ofType: SpriteComponent.self) else { return }
+        guard let velocity = self.component(ofType: VelocityComponent.self) else { return }
+        velocity.x = 0
+        velocity.y = 0
+        spriteComponent.state = "die"
         
+        self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
+        self.sceneDelegate?.remove(self)
+        
+        spriteComponent.animateDie(index: index) {
+            print("terminou")
+        }
+        if let nodeCopy = spriteComponent.node.copy() as? CustomNode {
+            nodeCopy.zPosition = 10
+            nodeCopy.physicsBody = nil
+            sceneDelegate?.addNode(nodeCopy)
+        }
     }
     
     @objc func respawn() {
-        sceneDelegate?.enableJoystick()
         guard let spriteComponent = self.component(ofType: SpriteComponent.self) else { return }
-        
         spriteComponent.state = ""
+        sceneDelegate?.enableJoystick()
         let node = spriteComponent.node
 //        let randIndex = Int.random(in: 0 ..< CustomMap.spawnablePositions.count)
 //        let position = CustomMap.spawnablePositions[randIndex]
