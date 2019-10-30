@@ -202,10 +202,11 @@ class GameScene: SKScene {
         let index = ServiceManager.peerID.pid
         
         deltaTime = currentTime - lastTime
-         
-        guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
         
         if index >= 0 && index < self.players.count {
+            
+            guard let playerNode = players[index].component(ofType: SpriteComponent.self)?.node else { return }
+            
             if players[index].isEnabled && joystick.activo {
                 guard let velocity = players[index].component(ofType: VelocityComponent.self) else { return }
                 playerNode.position.x -= velocity.x
