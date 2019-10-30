@@ -144,12 +144,11 @@ extension ServiceManager: MCSessionDelegate {
                     keyValue[2].cgFloat(),
                     keyValue[3].cgFloat()
                 ]
-                self.sceneDelegate?.setVelocity(v, on: index)
                 
-                if keyValue[4] != "-" {
-                    let r = keyValue[4].cgFloat()
-                    self.sceneDelegate?.setRotation(r, on: index)
-                }
+                let r = keyValue[4].cgFloat()
+//                self.sceneDelegate?.setRotation(r, on: index)
+                self.sceneDelegate?.setVelocity(v, with: r, on: index)
+                
             } else if keyValue[0] == "fire" {
                 let index = keyValue[1].int()
                 let rotation = keyValue[2].cgFloat()
