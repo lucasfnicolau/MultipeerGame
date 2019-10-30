@@ -15,6 +15,7 @@ class SpriteComponent: GKComponent {
     var lastMoved: String = ""
     var owner: GKEntity?
     var state: String = ""
+    var direction: PlayerDirection = .back
     
     init(texture: SKTexture, owner: GKEntity) {
         node = CustomNode(texture: texture, color: .white, size: texture.size(), owner: owner)
@@ -36,144 +37,143 @@ class SpriteComponent: GKComponent {
     }
     
     func animateIdle(to zRotation: CGFloat, _ index: Int) {
-        let direction = getDirection(zRotation: zRotation)
-        animateTo(state: "idle", action: "nothing", direction: direction, player: index)
+        getDirection(zRotation: zRotation)
+        animateTo(state: "idle", action: "nothing", direction: direction.rawValue , player: index)
     }
     
     func animateRunControl(to zRotation: CGFloat, _ index: Int) {
-        print(zRotation)
         if state != "die" {
-            let direction = getDirectionControl(zRotation: zRotation)
-            animateTo(state: "run", action: "nothing", direction: direction, player: index)
+            getDirectionControl(zRotation: zRotation)
+            animateTo(state: "run", action: "nothing", direction: direction.rawValue, player: index)
         }
     }
     
     func animateRun(to zRotation: CGFloat, _ index: Int) {
         if state != "die" {
-            let direction = getDirection(zRotation: zRotation)
-            animateTo(state: "run", action: "nothing", direction: direction, player: index)
+            getDirection(zRotation: zRotation)
+            animateTo(state: "run", action: "nothing", direction: direction.rawValue, player: index)
         }
     }
     
     func animateRunShoot(to zRotation: CGFloat, _ index: Int) {
         if state != "die" {
-            let direction = getDirectionShoot(zRotation: zRotation)
-            animateTo(state: "run", action: "shooting", direction: direction, player: index)
+            getDirectionShoot(zRotation: zRotation)
+            animateTo(state: "run", action: "shooting", direction: direction.rawValue, player: index)
         }
     }
     
-    func getDirectionControl(zRotation: CGFloat) -> String {
+    func getDirectionControl(zRotation: CGFloat) {
         
         // 0.5 == 90 graus
-        
         switch zRotation / .pi {
+            
         case 0.75 ... 0.25:
             node.zRotation = zRotation
-            return ("back")
+            direction = .back
             
         case -0.75 ... 0.25:
             node.zRotation = zRotation + .pi / 2
-            return ("right") //("back_right")
+            direction = .right //("back_right")
             
         case -0.75 ... -0.25:
             node.zRotation = zRotation + .pi
-            return ("front") //("front_right")
-            
+            direction = .front //("front_right")
             
         case -1 ... -0.75:
             node.zRotation = zRotation - .pi / 2
-            return ("left") //("front_left")
+            direction = .left //("front_left")
             
         case 0.75 ... 1:
             node.zRotation = zRotation - .pi / 2
-            return ("left")
+            direction = .left
             
         default:
-            return ("left")
+            direction = .left
             
         }
     }
     
-    func getDirection(zRotation: CGFloat) -> String {
+    func getDirection(zRotation: CGFloat) {
         
         // 0.5 == 90 graus
         
         switch zRotation / .pi {
+            
         case -0.125 ... 0.125:
             node.zRotation = zRotation
-            return ("back")
+            direction = .back
             
         case -0.375 ... -0.125:
             node.zRotation = zRotation + .pi / 2
-            return ("right") //("back_right")
+            direction = .right //("back_right")
             
         case -0.625 ... -0.375:
             node.zRotation = zRotation + .pi / 2
-            return ("right")
+            direction = .right
             
         case -0.875 ... -0.625:
             node.zRotation = zRotation + .pi
-            return ("front") //("front_right")
+            direction = .front //("front_right")
             
         case -1.125 ... -0.875:
             node.zRotation = zRotation - .pi
-            return ("front")
+            direction = .front
             
         case -1.375 ... -1.125:
             node.zRotation = zRotation - .pi / 2
-            return ("left") //("front_left")
+            direction = .left //("front_left")
             
         case -1.5 ... -1.375:
             node.zRotation = zRotation - .pi / 2
-            return ("left")
+            direction = .left
             
         case 0.375 ... 0.5:
             node.zRotation = zRotation - .pi / 2
-            return ("left")
+            direction = .left
             
         case 0.125 ... 0.375:
             node.zRotation = zRotation - .pi / 2
-            return ("left") //("back_left")
+            direction = .left //("back_left")
             
         default:
-            return ("left")
+            direction = .left
             
         }
     }
     
-    func getDirectionShoot(zRotation: CGFloat) -> String {
+    func getDirectionShoot(zRotation: CGFloat) {
         
         // 0.5 == 90 graus
         switch zRotation / .pi {
         case -0.125 ... 0.125:
-            return ("back")
+            direction = .back
             
         case -0.375 ... -0.125:
-            return ("right") //("back_right")
+            direction = .right //("back_right")
             
         case -0.625 ... -0.375:
-            return ("right")
+            direction = .right
             
         case -0.875 ... -0.625:
-            return ("front") //("front_right")
+            direction = .front //("front_right")
             
         case -1.125 ... -0.875:
-            return ("front")
+            direction = .front
             
         case -1.375 ... -1.125:
-            return ("left") //("front_left")
+            direction = .left //("front_left")
             
         case -1.5 ... -1.375:
-            return ("left")
+            direction = .left
             
         case 0.375 ... 0.5:
-            return ("left")
+            direction = .left
             
         case 0.125 ... 0.375:
-            return ("left") //("back_left")
+            direction = .left //("back_left")
             
         default:
-            return ("left")
+            direction = .left
             
         }
     }
@@ -215,7 +215,4 @@ class SpriteComponent: GKComponent {
         
         obj.run(SKAction.repeatForever(animate), withKey: "moved")
     }
-    
-    
-    
 }

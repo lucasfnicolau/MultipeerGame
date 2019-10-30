@@ -31,7 +31,7 @@ class Player: GKEntity, Shooter {
         let spriteComponent = SpriteComponent(texture: texture, owner: self)
         let node = spriteComponent.node
         node.zPosition = 1000
-        node.setScale(0.3)
+        node.setScale(Scale.player)
         let size = node.size.applying(CGAffineTransform(scaleX: 0.5, y: 0.5))
         var origin = node.position
         origin.x -= node.size.width / 6
@@ -54,7 +54,7 @@ class Player: GKEntity, Shooter {
         if ammo > 0 && isEnabled {
             let bullet = Bullet(imageName: "bullet\(index)", sceneDelegate: sceneDelegate, owner: self)
             guard let bulletNode = bullet.component(ofType: SpriteComponent.self)?.node else { return }
-            bulletNode.setScale(0.1)
+            bulletNode.setScale(Scale.bullet)
             
             guard let spriteNode = self.component(ofType: SpriteComponent.self) else { return }
             let x = spriteNode.node.position.x
