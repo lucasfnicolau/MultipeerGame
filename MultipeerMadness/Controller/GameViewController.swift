@@ -60,8 +60,8 @@ class GameViewController: UIViewController {
             
             NotificationCenter.default.addObserver(self, selector: #selector(gotoGameOverVC(_:)), name: NSNotification.Name(rawValue: "gameOver"), object: nil)
             
-            view.showsFPS = true
-            view.showsNodeCount = true
+//            view.showsFPS = true
+//            view.showsNodeCount = true
             view.showsPhysics = true
         }
     }

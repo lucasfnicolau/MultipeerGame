@@ -175,8 +175,8 @@ class GameScene: SKScene {
     func reset() {
         joystick.reset()
         let index = ServiceManager.peerID.pid
-        send("v:\(index):0:0:-") // TODO: Adicionar rotação
-        setVelocity([0, 0], on: index)
+        send("v:\(index):0:0:\(joystick.getZRotation())")
+        setVelocity([0, 0], with: joystick.getZRotation(), on: index)
     }
     
     func setNewJoystickPosition(basedOn position: CGPoint) {
