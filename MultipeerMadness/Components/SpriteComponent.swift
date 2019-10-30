@@ -27,13 +27,9 @@ class SpriteComponent: GKComponent {
     }
     
     func animateDie(index: Int) {
-        var position = "die_nothing_front_\(index)"
-        var texture = TextureManager.shared.getTextureAtlasFrames(for: position)
-        animateFrames(in: node, with: texture) {
-            position = "idle_nothing_front_\(index)"
-            texture = TextureManager.shared.getTextureAtlasFrames(for: position)
-            self.animateFramesForever(in: self.node, with: texture)
-        }
+        let position = "die_nothing_front_\(index)"
+        let texture = TextureManager.shared.getTextureAtlasFrames(for: position)
+        animateFrames(in: node, with: texture) { }
     }
     
     func animateIdle(to zRotation: CGFloat, _ index: Int) {
@@ -189,12 +185,14 @@ class SpriteComponent: GKComponent {
                         position = "idle_\(action)_\(direction)_\(player)"
                         texture = TextureManager.shared.getTextureAtlasFrames(for: position)
                         self.animateFramesForever(in: self.node, with: texture)
+                        self.lastMoved = position
                     }
                 } else  {
                     animateFramesForever(in: node, with: texture)
+                    lastMoved = position
                 }
                 
-                lastMoved = position
+                
             } else {
                 NSLog("ERRO: Falha ao carregar os frames.")
             }
