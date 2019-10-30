@@ -79,11 +79,12 @@ class GameScene: SKScene {
         playerCamera.name = "playerCamera"
         self.camera = playerCamera
         
+        
         entityManager = EntityManager(scene: self)
         createEntities(quantity: playersNumber)
         
         map = CustomMap(namedTile: "CustomMap", tileSize: CGSize(width: 128, height: 128))
-        map.setScale(0.8)
+        map.setScale(Scale.map)
         addChild(map)
         
         observeForGameControllers()
