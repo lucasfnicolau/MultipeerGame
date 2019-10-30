@@ -52,6 +52,7 @@
 		B6D1E708234E8F68002817A4 /* CustomPeerID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1E707234E8F68002817A4 /* CustomPeerID.swift */; };
 		B6EE611B235FBD9400F4BE09 /* GameSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */; };
 		E353CACD235F7ADB00E57D11 /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E353CACC235F7ADB00E57D11 /* LobbyViewController.swift */; };
+		E3BB0808236A1E3D00CA734D /* Scale.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BB0807236A1E3D00CA734D /* Scale.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 		B6D1E707234E8F68002817A4 /* CustomPeerID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPeerID.swift; sourceTree = "<group>"; };
 		B6EE611A235FBD9400F4BE09 /* GameSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneDelegate.swift; sourceTree = "<group>"; };
 		E353CACC235F7ADB00E57D11 /* LobbyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
+		E3BB0807236A1E3D00CA734D /* Scale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scale.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				B65FB884235817E200741673 /* Image.swift */,
+				E3BB0807236A1E3D00CA734D /* Scale.swift */,
 				827A9865236A1C1300730F68 /* PlayerDirection.swift */,
 			);
 			path = Enum;
@@ -449,6 +452,7 @@
 				826C8DC52360CFD100FB6828 /* TextureManager.swift in Sources */,
 				B65FB8912358D68000741673 /* VelocityComponent.swift in Sources */,
 				B628926723576A6800BF4D7F /* Gun.swift in Sources */,
+				E3BB0808236A1E3D00CA734D /* Scale.swift in Sources */,
 				B6289264235769BE00BF4D7F /* Shooter.swift in Sources */,
 				B65FB8A22359357900741673 /* CustomMap.swift in Sources */,
 				B65803AE2363A6C60020776B /* CircleButton.swift in Sources */,
