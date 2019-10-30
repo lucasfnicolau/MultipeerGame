@@ -114,9 +114,10 @@ class Player: GKEntity, Shooter {
         velocity.y = 0
         spriteComponent.state = "die"
         
-        self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
+        self.perform(#selector(self.respawn(argument:)), with: index, afterDelay: 1.0)
         self.sceneDelegate?.remove(self)
         
+        spriteComponent.lastMoved = ""
         spriteComponent.animateDie(index: index)
         
         if let nodeCopy = spriteComponent.node.copy() as? CustomNode {
@@ -126,11 +127,14 @@ class Player: GKEntity, Shooter {
         }
     }
     
-    @objc func respawn() {
+    @objc func respawn(argument: Any) {
+        guard let index = argument as? Int else { return }
         guard let spriteComponent = self.component(ofType: SpriteComponent.self) else { return }
         spriteComponent.state = ""
         sceneDelegate?.enableJoystick()
+        spriteComponent.animateIdle(to: -1, index)
         let node = spriteComponent.node
+        
 //        let randIndex = Int.random(in: 0 ..< CustomMap.spawnablePositions.count)
 //        let position = CustomMap.spawnablePositions[randIndex]
         node.position = CGPoint.zero
