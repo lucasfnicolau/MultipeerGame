@@ -129,6 +129,7 @@ class CustomMap: SKNode {
                             tileNode.physicsBody?.collisionBitMask = Player.bitmask | Bullet.bitmask
                             tileNode.physicsBody?.contactTestBitMask = Bullet.bitmask
                         } else {
+                            tileNode.physicsBody = SKPhysicsBody(circleOfRadius: 128/2.5)
                             tileNode.physicsBody?.categoryBitMask = CustomMap.hazardBitmask
                             tileNode.physicsBody?.collisionBitMask = Player.bitmask
                             tileNode.physicsBody?.contactTestBitMask = Player.bitmask
