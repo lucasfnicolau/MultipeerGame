@@ -92,7 +92,6 @@ extension GameScene: SceneDelegate {
     
     func setRotation(_ r: CGFloat, on index: Int) {
         guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
-        print("HERE: \(r)")
         playerSprite.animateRun(to: r, index)
     }
     

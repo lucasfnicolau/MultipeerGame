@@ -25,15 +25,13 @@ class SpriteComponent: GKComponent {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func animateDie(index: Int, withCompletion completion: @escaping() -> Void) {
-        print(index)
+    func animateDie(index: Int) {
         var position = "die_nothing_front_\(index)"
         var texture = TextureManager.shared.getTextureAtlasFrames(for: position)
         animateFrames(in: node, with: texture) {
             position = "idle_nothing_front_\(index)"
             texture = TextureManager.shared.getTextureAtlasFrames(for: position)
             self.animateFramesForever(in: self.node, with: texture)
-            completion()
         }
     }
     
@@ -91,7 +89,7 @@ class SpriteComponent: GKComponent {
             return ("left")
             
         default:
-            return ("RUIM")
+            return ("left")
             
         }
     }
@@ -138,7 +136,7 @@ class SpriteComponent: GKComponent {
             return ("left") //("back_left")
             
         default:
-            return ("RUIM")
+            return ("left")
             
         }
     }
@@ -175,7 +173,7 @@ class SpriteComponent: GKComponent {
             return ("left") //("back_left")
             
         default:
-            return ("RUIM")
+            return ("left")
             
         }
     }

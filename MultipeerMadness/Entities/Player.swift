@@ -117,9 +117,8 @@ class Player: GKEntity, Shooter {
         self.perform(#selector(self.respawn), with: nil, afterDelay: 1.0)
         self.sceneDelegate?.remove(self)
         
-        spriteComponent.animateDie(index: index) {
-            print("terminou")
-        }
+        spriteComponent.animateDie(index: index)
+        
         if let nodeCopy = spriteComponent.node.copy() as? CustomNode {
             nodeCopy.zPosition = 10
             nodeCopy.physicsBody = nil
