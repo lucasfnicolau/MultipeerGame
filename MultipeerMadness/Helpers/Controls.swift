@@ -45,7 +45,7 @@ extension GameScene {
                  guard let playerNode = players[ServiceManager.peerID.pid].component(ofType: SpriteComponent.self)?.node else { return }
                 send("v:\(ServiceManager.peerID.pid):0:0:\(playerNode.zRotation)")
                 
-                setVelocity([0, 0], on: ServiceManager.peerID.pid)
+                setVelocity([0, 0], with: playerNode.zRotation, on: ServiceManager.peerID.pid)
             }
         }
         // Right Thumbstick

@@ -17,7 +17,7 @@ protocol SceneDelegate {
     func remove(_ entity: GKEntity)
     func move(onIndex index: Int, by values: (CGFloat, CGFloat))
     func move(onIndex index: Int, to pos: (CGFloat, CGFloat))
-    func setVelocity(_ v: [CGFloat], on index: Int)
+    func setVelocity(_ v: [CGFloat], with r: CGFloat, on index: Int)
     func setRotation(_ r: CGFloat, on index: Int)
     func announceShooting(on index: Int, with rotation: CGFloat)
     func announceStop(on index: Int)
@@ -76,7 +76,7 @@ extension GameScene: SceneDelegate {
         }
     }
     
-    func setVelocity(_ v: [CGFloat], on index: Int) {
+    func setVelocity(_ v: [CGFloat], with r: CGFloat, on index: Int) {
         var velocity: VelocityComponent? = nil
         if index >= 0 && index < self.players.count {
             velocity = players[index].component(ofType: VelocityComponent.self)
@@ -84,9 +84,11 @@ extension GameScene: SceneDelegate {
         velocity?.x = v[0]
         velocity?.y = v[1]
         
+        guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
         if v[0] == 0 && v[1] == 0 {
-            guard let playerSprite = players[index].component(ofType: SpriteComponent.self) else { return }
-            playerSprite.animateIdle(to: joystick.getZRotation(), index)
+            playerSprite.animateIdle(to: r, index)
+        } else {
+            playerSprite.animateRun(to: r, index)
         }
     }
     
