@@ -120,9 +120,6 @@ class CustomMap: SKNode {
                     if tileType != MapCase.floor.rawValue
                         && tileType != MapCase.shadow.rawValue {
                         tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 128, height: 128))
-                        tileNode.physicsBody?.isDynamic = true
-                        tileNode.physicsBody?.pinned = true
-                        tileNode.physicsBody?.allowsRotation = false
                         
                         if tileType != MapCase.hazard.rawValue {
                             tileNode.physicsBody?.categoryBitMask = CustomMap.normalBitmask
@@ -134,6 +131,10 @@ class CustomMap: SKNode {
                             tileNode.physicsBody?.collisionBitMask = Player.bitmask
                             tileNode.physicsBody?.contactTestBitMask = Player.bitmask
                         }
+                        
+                        tileNode.physicsBody?.isDynamic = true
+                        tileNode.physicsBody?.pinned = true
+                        tileNode.physicsBody?.allowsRotation = false
                     } else {
                         CustomMap.spawnablePositions.append(tileNode.position)
                     }
