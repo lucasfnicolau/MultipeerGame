@@ -21,6 +21,7 @@ class Player: GKEntity, Shooter {
             sceneDelegate?.updateKills(to: self.kills)
         }
     }
+    let timeOfRespawn = 3.0
     
     init(imageName: String, sceneDelegate: SceneDelegate? = nil) {
         super.init()
@@ -39,7 +40,8 @@ class Player: GKEntity, Shooter {
         node.physicsBody = SKPhysicsBody(polygonFrom: CGPath(ellipseIn: CGRect(origin: origin, size: CGSize(width: size.width / 1.2, height: size.height * 1.2)), transform: nil))
         node.physicsBody?.categoryBitMask = Player.bitmask
         node.physicsBody?.collisionBitMask = CustomMap.normalBitmask
-        node.physicsBody?.contactTestBitMask = Bullet.bitmask | CustomMap.hazardBitmask
+        //Ao inves de criar o contato ele o cria apos 3 segundos
+        spawn(node: node) //node.physicsBody?.contactTestBitMask = Bullet.bitmask | CustomMap.hazardBitmask
         addComponent(spriteComponent)
         
         let velocity = VelocityComponent()
@@ -133,12 +135,27 @@ class Player: GKEntity, Shooter {
         spriteComponent.state = ""
         sceneDelegate?.enableJoystick()
         spriteComponent.animateIdle(to: -1, index)
-        let node = spriteComponent.node
         
-//        let randIndex = Int.random(in: 0 ..< CustomMap.spawnablePositions.count)
-//        let position = CustomMap.spawnablePositions[randIndex]
+        let node = spriteComponent.node
         node.position = CGPoint.zero
+        
+        spawn(node: node)
+
         sceneDelegate?.addNode(node)
         isEnabled = true
     }
+    
+    private func spawn(node: CustomNode) {
+        node.physicsBody?.contactTestBitMask = 0
+        let sequence = [SKAction.fadeOut(withDuration: 0.5),
+                        SKAction.fadeIn(withDuration: 0.5)]
+        node.run(SKAction.repeat(SKAction.sequence(sequence), count: Int(timeOfRespawn)))
+        self.perform(#selector(self.stateRespawn(argument:)), with: node, afterDelay: timeOfRespawn)
+    }
+    
+    @objc func stateRespawn(argument: Any) {
+        guard let node = argument as? CustomNode else { return }
+        node.physicsBody?.contactTestBitMask = Bullet.bitmask | CustomMap.hazardBitmask
+    }
+    
 }
