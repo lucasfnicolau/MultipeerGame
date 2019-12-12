@@ -8,6 +8,10 @@
 
 import UIKit
 
+let letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+               "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x",
+               "y", "z"]
+
 func mod(_ value: CGFloat) -> CGFloat {
     return value < 0 ? value * -1 : value
 }
@@ -47,4 +51,13 @@ extension Substring {
     func int() -> Int {
         return Int(String(self)) ?? 0
     }
+}
+
+func getRandomServiceType() -> String {
+    var newID = ""
+    for _ in 1...4 {
+        let rand = Int.random(in: 0...letters.count)
+        newID += letters[rand]
+    }
+    return newID
 }

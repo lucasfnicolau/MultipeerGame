@@ -17,6 +17,8 @@
 		82E338A5234FADBF00E8D234 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A4234FADBF00E8D234 /* ServiceManager.swift */; };
 		82E338A7234FD63100E8D234 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E338A6234FD63100E8D234 /* MenuViewController.swift */; };
 		B6000320234EB7D400589D95 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = B600031F234EB7D400589D95 /* Joystick.swift */; };
+		B61749AF239F0B42005B16BA /* LobbyNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B61749AD239F0B42005B16BA /* LobbyNameViewController.swift */; };
+		B61749B0239F0B42005B16BA /* LobbyNameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B61749AE239F0B42005B16BA /* LobbyNameViewController.xib */; };
 		B617ECE0235F6B8800136391 /* UIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B617ECDF235F6B8800136391 /* UIFactory.swift */; };
 		B617ECE3235F9CD700136391 /* CustomNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B617ECE2235F9CD700136391 /* CustomNode.swift */; };
 		B628925F235642AB00BF4D7F /* Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = B628925E235642AB00BF4D7F /* Controls.swift */; };
@@ -66,6 +68,8 @@
 		82E338A4234FADBF00E8D234 /* ServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		82E338A6234FD63100E8D234 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		B600031F234EB7D400589D95 /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
+		B61749AD239F0B42005B16BA /* LobbyNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyNameViewController.swift; sourceTree = "<group>"; };
+		B61749AE239F0B42005B16BA /* LobbyNameViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LobbyNameViewController.xib; sourceTree = "<group>"; };
 		B617ECDF235F6B8800136391 /* UIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFactory.swift; sourceTree = "<group>"; };
 		B617ECE2235F9CD700136391 /* CustomNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNode.swift; sourceTree = "<group>"; };
 		B628925E235642AB00BF4D7F /* Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controls.swift; sourceTree = "<group>"; };
@@ -130,6 +134,8 @@
 			children = (
 				B600031F234EB7D400589D95 /* Joystick.swift */,
 				B617ECDF235F6B8800136391 /* UIFactory.swift */,
+				B61749AD239F0B42005B16BA /* LobbyNameViewController.swift */,
+				B61749AE239F0B42005B16BA /* LobbyNameViewController.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -413,6 +419,7 @@
 				76B71983236364510028AE96 /* killAudio.mp3 in Resources */,
 				B6D1E6EE234D0549002817A4 /* GameScene.sks in Resources */,
 				B6D1E6F9234D054B002817A4 /* Assets.xcassets in Resources */,
+				B61749B0239F0B42005B16BA /* LobbyNameViewController.xib in Resources */,
 				B6D1E6FC234D054B002817A4 /* LaunchScreen.storyboard in Resources */,
 				B6D1E6F0234D0549002817A4 /* Actions.sks in Resources */,
 				824B30EF2362301F00EDF57A /* Map.sks in Resources */,
@@ -443,6 +450,7 @@
 				B65FB88323576C5C00741673 /* EntityManager.swift in Sources */,
 				B6506CD02360CFBE00F8940F /* GameOverViewController.swift in Sources */,
 				B65FB8A32359357900741673 /* Map.swift in Sources */,
+				B61749AF239F0B42005B16BA /* LobbyNameViewController.swift in Sources */,
 				B617ECE3235F9CD700136391 /* CustomNode.swift in Sources */,
 				B62B39BC236240B400C17915 /* LobbyDelegate.swift in Sources */,
 				B628925F235642AB00BF4D7F /* Controls.swift in Sources */,
