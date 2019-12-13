@@ -22,15 +22,20 @@ class LobbyViewController: UIViewController{
     @IBOutlet weak var readyUIButton: UIButton!
     @IBOutlet var playersImageView: [UIImageView]!
     @IBOutlet var playersLabel: [UILabel]!
+    @IBOutlet weak var infoLabel: UILabel!
     var prontos: [Bool] = []
     var name = ""
     var playersName = ["Jack", "Locke", "Kate", "Claire"]
     var playersNumber = 0
-    var serviceManager: ServiceManager? = ServiceManager()
+    var serviceManager: ServiceManager?
+    var lobbyName = "" {
+        didSet {
+            self.startSession()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        serviceManager?.lobbyDelegate = self
         
         for imageView in playersImageView {
             imageView.layer.zPosition = 10
@@ -41,8 +46,33 @@ class LobbyViewController: UIViewController{
             stackViewTopConstraint.constant = 140
             stackViewBottomConstraint.constant = 48
         }
-        
-        if name == "host" {
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if isHost() {
+            let sessionID = getRandomServiceType()
+            infoLabel.text = "Lobby ID: \(sessionID)"
+            lobbyName = sessionID
+        } else if lobbyName == "" {
+            let lobbyNameVC = LobbyNameViewController()
+            lobbyNameVC.modalPresentationStyle = .fullScreen
+            lobbyNameVC.modalTransitionStyle = .crossDissolve
+            lobbyNameVC.lobbyVC = self
+            self.navigationController?.present(lobbyNameVC, animated: true, completion: nil)
+        }
+    }
+
+    func isHost() -> Bool {
+        return name == "host"
+    }
+
+    func startSession() {
+        serviceManager = ServiceManager(lobbyName: "near")
+        serviceManager?.lobbyDelegate = self
+
+        if isHost() {
             serviceManager?.createSession()
             ServiceManager.peerID.pid = 0
             readyUIButton.isHidden = true
@@ -108,7 +138,10 @@ class LobbyViewController: UIViewController{
     
     @IBAction func quitAction(_ sender: Any) {
         serviceManager = nil
-        self.dismiss(animated: true, completion: nil)
+        ServiceManager.peerID.pid = -1
+        serviceManager?.serviceBrowser.stopBrowsingForPeers()
+        serviceManager?.serviceAdvertiser.stopAdvertisingPeer()
+        navigationController?.popToRootViewController(animated: false)
     }
 }
 

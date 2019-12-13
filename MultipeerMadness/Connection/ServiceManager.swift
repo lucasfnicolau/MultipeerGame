@@ -15,9 +15,9 @@ class ServiceManager: NSObject {
 
     // Service type must be a unique string, at most 15 characters long
     // and can contain only ASCII lowercase letters, numbers and hyphens.
-    private let serviceType = "near"
-    private let serviceAdvertiser: MCNearbyServiceAdvertiser
-    private let serviceBrowser: MCNearbyServiceBrowser
+    var serviceType = ""
+    let serviceAdvertiser: MCNearbyServiceAdvertiser
+    let serviceBrowser: MCNearbyServiceBrowser
     var sceneDelegate: SceneDelegate?
     var lobbyDelegate: LobbyDelegate?
 
@@ -27,7 +27,8 @@ class ServiceManager: NSObject {
         return session
     }()
 
-    override init() {
+    init(lobbyName: String) {
+        serviceType = lobbyName
         self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: ServiceManager.peerID, discoveryInfo: nil, serviceType: serviceType)
         self.serviceBrowser = MCNearbyServiceBrowser(peer: ServiceManager.peerID, serviceType: serviceType)
 

@@ -12,6 +12,9 @@ import GameController
 import MultipeerConnectivity
 import AVFoundation
 
+var shootAudioPlayer: AVAudioPlayer?
+var dashAudioPlayer: AVAudioPlayer?
+
 class GameScene: SKScene {
     
     var joystick: Joystick = Joystick()
@@ -33,8 +36,6 @@ class GameScene: SKScene {
     var shootBtn: CircleButton!
     var dashBtn: CircleButton!
     var soundtrackAudioPlayer: AVAudioPlayer?
-    var shootAudioPlayer: AVAudioPlayer?
-    var dashAudioPlayer: AVAudioPlayer?
     var killAudioPlayer: AVAudioPlayer?
     
     var audioTitles: [String] = ["soundtrackAudio", "shootAudio", "dashAudio", "killAudio"]
@@ -229,7 +230,7 @@ class GameScene: SKScene {
         if index >= 0 && index < self.players.count {
             players[index].shoot(index: index, zRotation: joystick.getZRotation())
             DispatchQueue.main.async {
-                self.shootAudioPlayer?.play()
+                shootAudioPlayer?.play()
             }
             self.send("fire:\(index):\(joystick.getZRotation())")
         }
@@ -241,7 +242,7 @@ class GameScene: SKScene {
             players[index].dash(zRotation: joystick.getZRotation())
             
             DispatchQueue.main.async {
-                self.dashAudioPlayer?.play()
+                dashAudioPlayer?.play()
             }
         }
     }

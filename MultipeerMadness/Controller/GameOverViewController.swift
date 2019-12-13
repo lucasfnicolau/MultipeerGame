@@ -29,7 +29,9 @@ class GameOverViewController: UIViewController {
     }
     
     @IBAction func exit() {
-        serviceManager = nil
+        ServiceManager.peerID.pid = -1
+        serviceManager?.serviceBrowser.stopBrowsingForPeers()
+        serviceManager?.serviceAdvertiser.stopAdvertisingPeer()
         performSegue(withIdentifier: "menu", sender: self)
     }
 
