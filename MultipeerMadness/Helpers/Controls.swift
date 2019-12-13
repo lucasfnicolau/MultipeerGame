@@ -69,6 +69,9 @@ extension GameScene {
                 if playerIndex >= 0 && playerIndex < self.players.count {
                     let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
                     players[playerIndex].dash(zRotation: rotation)
+                    DispatchQueue.main.async {
+                        dashAudioPlayer?.play()
+                    }
                 }
             }
         }
@@ -87,6 +90,9 @@ extension GameScene {
                 if playerIndex >= 0 && playerIndex < self.players.count {
                     let rotation = String(format: "%.5f", joystick.getZRotation()).cgFloat()
                     players[playerIndex].shoot(index: playerIndex, zRotation: joystick.getZRotation())
+                    DispatchQueue.main.async {
+                        shootAudioPlayer?.play()
+                    }
                     self.send("fire:\(playerIndex):\(rotation)")
                 }
             }

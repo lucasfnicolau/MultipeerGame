@@ -53,7 +53,7 @@ class LobbyViewController: UIViewController{
 
         if isHost() {
             let sessionID = getRandomServiceType()
-            infoLabel.text = "Session ID: \(sessionID)"
+            infoLabel.text = "Lobby ID: \(sessionID)"
             lobbyName = sessionID
         } else if lobbyName == "" {
             let lobbyNameVC = LobbyNameViewController()
@@ -138,7 +138,10 @@ class LobbyViewController: UIViewController{
     
     @IBAction func quitAction(_ sender: Any) {
         serviceManager = nil
-        self.dismiss(animated: true, completion: nil)
+        ServiceManager.peerID.pid = -1
+        serviceManager?.serviceBrowser.stopBrowsingForPeers()
+        serviceManager?.serviceAdvertiser.stopAdvertisingPeer()
+        navigationController?.popToRootViewController(animated: false)
     }
 }
 

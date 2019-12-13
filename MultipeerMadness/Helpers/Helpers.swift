@@ -56,7 +56,7 @@ extension Substring {
 func getRandomServiceType() -> String {
     var newID = ""
     for _ in 1...4 {
-        let rand = Int.random(in: 0...letters.count)
+        let rand = Int.random(in: 0..<letters.count)
         newID += letters[rand]
     }
     return newID

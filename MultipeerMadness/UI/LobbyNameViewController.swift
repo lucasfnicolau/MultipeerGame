@@ -25,6 +25,11 @@ class LobbyNameViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(tap)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        lobbyNameTextField.becomeFirstResponder()
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         lobbyNameTextField.resignFirstResponder()
         return false
@@ -39,6 +44,9 @@ class LobbyNameViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func backBtnTapped(_ sender: UIButton) {
+        ServiceManager.peerID.pid = -1
+        lobbyVC?.serviceManager?.serviceBrowser.stopBrowsingForPeers()
+        lobbyVC?.serviceManager?.serviceAdvertiser.stopAdvertisingPeer()
         lobbyVC?.navigationController?.popViewController(animated: true)
         dismissVC()
     }
