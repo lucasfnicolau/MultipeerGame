@@ -69,7 +69,7 @@ class LobbyViewController: UIViewController{
     }
 
     func startSession() {
-        serviceManager = ServiceManager(lobbyName: "near")
+        serviceManager = ServiceManager(lobbyName: lobbyName)
         serviceManager?.lobbyDelegate = self
 
         if isHost() {
