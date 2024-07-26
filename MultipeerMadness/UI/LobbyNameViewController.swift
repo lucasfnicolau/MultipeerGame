@@ -54,7 +54,7 @@ class LobbyNameViewController: UIViewController, UITextFieldDelegate {
     @IBAction func continueBtnTapped(_ sender: UIButton) {
         guard let lobbyName = lobbyNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
             lobbyNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" else { return }
-        lobbyVC?.lobbyName = lobbyName.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        lobbyVC?.lobbyID = lobbyName.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
         dismissVC()
     }
 

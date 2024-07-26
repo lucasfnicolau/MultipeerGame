@@ -18,6 +18,7 @@ class ServiceManager: NSObject {
     var serviceType = ""
     let serviceAdvertiser: MCNearbyServiceAdvertiser
     let serviceBrowser: MCNearbyServiceBrowser
+    var lobbyID = ""
     var sceneDelegate: SceneDelegate?
     var lobbyDelegate: LobbyDelegate?
 
@@ -27,9 +28,14 @@ class ServiceManager: NSObject {
         return session
     }()
 
-    init(lobbyName: String) {
+    init(lobbyName: String = "thehatch", lobbyID: String) {
         serviceType = lobbyName
-        self.serviceAdvertiser = MCNearbyServiceAdvertiser(peer: ServiceManager.peerID, discoveryInfo: nil, serviceType: serviceType)
+        self.lobbyID = lobbyID
+        self.serviceAdvertiser = MCNearbyServiceAdvertiser(
+            peer: ServiceManager.peerID,
+            discoveryInfo: ["lobbyID": lobbyID],
+            serviceType: serviceType
+        )
         self.serviceBrowser = MCNearbyServiceBrowser(peer: ServiceManager.peerID, serviceType: serviceType)
 
         super.init()
@@ -86,6 +92,7 @@ extension ServiceManager: MCNearbyServiceBrowserDelegate {
     }
 
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+        guard lobbyID == info?["lobbyID"] else { return }
         NSLog("%@", "foundPeer: \(peerID)")
         NSLog("%@", "invitePeer: \(peerID)")
         browser.invitePeer(peerID, to: self.session, withContext: nil, timeout: 100)

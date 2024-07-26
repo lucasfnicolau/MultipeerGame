@@ -28,7 +28,7 @@ class LobbyViewController: UIViewController{
     var playersName = ["Jack", "Locke", "Kate", "Claire"]
     var playersNumber = 0
     var serviceManager: ServiceManager?
-    var lobbyName = "" {
+    var lobbyID = "" {
         didSet {
             self.startSession()
         }
@@ -54,8 +54,8 @@ class LobbyViewController: UIViewController{
         if isHost() {
             let sessionID = getRandomServiceType()
             infoLabel.text = "Lobby ID: \(sessionID)"
-            lobbyName = sessionID
-        } else if lobbyName == "" {
+            lobbyID = sessionID
+        } else if lobbyID == "" {
             let lobbyNameVC = LobbyNameViewController()
             lobbyNameVC.modalPresentationStyle = .fullScreen
             lobbyNameVC.modalTransitionStyle = .crossDissolve
@@ -69,7 +69,7 @@ class LobbyViewController: UIViewController{
     }
 
     func startSession() {
-        serviceManager = ServiceManager(lobbyName: lobbyName)
+        serviceManager = ServiceManager(lobbyID: lobbyID)
         serviceManager?.lobbyDelegate = self
 
         if isHost() {
